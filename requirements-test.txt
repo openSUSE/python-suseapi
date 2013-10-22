@@ -3,3 +3,4 @@ coveralls
 pylint
 HTTPretty
 py.test
+pyflakes
