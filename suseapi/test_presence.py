@@ -21,18 +21,12 @@
 Testing of presence module connector
 '''
 
-from unittest import TestCase, skipIf
+from unittest import TestCase
 
 import datetime
 import threading
-import os
 
-from suseapi.presence import (
-    trim_weekends,
-    Presence
-)
-
-SKIP_NET = 'SKIP_NET_TEST' in os.environ
+from suseapi.presence import trim_weekends, Presence
 
 RESPONSE = '''
 ------------------------------------------------------------
