@@ -32,10 +32,10 @@ class UserInfoTest(TestCase):
         mockldap = MockLdap({
             'o=Novell': {'o': 'Novell'},
             'cn=mcihar,o=Novell': {
-                'cn': 'mcihar',
-                'uid': 'mcihar',
-                'email': 'mcihar@suse.com',
+                'mail': ['mcihar@suse.com'],
                 'ou': ['TestDept'],
+                'cn': ['mcihar'],
+                'uid': ['mcihar'],
             },
         })
         mockldap.start()
