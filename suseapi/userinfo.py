@@ -14,6 +14,13 @@ class UserInfo(CacherMixin):
 
     cache_key = 'userinfo-%s'
 
+    searches = [
+        '(mail=%s@novell.com)',
+        '(mail=%s@suse.com)',
+        '(uid=%s)',
+        '(cn=%s)',
+    ]
+
     def __init__(self, server, base):
         self._ldap = ldap.initialize(server)
         self._base = base
@@ -24,18 +31,17 @@ class UserInfo(CacherMixin):
         '''
         if attribs is None:
             attribs = ['cn', 'mail', 'ou', 'sn', 'givenName']
-        result = self._ldap.search_s(
-            self._base,
-            ldap.SCOPE_SUBTREE,
-            '(mail=%s@novell.com)' % uid,
-            attribs)
-        if len(result) > 0:
-            return result
-        return self._ldap.search_s(
-            self._base,
-            ldap.SCOPE_SUBTREE,
-            '(uid=%s)' % uid,
-            attribs)
+
+        for search in self.searches:
+            result = self._ldap.search_s(
+                self._base,
+                ldap.SCOPE_SUBTREE,
+                search % uid,
+                attribs
+            )
+            if len(result) > 0:
+                return result
+        return []
 
     def fixup_department(self, name):
         '''
