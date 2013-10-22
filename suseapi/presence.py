@@ -38,6 +38,9 @@ ABSENCE_MATCH = re.compile(r'(Absent|Vacation|Absence)\s*:\s')
 
 
 class PresenceError(Exception):
+    '''
+    Exception raised withing presence checker.
+    '''
     def __init__(self, socket_err, host):
         self.socket_err = socket_err
         self.host = host
