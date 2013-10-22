@@ -78,6 +78,42 @@ class Presence(CacherMixin):
             self.hosts = hosts
         super(Presence, self).__init__()
 
+    def _process_data(self, handle, who):
+        '''
+        Parses response from the server.
+        '''
+        absences = []
+        gather_data = 0
+        for line in handle:
+            line = line.rstrip()
+            match = re.match(r"Login\s*:\s*(%s)\s*$" % who, line)
+            if match:
+                gather_data = 1
+            if re.match(r"-+\s*$", line):
+                gather_data = 0
+            if (gather_data == 1 and ABSENCE_MATCH.match(line)):
+                gather_data = 2
+            if gather_data == 2:
+                match = DATE_RANGE_MATCH.search(line)
+                if match:
+                    from_date = [int(x) for x in match.group(1, 2, 3)]
+                    till_date = [int(x) for x in match.group(4, 5, 6)]
+                else:
+                    match = DATE_MATCH.search(line)
+                    if match:
+                        from_date = [int(x) for x in match.group(1, 2, 3)]
+                        till_date = from_date
+                    else:
+                        logger.error(
+                            'unparsable absence data for %s: %s',
+                            who, line
+                        )
+                        continue
+                from_date = trim_weekends(date(*tuple(from_date)), 1)
+                till_date = trim_weekends(date(*tuple(till_date)), -1)
+                absences.append((from_date, till_date))
+        return absences
+
     def _get_presence_data(self, host, who, no_send=False):
         '''
         Gets and parses presence data from single host.
@@ -90,36 +126,7 @@ class Presence(CacherMixin):
             if not no_send:
                 sock.send(who + "\n")
             handle = sock.makefile('r', 0)
-            absences = []
-            gather_data = 0
-            for line in handle:
-                line = line.rstrip()
-                match = re.match(r"Login\s*:\s*(%s)\s*$" % who, line)
-                if match:
-                    gather_data = 1
-                if re.match(r"-+\s*$", line):
-                    gather_data = 0
-                if (gather_data == 1 and ABSENCE_MATCH.match(line)):
-                    gather_data = 2
-                if gather_data == 2:
-                    match = DATE_RANGE_MATCH.search(line)
-                    if match:
-                        from_date = [int(x) for x in match.group(1, 2, 3)]
-                        till_date = [int(x) for x in match.group(4, 5, 6)]
-                    else:
-                        match = DATE_MATCH.search(line)
-                        if match:
-                            from_date = [int(x) for x in match.group(1, 2, 3)]
-                            till_date = from_date
-                        else:
-                            logger.error(
-                                'unparsable absence data for %s: %s',
-                                who, line
-                            )
-                            continue
-                    from_date = trim_weekends(date(*tuple(from_date)), 1)
-                    till_date = trim_weekends(date(*tuple(till_date)), -1)
-                    absences.append((from_date, till_date))
+            absences = self._process_data(handle, who)
 
         except socket.error as error:
             raise PresenceError(error, host)
