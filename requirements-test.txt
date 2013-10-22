@@ -2,3 +2,4 @@ pep8
 coveralls
 pylint
 HTTPretty
+py.test

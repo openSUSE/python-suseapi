@@ -67,5 +67,4 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
     ],
-    test_suite='suseapi.tests',
 )
