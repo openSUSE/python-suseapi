@@ -463,7 +463,11 @@ class Bugzilla(WebScraper):
 
         # Load the form
         logger.info('Loading bug form for %d', bugid)
-        self._req('show_bug', id=bugid)
+        data = self._req('show_bug', id=bugid)
+        if 'You are not authorized to access bug' in data.read():
+            raise BugzillaNotPermitted(
+                'You are not authorized to access bug #%d.' % bugid
+            )
         if not self.browser.viewing_html():
             raise BugzillaUpdateError('Failed to load bugzilla form')
 

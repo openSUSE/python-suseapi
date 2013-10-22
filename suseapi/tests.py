@@ -96,6 +96,7 @@ class PresenceTest(TestCase):
 
 
 class UserInfoTest(TestCase):
+    @skipIf(SKIP_NET, 'No network access')
     def test_django_department(self):
         userinfo = DjangoUserInfo()
         self.assertEqual(
