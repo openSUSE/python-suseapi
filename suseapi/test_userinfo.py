@@ -35,18 +35,18 @@ class UserInfoTest(TestCase):
                 'cn': 'mcihar',
                 'uid': 'mcihar',
                 'email': 'mcihar@suse.com',
-                'ou': ['L3/Maintenance'],
+                'ou': ['TestDept'],
             },
         })
         mockldap.start()
         try:
             userinfo = UserInfo('ldap://ldap', 'o=Novell')
             self.assertEqual(
-                'L3/Maintenance',
+                'TestDept',
                 userinfo.get_department('mcihar')
             )
             self.assertEqual(
-                'L3/Maintenance',
+                'TestDept',
                 userinfo.get_department('mcihar@suse.com')
             )
             self.assertEqual(
