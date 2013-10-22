@@ -51,6 +51,7 @@ Absence    : Fri 2013-10-25 - Mon 2013-10-28
 
 import SocketServer
 
+
 class MyTCPHandler(SocketServer.BaseRequestHandler):
     '''
     Simple handler to report presence.

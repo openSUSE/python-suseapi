@@ -46,7 +46,8 @@ class CacherMixin(object):
         '''
         Checks whether cache entry is valid.
         '''
-        return (self._cache[self._cache_key(key)][1] + timedelta(days=1)) > datetime.now()
+        expires = self._cache[self._cache_key(key)][1] + timedelta(days=1)
+        return expires > datetime.now()
 
     def _cache_get(self, key, force=False):
         '''
