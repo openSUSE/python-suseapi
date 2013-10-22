@@ -119,9 +119,11 @@ class Presence(CacherMixin):
                     till_date = trim_weekends(date(*tuple(till_date)), -1)
                     absences.append((from_date, till_date))
 
-            sock.close()
         except socket.error as error:
             raise PresenceError(error, host)
+        finally:
+            sock.shutdown(socket.SHUT_RDWR)
+            sock.close()
 
         return absences
 
