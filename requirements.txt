@@ -1,4 +1,4 @@
 Django>=1.4
 mechanize
-dateutil
+python-dateutil
 suds
