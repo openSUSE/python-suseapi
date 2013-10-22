@@ -10,6 +10,6 @@ script:
   - coverage run --source=. py.test
   - pep8 suseapi
   - pylint --reports=n --rcfile=pylint.rc suseapi
-  - pyflages suseapi
+  - pyflakes suseapi
 after_success:
   - coveralls
