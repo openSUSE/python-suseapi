@@ -113,8 +113,6 @@ class BugzillaTest(TestCase):
         )
 
 
-
-
 class DjangoBugzillaTest(TestCase):
     @skipIf(SKIP_NET, 'No network access')
     def test_get_bug(self):
