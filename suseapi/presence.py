@@ -63,6 +63,8 @@ class Presence(CacherMixin):
     '''
     Class for caching presence data.
     '''
+    cache_key = 'presence-%s'
+
     def __init__(self, hosts=None):
         '''
         Creates presence class.
@@ -175,8 +177,6 @@ class DjangoPresence(Presence, DjangoCacherMixin):
     '''
     Presence class using Django caching framework.
     '''
-    cache_key = 'presence-%s'
-
     def is_absent(self, person, when, threshold=0):
         if self.is_ignored(person, when):
             return None

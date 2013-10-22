@@ -28,32 +28,6 @@ class CacherMixin(object):
     Generic cacher mixin using object attribute.
     '''
     _cache = {}
-
-    def _cache_set(self, key, value):
-        '''
-        Remembers value in internal cache.
-        '''
-        self._cache[key] = (value, datetime.now())
-
-    def _cache_uptodate(self, key):
-        '''
-        Checks whether cache entry is valid.
-        '''
-        return (self._cache[key][1] + timedelta(days=1)) > datetime.now()
-
-    def _cache_get(self, key, force=False):
-        '''
-        Gets value from internal cache.
-        '''
-        if key in self._cache and (force or self._cache_uptodate(key)):
-            return self._cache[key][0]
-        return None
-
-
-class DjangoCacherMixin(CacherMixin):
-    '''
-    Cacher mixin using Django.
-    '''
     cache_key = 'cache-%s'
 
     def _cache_key(self, key):
@@ -61,6 +35,33 @@ class DjangoCacherMixin(CacherMixin):
         Get name of the cache key for django caching.
         '''
         return self.cache_key % key
+
+    def _cache_set(self, key, value):
+        '''
+        Remembers value in internal cache.
+        '''
+        self._cache[self._cache_key(key)] = (value, datetime.now())
+
+    def _cache_uptodate(self, key):
+        '''
+        Checks whether cache entry is valid.
+        '''
+        return (self._cache[self._cache_key(key)][1] + timedelta(days=1)) > datetime.now()
+
+    def _cache_get(self, key, force=False):
+        '''
+        Gets value from internal cache.
+        '''
+        if (self._cache_key(key) in self._cache
+                and (force or self._cache_uptodate(key))):
+            return self._cache[self._cache_key(key)][0]
+        return None
+
+
+class DjangoCacherMixin(CacherMixin):
+    '''
+    Cacher mixin using Django.
+    '''
 
     def _cache_set(self, key, value):
         '''

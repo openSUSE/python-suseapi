@@ -11,6 +11,9 @@ class UserInfo(CacherMixin):
     '''
     Class for LDAP access.
     '''
+
+    cache_key = 'userinfo-%s'
+
     def __init__(self, server, base):
         self._ldap = ldap.initialize(server)
         self._base = base
@@ -84,8 +87,6 @@ class DjangoUserInfo(UserInfo, DjangoCacherMixin):
     '''
     Django caching for user information.
     '''
-
-    cache_key = 'department-%s'
 
     def __init__(self, server=None, base=None):
         from django.conf import settings
