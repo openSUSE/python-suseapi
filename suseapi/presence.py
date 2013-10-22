@@ -107,8 +107,8 @@ class Presence(CacherMixin):
                     absences.append((from_date, till_date))
 
             sock.close()
-        except socket.error as e:
-            raise PresenceError(e, host)
+        except socket.error as error:
+            raise PresenceError(error, host)
 
         return absences
 
@@ -126,16 +126,16 @@ class Presence(CacherMixin):
                 absence_list.extend(
                     self._get_presence_data('present.suse.de', person)
                 )
-            except PresenceError as e:
-                logger.warn('could not get presence data: %s', str(e))
+            except PresenceError as error:
+                logger.warn('could not get presence data: %s', str(error))
                 failure = True
 
             try:
                 absence_list.extend(
                     self._get_presence_data('bolzano.suse.de', person, True)
                 )
-            except PresenceError as e:
-                logger.warn('could not get presence data: %s', str(e))
+            except PresenceError as error:
+                logger.warn('could not get presence data: %s', str(error))
                 failure = True
 
             if failure:
