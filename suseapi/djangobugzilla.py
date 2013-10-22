@@ -20,8 +20,6 @@
 '''
 Helper functions for write access to Bugzilla.
 '''
-from django.core.cache import cache
-from django.conf import settings
 import traceback
 from suseapi.bugzilla import APIBugzilla
 
@@ -49,6 +47,8 @@ def get_bugzilla():
     Returns logged in bugzilla object. Access cookies are stored in django
     cache.
     '''
+    from django.core.cache import cache
+    from django.conf import settings
     bugzilla = DjangoBugzilla(
         settings.BUGZILLA_USERNAME,
         settings.BUGZILLA_PASSWORD,
