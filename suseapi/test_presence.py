@@ -24,6 +24,7 @@ Testing of presence module connector
 from unittest import TestCase, skipIf
 
 import datetime
+import threading
 import os
 
 from suseapi.presence import (
@@ -32,6 +33,34 @@ from suseapi.presence import (
 )
 
 SKIP_NET = 'SKIP_NET_TEST' in os.environ
+
+RESPONSE = '''
+------------------------------------------------------------
+Name       : Michal Cihar
+Login      : mcihar
+Phone      : +420-284-0
+Department : [SUSE-CZ] SUSE LINUX s.r.o.
+Position   : Employee
+Location   : Tschechien, Room 1.105
+Tasks      : Tool Developer MaintenanceSecurity
+Absence    : Fri 2013-10-25 - Mon 2013-10-28
+             Tue 2013-12-24 - Tue 2013-12-31
+------------------------------------------------------------
+'''
+
+
+import SocketServer
+
+class MyTCPHandler(SocketServer.BaseRequestHandler):
+    '''
+    Simple handler to report presence.
+    '''
+
+    def handle(self):
+        '''
+        Send out mock response.
+        '''
+        self.request.sendall(RESPONSE)
 
 
 class PresenceTest(TestCase):
@@ -49,9 +78,21 @@ class PresenceTest(TestCase):
             trim_weekends(datetime.date(2013, 7, 15)),
         )
 
-    @skipIf(SKIP_NET, 'No network access')
     def test_presence(self):
-        presence = Presence()
-        self.assertIsNone(
-            presence.is_absent('mcihar', datetime.date(2013, 7, 15))
-        )
+        presence = Presence([('127.0.0.1', True)])
+        SocketServer.TCPServer.allow_reuse_address = True
+        server = SocketServer.TCPServer(('127.0.0.1', 9874), MyTCPHandler)
+        server_thread = threading.Thread(target=server.serve_forever)
+        server_thread.daemon = False
+        server_thread.start()
+        try:
+
+            self.assertIsNone(
+                presence.is_absent('mcihar', datetime.date(2013, 7, 15))
+            )
+            self.assertIsNotNone(
+                presence.is_absent('mcihar', datetime.date(2013, 10, 28))
+            )
+        finally:
+            server.shutdown()
+            server_thread.join()
