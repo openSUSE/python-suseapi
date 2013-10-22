@@ -4,3 +4,4 @@ pylint
 HTTPretty
 pytest
 pyflakes
+mockldap

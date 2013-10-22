@@ -21,27 +21,37 @@
 Testing of Bugzilla connector
 '''
 
-import os
-from unittest import TestCase, skipIf
+from unittest import TestCase
+from mockldap import MockLdap
 
-from suseapi.userinfo import DjangoUserInfo
-
-SKIP_NET = 'SKIP_NET_TEST' in os.environ
+from suseapi.userinfo import UserInfo
 
 
 class UserInfoTest(TestCase):
-    @skipIf(SKIP_NET, 'No network access')
-    def test_django_department(self):
-        userinfo = DjangoUserInfo()
-        self.assertEqual(
-            'L3/Maintenance',
-            userinfo.get_department('mcihar')
-        )
-        self.assertEqual(
-            'L3/Maintenance',
-            userinfo.get_department('mcihar@suse.com')
-        )
-        self.assertEqual(
-            'Security team',
-            userinfo.get_department('security-team@suse.de')
-        )
+    def test_department(self):
+        mockldap = MockLdap({
+            'o=Novell': {'o': 'Novell'},
+            'cn=mcihar,o=Novell': {
+                'cn': 'mcihar',
+                'uid': 'mcihar',
+                'email': 'mcihar@suse.com',
+                'ou': ['L3/Maintenance'],
+            },
+        })
+        mockldap.start()
+        try:
+            userinfo = UserInfo('ldap://ldap', 'o=Novell')
+            self.assertEqual(
+                'L3/Maintenance',
+                userinfo.get_department('mcihar')
+            )
+            self.assertEqual(
+                'L3/Maintenance',
+                userinfo.get_department('mcihar@suse.com')
+            )
+            self.assertEqual(
+                'Security team',
+                userinfo.get_department('security-team@suse.de')
+            )
+        finally:
+            mockldap.stop()
