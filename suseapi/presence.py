@@ -182,11 +182,3 @@ class DjangoPresence(Presence, DjangoCacherMixin):
         user = User.objects.get(username=person)
 
         return AbsenceIgnore.objects.filter(date=when, agent=user).exists()
-
-
-if __name__ == '__main__':
-    import sys
-
-    presence = Presence()
-
-    print presence.is_absent(sys.argv[1], date.today(), 1)
