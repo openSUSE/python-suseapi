@@ -2,5 +2,5 @@ pep8
 coveralls
 pylint
 HTTPretty
-py.test
+pytest
 pyflakes
