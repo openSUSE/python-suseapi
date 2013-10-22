@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE bugzilla SYSTEM "http://bugzilla.novell.com/bugzilla.dtd">
+<bugzilla version="3.4.3" urlbase="http://bugzilla.novell.com/" maintainer="novbugzilla-dev@forge.provo.novell.com" exporter="mcihar@suse.com">
+
+    <bug>
+          <bug_id>81873</bug_id>
+          
+          <creation_ts>2005-05-04 18:21:00 +0200</creation_ts>
+          <short_desc>testBug</short_desc>
+          <delta_ts>2009-09-22 14:17:15 +0200</delta_ts>
+          <reporter_accessible>1</reporter_accessible>
+          <cclist_accessible>1</cclist_accessible>
+          <classification_id>40</classification_id>
+          <classification>SUSE Tools</classification>
+          <product>SWAMP</product>
+          <component>Core</component>
+          <version>all</version>
+          <rep_platform>All</rep_platform>
+          <op_sys>All</op_sys>
+          <bug_status>NEW</bug_status>
+          
+          
+          
+          
+          
+          <status_whiteboard>wasL3:1</status_whiteboard>
+          <keywords>DSLA_REQUIRED, DSLA_SOLUTION_PROVIDED</keywords>
+          <priority>P4 - Low</priority>
+          <bug_severity>Normal</bug_severity>
+          <target_milestone>---</target_milestone>
+          
+          
+          
+          <everconfirmed>1</everconfirmed>
+          <reporter name="Thomas Schmidt">tschmidt@suse.com</reporter>
+          <assigned_to name="Thomas Schmidt">tschmidt@suse.com</assigned_to>
+          <cc>tschmidt@suse.com</cc>
+          <estimated_time>10.00</estimated_time>
+          <remaining_time>0.00</remaining_time>
+          <actual_time>1.00</actual_time>
+          <deadline>2005-11-11</deadline>
+          <infoprovider/>
+          <qa_contact name="Thomas Schmidt">tschmidt@suse.com</qa_contact>
+          <cf_foundby>Other</cf_foundby>
+          <cf_partnerid>Fate 123456</cf_partnerid>
+          
+          
+          <cf_blocker>---</cf_blocker>
+
+      
+      <token>1382448809-0383113587c1387dc2bc3e46b11c049c</token>
+
+      
+
+      
+
+          <long_desc isprivate="0">
+            <who name="Thomas Schmidt">tschmidt@suse.com</who>
+            <bug_when>2005-05-04 18:21:32 +0200</bug_when>
+            <thetext>playground for testing Bugzilla stuff from inside SWAMP</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Thomas Schmidt">tschmidt@suse.com</who>
+            <bug_when>2005-05-23 11:53:27 +0200</bug_when>
+            <thetext>encoding: ö ÜÖ 
+Bürgermeister
+größten europäischen Outdoor-Hacker-Camps
+ß ÖÄ |«æßßđŋŋŋħħj¶ŧj↓ĸ←↓→ł</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2005-07-28 16:07:21 +0200</bug_when>
+            <thetext>Automatic Test-Post from SWAMP</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2005-07-28 16:36:19 +0200</bug_when>
+            <thetext>Automatic Test-Post from SWAMP</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2005-07-28 16:59:02 +0200</bug_when>
+            <thetext>Automatic Test-Post from SWAMP</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2005-07-28 17:02:57 +0200</bug_when>
+            <thetext>Automatic Test-Post from SWAMP</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2005-07-28 17:06:12 +0200</bug_when>
+            <thetext>Automatic Test-Post from SWAMP</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2005-07-28 17:57:18 +0200</bug_when>
+            <thetext>Automatic Test-Post from SWAMP</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2005-07-28 17:58:18 +0200</bug_when>
+            <thetext>Automatic Test-Post from SWAMP</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2005-07-28 18:07:01 +0200</bug_when>
+            <thetext>Automatic Test-Post from SWAMP</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2005-08-01 10:24:07 +0200</bug_when>
+            <thetext>Automatic Test-Post from SWAMP</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2005-08-01 10:49:36 +0200</bug_when>
+            <thetext>Automatic Test-Post from SWAMP</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2005-08-01 11:14:50 +0200</bug_when>
+            <thetext>Automatic Test-Post from SWAMP</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2005-08-01 14:12:00 +0200</bug_when>
+            <thetext>Automatic Test-Post from SWAMP</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2005-08-01 15:03:19 +0200</bug_when>
+            <thetext>test</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2005-08-01 15:10:38 +0200</bug_when>
+            <thetext>MaintenanceTracker started with SWAMPID=1834 \nAvailable at https://swamp.suse.de/webswamp/swamp/template/DisplayWorkflow.vm/workflowid/1834</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2005-08-01 15:14:51 +0200</bug_when>
+            <thetext>MaintenanceTracker started with SWAMPID=1834 \nAvailable at https://swamp.suse.de/webswamp/swamp/template/DisplayWorkflow.vm/workflowid/1834</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2005-08-01 15:19:53 +0200</bug_when>
+            <thetext>MaintenanceTracker started with SWAMPID=1834 \nAvailable at https://swamp.suse.de/webswamp/swamp/template/DisplayWorkflow.vm/workflowid/1834</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2005-08-01 15:22:11 +0200</bug_when>
+            <thetext>MaintenanceTracker started with SWAMPID=1835 \b\nAvailable \\nat https://swamp.suse.de/webswamp/swamp/template/DisplayWorkflow.vm/workflowid/1835</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2005-08-01 15:29:26 +0200</bug_when>
+            <thetext>MaintenanceTracker started with SWAMPID=1836 \b\nAvailable \\nat https://swamp.suse.de/webswamp/swamp/template/DisplayWorkflow.vm/workflowid/1836</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2005-08-01 15:31:47 +0200</bug_when>
+            <thetext>MaintenanceTracker started with SWAMPID=1836 \b\nAvailable \\nat https://swamp.suse.de/webswamp/swamp/template/DisplayWorkflow.vm/workflowid/1836</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2005-08-01 16:05:28 +0200</bug_when>
+            <thetext>MaintenanceTracker started with SWAMPID=1836 \r\n \n\r Available \\nat https://swamp.suse.de/webswamp/swamp/template/DisplayWorkflow.vm/workflowid/1836</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2005-09-14 13:38:58 +0200</bug_when>
+            <thetext>Automatic Test-Post from SWAMP</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2005-09-14 13:47:11 +0200</bug_when>
+            <thetext>Automatic Test-Post from SWAMP</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Thomas Schmidt">tschmidt@suse.com</who>
+            <bug_when>2005-10-14 13:42:55 +0200</bug_when>
+              <work_time>1.0</work_time>
+            <thetext>bla</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Thomas Schmidt">tschmidt@suse.com</who>
+            <bug_when>2007-06-11 17:39:34 +0200</bug_when>
+            <thetext>xxx</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Thomas Schmidt">tschmidt@suse.com</who>
+            <bug_when>2007-06-11 18:17:10 +0200</bug_when>
+            <thetext>xxx</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Thomas Schmidt">tschmidt@suse.com</who>
+            <bug_when>2007-06-11 18:20:25 +0200</bug_when>
+            <thetext>xxx</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Thomas Schmidt">tschmidt@suse.com</who>
+            <bug_when>2008-06-04 17:51:11 +0200</bug_when>
+            <thetext>..</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Thomas Schmidt">tschmidt@suse.com</who>
+            <bug_when>2008-09-11 12:08:33 +0200</bug_when>
+            <thetext>reopen</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2008-11-17 18:45:37 +0100</bug_when>
+            <thetext>Here we go
+bla</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2008-11-25 16:17:29 +0100</bug_when>
+            <thetext>123</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2008-11-25 16:19:10 +0100</bug_when>
+            <thetext>jkgjkgkgjkgjkgjkgjkgjkgjkgjkgkj</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2008-11-25 16:20:36 +0100</bug_when>
+            <thetext>test3</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Swamp Workflow Management">swamp@suse.de</who>
+            <bug_when>2008-11-26 16:50:55 +0100</bug_when>
+            <thetext>toms test</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Libor Pecháček">lpechacek@suse.com</who>
+            <bug_when>2009-02-03 08:31:42 +0100</bug_when>
+            <thetext>test NEEDINFO - Sorry Tom for abusing your bug for this ;-)</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Jean Delvare">jdelvare@suse.com</who>
+            <bug_when>2009-02-13 10:01:36 +0100</bug_when>
+            <thetext>Getting this test bug out of my radar.</thetext>
+          </long_desc>
+          <long_desc isprivate="0">
+            <who name="Thomas Schmidt">tschmidt@suse.com</who>
+            <bug_when>2009-08-24 22:10:47 +0200</bug_when>
+            <thetext>test</thetext>
+          </long_desc>
+      
+      
+
+    </bug>
+
+</bugzilla>

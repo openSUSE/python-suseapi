@@ -21,11 +21,11 @@
 Testing of Bugzilla connector
 '''
 
-from django.test import TestCase
-from django.utils.unittest import skipIf
+from unittest import TestCase, skipIf
 
 import datetime
 import os
+import httpretty
 
 from suseapi.bugzilla import (
     Bugzilla,
@@ -37,7 +37,7 @@ from suseapi.presence import (
     Presence
 )
 from suseapi.userinfo import DjangoUserInfo
-from suseapi.djangobugzilla import DjangoBugzilla
+#from suseapi.djangobugzilla import DjangoBugzilla
 from suseapi.products import codestream_name
 
 PRODUCT_TESTS = (
@@ -49,29 +49,70 @@ PRODUCT_TESTS = (
 
 SKIP_NET = 'SKIP_NET_TEST' in os.environ
 
+TEST_DATA = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    'testdata'
+)
+
 
 class BugzillaTest(TestCase):
-    @skipIf(SKIP_NET, 'No network access')
+    @httpretty.activate
     def test_get_bug(self):
+        httpretty.register_uri(
+            httpretty.POST,
+            'https://bugzilla.novell.com/show_bug.cgi?ctype=xml&id=81873',
+            body=open(os.path.join(TEST_DATA, 'bug-81873.xml')).read(),
+        )
         bugzilla = Bugzilla('', '')
         bug = bugzilla.get_bug(81873)
         self.assertEqual(bug.bug_id, '81873')
 
-    @skipIf(SKIP_NET, 'No network access')
+    @httpretty.activate
     def test_get_private_bug(self):
+        httpretty.register_uri(
+            httpretty.POST,
+            'https://bugzilla.novell.com/show_bug.cgi?ctype=xml&id=582198',
+            body=open(os.path.join(TEST_DATA, 'bug-582198.xml')).read(),
+        )
         bugzilla = Bugzilla('', '')
         self.assertRaises(BugzillaNotPermitted, bugzilla.get_bug, 582198)
 
-    @skipIf(SKIP_NET, 'No network access')
+    @httpretty.activate
     def test_login(self):
+        httpretty.register_uri(
+            httpretty.POST,
+            'https://bugzilla.novell.com/index.cgi',
+        )
         bugzilla = Bugzilla('', '')
         self.assertRaises(BugzillaLoginFailed, bugzilla.login)
 
-    @skipIf(SKIP_NET, 'No network access')
+    @httpretty.activate
     def test_recent(self):
+        httpretty.register_uri(
+            httpretty.POST,
+            'https://bugzilla.novell.com/buglist.cgi',
+            body=open(os.path.join(TEST_DATA, 'bug-list.xml')).read(),
+        )
         bugzilla = Bugzilla('', '')
         recent = bugzilla.get_recent_bugs(datetime.datetime.now())
-        self.assertEqual(recent, [])
+        self.assertEqual(
+            recent,
+            [
+                847050,
+                846768,
+                846835,
+                776687,
+                843652,
+                844761,
+                845986,
+                790286,
+                846953,
+                789222,
+                844953
+            ]
+        )
+
+
 
 
 class DjangoBugzillaTest(TestCase):
