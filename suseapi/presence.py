@@ -63,6 +63,19 @@ class Presence(CacherMixin):
     '''
     Class for caching presence data.
     '''
+    def __init__(self, hosts=None):
+        '''
+        Creates presence class.
+        '''
+        if hosts is None:
+            self.hosts = [
+                ('present.suse.de', False),
+                ('bolzano.suse.de', True),
+            ]
+        else:
+            self.hosts = hosts
+        super(Presence, self).__init__()
+
     def _get_presence_data(self, host, who, no_send=False):
         '''
         Gets and parses presence data from single host.
@@ -122,21 +135,14 @@ class Presence(CacherMixin):
             absence_list = []
             failure = False
 
-            try:
-                absence_list.extend(
-                    self._get_presence_data('present.suse.de', person)
-                )
-            except PresenceError as error:
-                logger.warn('could not get presence data: %s', str(error))
-                failure = True
-
-            try:
-                absence_list.extend(
-                    self._get_presence_data('bolzano.suse.de', person, True)
-                )
-            except PresenceError as error:
-                logger.warn('could not get presence data: %s', str(error))
-                failure = True
+            for hostname, no_send in self.hosts:
+                try:
+                    absence_list.extend(
+                        self._get_presence_data(hostname, person, no_send)
+                    )
+                except PresenceError as error:
+                    logger.warn('could not get presence data: %s', str(error))
+                    failure = True
 
             if failure:
                 cached_absence = self._cache_get(person, True)
