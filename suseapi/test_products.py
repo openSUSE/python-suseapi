@@ -21,17 +21,8 @@
 Testing of product name manipulations.
 '''
 
-from unittest import TestCase, skipIf
+from unittest import TestCase
 
-import datetime
-import os
-import httpretty
-
-from suseapi.bugzilla import (
-    Bugzilla,
-    BugzillaNotPermitted,
-    BugzillaLoginFailed,
-)
 from suseapi.products import codestream_name
 
 PRODUCT_TESTS = (

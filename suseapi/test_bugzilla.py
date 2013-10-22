@@ -21,7 +21,7 @@
 Testing of Bugzilla connector
 '''
 
-from unittest import TestCase, skipIf
+from unittest import TestCase
 
 import datetime
 import os
@@ -31,10 +31,6 @@ from suseapi.bugzilla import (
     Bugzilla,
     BugzillaNotPermitted,
     BugzillaLoginFailed,
-)
-from suseapi.presence import (
-    trim_weekends,
-    Presence
 )
 
 TEST_DATA = os.path.join(

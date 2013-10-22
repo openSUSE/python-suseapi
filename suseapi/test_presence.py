@@ -25,15 +25,14 @@ from unittest import TestCase, skipIf
 
 import datetime
 import os
-import httpretty
 
 from suseapi.presence import (
     trim_weekends,
     Presence
 )
 
-
 SKIP_NET = 'SKIP_NET_TEST' in os.environ
+
 
 class PresenceTest(TestCase):
     def test_trim_weekends(self):
