@@ -72,7 +72,6 @@ class UserInfo(CacherMixin):
             userdata = self.search_uid(username)
 
             try:
-                print 'DATA', userdata
                 dept = userdata[0][1]['ou'][0]
             except IndexError:
                 return 'N/A'
