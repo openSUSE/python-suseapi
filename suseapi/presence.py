@@ -6,7 +6,7 @@ from datetime import date, timedelta
 import logging
 import socket
 import re
-from suse.cacher import CacherMixin, DjangoCacherMixin
+from suseapi.cacher import CacherMixin, DjangoCacherMixin
 
 logger = logging.getLogger('suse.presence')
 

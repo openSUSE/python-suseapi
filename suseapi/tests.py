@@ -8,18 +8,18 @@ from django.utils.unittest import skipIf
 import datetime
 import os
 
-from suse.bugzilla import (
+from suseapi.bugzilla import (
     Bugzilla,
     BugzillaNotPermitted,
     BugzillaLoginFailed,
 )
-from suse.presence import (
+from suseapi.presence import (
     trim_weekends,
     Presence
 )
-from suse.userinfo import DjangoUserInfo
-from suse.djangobugzilla import DjangoBugzilla
-from suse.products import codestream_name
+from suseapi.userinfo import DjangoUserInfo
+from suseapi.djangobugzilla import DjangoBugzilla
+from suseapi.products import codestream_name
 
 PRODUCT_TESTS = (
     ('sles9-sp3', 'SLE-9-SP3'),

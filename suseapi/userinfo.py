@@ -4,7 +4,7 @@ Simple wrapper around LDAP module to allow easier search.
 '''
 
 import ldap
-from suse.cacher import CacherMixin, DjangoCacherMixin
+from suseapi.cacher import CacherMixin, DjangoCacherMixin
 
 
 class UserInfo(CacherMixin):

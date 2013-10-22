@@ -4,7 +4,7 @@ Helper functions for write access to Bugzilla.
 from django.core.cache import cache
 from django.conf import settings
 import traceback
-from suse.bugzilla import APIBugzilla
+from suseapi.bugzilla import APIBugzilla
 
 
 class DjangoBugzilla(APIBugzilla):

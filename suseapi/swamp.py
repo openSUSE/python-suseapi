@@ -8,7 +8,7 @@ from suds.client import Client
 from suds import WebFault
 import re
 
-from suse.browser import WebScraper, WebScraperError
+from suseapi.browser import WebScraper, WebScraperError
 
 SWAMP_URL = 'http://swamp.suse.de:8080/axis/services/swamp?wsdl'
 

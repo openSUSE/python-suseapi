@@ -16,7 +16,7 @@ from mechanize import (
 )
 from BeautifulSoup import BeautifulSoup
 
-from suse.browser import WebScraper, WebScraperError
+from suseapi.browser import WebScraper, WebScraperError
 
 logger = logging.getLogger('suse.bugzilla')
 
