@@ -41,14 +41,22 @@ class UserInfoTest(TestCase):
         mockldap.start()
         try:
             userinfo = UserInfo('ldap://ldap', 'o=novell')
+            # By UID
             self.assertEqual(
                 'TestDept',
                 userinfo.get_department('mcihar')
             )
+            # By UID from cache
+            self.assertEqual(
+                'TestDept',
+                userinfo.get_department('mcihar')
+            )
+            # By email
             self.assertEqual(
                 'TestDept',
                 userinfo.get_department('mcihar@suse.com')
             )
+            # Hardcoded entries
             self.assertEqual(
                 'Security team',
                 userinfo.get_department('security-team@suse.de')
