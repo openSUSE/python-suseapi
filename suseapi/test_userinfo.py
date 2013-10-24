@@ -61,5 +61,10 @@ class UserInfoTest(TestCase):
                 'Security team',
                 userinfo.get_department('security-team@suse.de')
             )
+            # Non existing entry
+            self.assertEqual(
+                'N/A',
+                userinfo.get_department('nobody')
+            )
         finally:
             mockldap.stop()
