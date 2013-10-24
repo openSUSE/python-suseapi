@@ -15,10 +15,10 @@ class UserInfo(CacherMixin):
     cache_key = 'userinfo-%s'
 
     searches = [
-        '(mail=%s@novell.com)',
-        '(mail=%s@suse.com)',
-        '(uid=%s)',
-        '(cn=%s)',
+        '(mail={}@novell.com)',
+        '(mail={}@suse.com)',
+        '(uid={})',
+        '(cn={})',
     ]
 
     def __init__(self, server, base):
@@ -33,10 +33,11 @@ class UserInfo(CacherMixin):
             attribs = ['cn', 'mail', 'ou', 'sn', 'givenName']
 
         for search in self.searches:
+            filterstring = search.format(uid)
             result = self._ldap.search_s(
                 self._base,
                 ldap.SCOPE_SUBTREE,
-                search % uid,
+                filterstring,
                 attribs
             )
             if len(result) > 0:

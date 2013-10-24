@@ -40,7 +40,7 @@ class UserInfoTest(TestCase):
         })
         mockldap.start()
         try:
-            userinfo = UserInfo('ldap://ldap', 'o=Novell')
+            userinfo = UserInfo('ldap://ldap', 'o=novell')
             self.assertEqual(
                 'TestDept',
                 userinfo.get_department('mcihar')
