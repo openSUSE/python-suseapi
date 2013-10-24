@@ -38,6 +38,7 @@ Position   : Employee
 Location   : Tschechien, Room 1.105
 Tasks      : Tool Developer MaintenanceSecurity
 Absence    : Fri 2013-10-25 - Mon 2013-10-28
+             Fri 2013-11-11
              Tue 2013-12-24 - Tue 2013-12-31
 ------------------------------------------------------------
 '''
