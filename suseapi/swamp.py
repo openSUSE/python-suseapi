@@ -307,7 +307,7 @@ class WebSWAMP(WebScraper):
         return ids[0]
 
 
-def request_webswamp(request):
+def get_django_webswamp(request):
     '''
     Returns SWAMP connection bound to Django request object.
     '''
