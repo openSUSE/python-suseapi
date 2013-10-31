@@ -54,3 +54,9 @@ class WebSraperTest(TestCase):
             WebScraperError,
             scraper._req, '404'
         )
+
+    def test_cookies(self):
+        scraper = WebScraper(None, None, TEST_BASE)
+        cookies = scraper.get_cookies()
+        scraper.set_cookies(cookies)
+        self.assertEquals(len(cookies), 0)
