@@ -28,16 +28,6 @@ LONG_DESCRIPTION = """
 python-suseapi is set of helpers to access various SUSE APIs.
 """
 
-
-def long_description():
-    """Return long description from README.md if it's present
-    because it doesn't get installed."""
-    try:
-        return open(join(dirname(__file__), 'README.md')).read()
-    except IOError:
-        return LONG_DESCRIPTION
-
-
 requires = [
     'Django>=1.4',
     'mechanize',
@@ -54,10 +44,11 @@ setup(
     license='GPLv3+',
     keywords='suse, django',
     url='https://github.com/nijel/python-suseapi',
+    download_url='https://pypi.python.org/pypi/python-suseapi',
     packages=[
         'suseapi',
     ],
-    long_description=long_description(),
+    long_description=LONG_DESCRIPTION,
     install_requires=requires,
     classifiers=[
         'Development Status :: 4 - Beta',

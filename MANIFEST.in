@@ -1,0 +1,7 @@
+include README.md
+include LICENSE
+include MANIFEST.in
+include requirements.txt
+include requirements-test.txt
+include suseapi/testdata/*
+include suseapi/testdata/maintained/*
