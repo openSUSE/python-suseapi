@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2013 Michal Čihař <mcihar@suse.cz>
@@ -47,6 +48,8 @@ setup(
     packages=[
         'suseapi',
     ],
+    package_dir={'suseapi': 'suseapi'},
+    package_data={'suseapi': ['testdata/*.xml', 'testdata/maintained/*']},
     long_description=LONG_DESCRIPTION,
     install_requires=requires,
     classifiers=[
