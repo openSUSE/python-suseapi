@@ -15,10 +15,10 @@ class UserInfo(CacherMixin):
     cache_key = 'userinfo-%s'
 
     searches = [
-        '(mail={}@novell.com)',
-        '(mail={}@suse.com)',
-        '(uid={})',
-        '(cn={})',
+        '(mail={0}@novell.com)',
+        '(mail={0}@suse.com)',
+        '(uid={0})',
+        '(cn={0})',
     ]
 
     def __init__(self, server, base):
