@@ -44,7 +44,7 @@ class SRInfo(object):
         Wrapper for invoking requests.
         '''
         return self.opener.open(
-            '{}{}/{}/'.format(SRINFO_SERVER, operation, srid),
+            '{0}{1}/{2}/'.format(SRINFO_SERVER, operation, srid),
             None,
             20
         )
