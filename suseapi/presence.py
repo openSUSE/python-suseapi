@@ -184,16 +184,3 @@ class DjangoPresence(Presence, DjangoCacherMixin):
     '''
     Presence class using Django caching framework.
     '''
-    def is_absent(self, person, when, threshold=0):
-        if self.is_ignored(person, when):
-            return None
-
-        return super(DjangoPresence, self).is_absent(person, when, threshold)
-
-    def is_ignored(self, person, when):
-        from users.models import AbsenceIgnore
-        from django.contrib.auth.models import User
-
-        user = User.objects.get(username=person)
-
-        return AbsenceIgnore.objects.filter(date=when, agent=user).exists()
