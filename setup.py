@@ -45,6 +45,7 @@ setup(
     keywords='suse, django',
     url='https://github.com/nijel/python-suseapi',
     download_url='https://pypi.python.org/pypi/python-suseapi',
+    platforms=['any'],
     packages=[
         'suseapi',
     ],
@@ -54,6 +55,7 @@ setup(
         'Development Status :: 4 - Beta',
         'Topic :: Internet',
         'License :: OSI Approved :: GNU General Public License (GPL)',
+        'Operating System :: OS Independent',
         'Intended Audience :: Developers',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
