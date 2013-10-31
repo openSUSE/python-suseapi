@@ -18,8 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 """Setup file for easy installation"""
-import sys
-from os.path import join, dirname
 from setuptools import setup
 
 version = __import__('suseapi').__version__
