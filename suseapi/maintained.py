@@ -85,7 +85,6 @@ def load_maintained_data(base_dir=None):
         base_dir = BASE_DIR
 
     for name in os.listdir(base_dir):
-        print name
 
         # Ignore some files
         if name.startswith('.'):
