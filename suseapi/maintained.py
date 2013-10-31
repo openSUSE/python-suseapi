@@ -25,10 +25,11 @@ class MaintainedData(object):
     '''
     Class holding maintained data information.
     '''
-    def __init__(self, fileobj):
+    def __init__(self, name, fileobj):
         '''
         Creates object from a file.
         '''
+        self.name = name
         self.packages = []
         self.data = {}
         self.load_from_file(fileobj)

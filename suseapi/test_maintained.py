@@ -91,10 +91,10 @@ NetworkManager-gnome
 class PresenceTest(TestCase):
     def test_1(self):
         fileobj = StringIO(DATA_1)
-        maintained = MaintainedData(fileobj)
+        maintained = MaintainedData('opensuse', fileobj)
         self.assertFalse(maintained.is_maintained())
 
     def test_2(self):
         fileobj = StringIO(DATA_2)
-        maintained = MaintainedData(fileobj)
+        maintained = MaintainedData('sles', fileobj)
         self.assertTrue(maintained.is_maintained())
