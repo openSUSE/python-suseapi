@@ -83,11 +83,13 @@ class PresenceTest(TestCase):
         server_thread.start()
         try:
 
-            self.assertIsNone(
+            self.assertTrue(
                 presence.is_absent('mcihar', datetime.date(2013, 7, 15))
+                is None
             )
-            self.assertIsNotNone(
+            self.assertFalse(
                 presence.is_absent('mcihar', datetime.date(2013, 10, 28))
+                is None
             )
         finally:
             server.shutdown()
