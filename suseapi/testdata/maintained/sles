@@ -1,0 +1,30 @@
+Distribution: sle11-sp2-x86_64
+Distributionstring: SLES-11-SP2-x86_64
+Distributionversion: 11-0
+CD-Produkt-Name: SLE SERVER
+CD-Produkt-Version: 11-SP2
+Marketing-Name: SUSE Linux Enterprise Server 11 SP2
+NPP-Id: 36426
+ProductType: maintained
+FTPServerName: zypp-patches.suse.de
+Master-Date: 1273000000
+YOUPathIncludesArch: yes
+PackTrack: SLES11/SLES-11-SP2-x86_64
+PatchfilePrefix: slessp2
+PatchfileNaming: sat
+PatchRpms: deltaonly
+KWDFile: /work/cd/data/supportstatus/SUSE_SLES-11.2
+PB-Entitlement: server-x86-updates--NR,NovellEmployeeFlag--NR,PartnerNetOnlineUpdates--NR,TSFiles-Suse-Patches--NR
+PB-Family: SUSE Linux Enterprise Server
+PB-Product: SUSE Linux Enterprise Server 11 SP2
+PB-System: SUSE LINUX Enterprise Server 11
+PB-Arch: x86-64
+MarkFinishedTest: upload-kmpbuild
+MarkFinished: upload-build
+
+Packages on CD:
+Mesa
+ModemManager
+NetworkManager
+NetworkManager-glib
+NetworkManager-gnome

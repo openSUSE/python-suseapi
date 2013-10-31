@@ -1,0 +1,25 @@
+Distribution: 12.1-i586
+Distributionstring: openSUSE-i386
+Distributionversion: 12.1-0
+CD-Produkt-Name: openSUSE
+CD-Produkt-Version: 12.1
+Marketing-Name: openSUSE 12.1
+NPP-Id: 35843
+ProductType: box
+FTPServerName: ftp.opensuse.org
+Master-Date: 1269000000
+YOUPathIncludesArch: yes
+PackTrack: BOX/openSUSE-12.1-POOL
+PatchfileNaming: sat
+PatchRpms: deltaonly
+PublicTest: yes
+MarkFinished: upload-buildservice
+ChecksummedFilenames: yes
+BuildServiceMaintained: yes
+
+Packages on CD:
+844-ksc-pcf
+CID-keyed-fonts-MOE
+CID-keyed-fonts-Munhwa
+CID-keyed-fonts-Wada
+CID-keyed-fonts-WadaH

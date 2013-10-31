@@ -21,6 +21,11 @@
 Parser for maintained data.
 '''
 
+import os
+
+BASE_DIR = '/work/cd/data/maintained-CDs/'
+
+
 class MaintainedData(object):
     '''
     Class holding maintained data information.
@@ -70,3 +75,30 @@ class MaintainedData(object):
             and ('sle11-pl11b' not in self.data['Distribution'])
             and ('openSUSE' not in self.data['Distributionstring'])
         )
+
+
+def load_maintained_data(base_dir=None):
+    '''
+    Loads all maintained data and returs iterator over them.
+    '''
+    if base_dir is None:
+        base_dir = BASE_DIR
+
+    for name in os.listdir(base_dir):
+        print name
+
+        # Ignore some files
+        if name.startswith('.'):
+            continue
+
+        fullname = os.path.join(base_dir, name)
+
+        # Skip dirs
+        if not os.path.isfile(fullname):
+            continue
+
+        # Parse item
+        with open(fullname) as fileobj:
+            product = MaintainedData(name, fileobj)
+
+        yield product
