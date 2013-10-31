@@ -17,6 +17,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-__version__ = '0.3'
+__version__ = '0.4'
 
-USER_AGENT = 'suseapi/{0}'.format(__version__)
+USER_AGENT = 'python-suseapi/{0}'.format(__version__)
