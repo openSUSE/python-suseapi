@@ -78,11 +78,11 @@ class BugzillaTest(TestCase):
     def test_get_invalid_bug(self):
         httpretty.register_uri(
             httpretty.POST,
-            'https://bugzilla.novell.com/show_bug.cgi?ctype=xml&id=XXX',
-            body=open(os.path.join(TEST_DATA, 'bug-XXX.xml')).read(),
+            'https://bugzilla.novell.com/show_bug.cgi?ctype=xml&id=none',
+            body=open(os.path.join(TEST_DATA, 'bug-none.xml')).read(),
         )
         bugzilla = Bugzilla('', '')
-        self.assertRaises(BugzillaInvalidBugId, bugzilla.get_bug, 'XXX')
+        self.assertRaises(BugzillaInvalidBugId, bugzilla.get_bug, 'none')
 
     @httpretty.activate
     def test_login(self):
