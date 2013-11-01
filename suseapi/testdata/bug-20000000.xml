@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE bugzilla SYSTEM "http://bugzilla.novell.com/bugzilla.dtd">
+<bugzilla version="3.4.3" urlbase="http://bugzilla.novell.com/" maintainer="novbugzilla-dev@forge.provo.novell.com">
+
+    <bug error="NotFound">
+      <bug_id>20000000</bug_id>
+    </bug>
+
+</bugzilla>
