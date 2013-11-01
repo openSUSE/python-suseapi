@@ -7,6 +7,12 @@ import ldap
 from suseapi.cacher import CacherMixin, DjangoCacherMixin
 
 
+DEPARTMENT_FIXUPS = {
+    'Business Support Nurenburg': 'Business Support Nürnberg',
+    'L3 Maintenance': 'L3/Maintenance',
+}
+
+
 class UserInfo(CacherMixin):
     '''
     Class for LDAP access.
@@ -48,10 +54,8 @@ class UserInfo(CacherMixin):
         '''
         Fixups some common mistakes in department name.
         '''
-        if name == 'Business Support Nurenburg':
-            return 'Business Support Nürnberg'
-        elif name == 'L3 Maintenance':
-            return 'L3/Maintenance'
+        if name in DEPARTMENT_FIXUPS:
+            return DEPARTMENT_FIXUPS[name]
 
         return name
 
