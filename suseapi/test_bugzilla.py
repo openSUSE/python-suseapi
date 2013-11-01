@@ -50,6 +50,7 @@ class BugzillaTest(TestCase):
         bugzilla = Bugzilla('', '')
         bug = bugzilla.get_bug(81873)
         self.assertEqual(bug.bug_id, '81873')
+        self.assertTrue(bug.has_nonempty('classification'))
 
     @httpretty.activate
     def test_get_private_bug(self):
