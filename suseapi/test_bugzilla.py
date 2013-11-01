@@ -65,7 +65,7 @@ class BugzillaTest(TestCase):
         self.assertRaises(BugzillaNotPermitted, bugzilla.get_bug, 582198)
 
     @httpretty.activate
-    def test_get_private_bug(self):
+    def test_get_nonexisting_bug(self):
         httpretty.register_uri(
             httpretty.POST,
             'https://bugzilla.novell.com/show_bug.cgi?ctype=xml&id=20000000',
