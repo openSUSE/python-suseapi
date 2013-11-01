@@ -227,7 +227,7 @@ class Bugzilla(WebScraper):
         Check whether we're logged in.
         '''
         logger.info('Getting login page')
-        self._req('index', GoAheadAndLogIn=1)
+        self.request('index', GoAheadAndLogIn=1)
 
         if not self.browser.viewing_html():
             raise BugzillaLoginFailed('Failed to load bugzilla login form')
@@ -286,7 +286,7 @@ class Bugzilla(WebScraper):
                         response.geturl(),
                         path
                     )
-                    response = self._req(newpath)
+                    response = self.request(newpath)
 
         if not self.check_login():
             raise BugzillaLoginFailed(
@@ -354,7 +354,7 @@ class Bugzilla(WebScraper):
         req += [('ctype', 'xml'), ('excludefield', 'attachmentdata')]
 
         # Download data
-        data = self._req('show_bug', paramlist=req).read()
+        data = self.request('show_bug', paramlist=req).read()
 
         # Fixup XML errors bugzilla produces
         data = escape_xml_text(data)
@@ -392,7 +392,7 @@ class Bugzilla(WebScraper):
         '''
         req = [('ctype', 'atom')] + params
         logger.info('Doing bugzilla search: %s', req)
-        data = self._req('buglist', paramlist=req).read()
+        data = self.request('buglist', paramlist=req).read()
         data = escape_xml_text(data)
         try:
             response_et = ElementTree.fromstring(data)
@@ -449,7 +449,7 @@ class Bugzilla(WebScraper):
         '''
         # Load the form
         logger.info('Loading bug page for %d', bugid)
-        self._req('show_bug', id=bugid)
+        self.request('show_bug', id=bugid)
         if not self.browser.viewing_html():
             raise BugzillaUpdateError('Failed to load bugzilla form')
 
@@ -481,7 +481,7 @@ class Bugzilla(WebScraper):
 
         # Load the form
         logger.info('Loading bug form for %d', bugid)
-        data = self._req('show_bug', id=bugid)
+        data = self.request('show_bug', id=bugid)
         if 'You are not authorized to access bug' in data.read():
             raise BugzillaNotPermitted(
                 'You are not authorized to access bug #%d.' % bugid
@@ -574,7 +574,7 @@ class APIBugzilla(Bugzilla):
         Checks login to Bugzilla using HTTP authentication.
         '''
         logger.info('Getting login page')
-        self._req('index', GoAheadAndLogIn=1)
+        self.request('index', GoAheadAndLogIn=1)
 
         if not self.browser.viewing_html():
             raise BugzillaLoginFailed('Failed to load bugzilla login form')

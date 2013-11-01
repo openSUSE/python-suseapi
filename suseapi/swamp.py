@@ -268,7 +268,7 @@ class WebSWAMP(WebScraper):
         '''
         Performs login to SWAMP.
         '''
-        self._req('')
+        self.request('')
         self.browser.select_form(name='loginform')
         self.browser['username'] = self.user
         self.browser['password'] = self.password
@@ -283,7 +283,7 @@ class WebSWAMP(WebScraper):
         '''
         # It would be better to access form here, but the HTML is
         # so broken, that mechanize can not handle that.
-        response = self._req(
+        response = self.request(
             'eventSubmit_doStartBugzillaIssue/true/'
             'action/workflows.MaintenanceTracker.MaintenanceActions',
             bugid=main_bug,

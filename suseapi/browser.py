@@ -123,7 +123,7 @@ class WebScraper(object):
         '''
         return '%s/%s' % (self.base, action)
 
-    def _req(self, action, paramlist=None, **kwargs):
+    def request(self, action, paramlist=None, **kwargs):
         '''
         Performs single request on SWAMP (loads single page).
         '''

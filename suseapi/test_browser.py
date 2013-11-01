@@ -39,7 +39,7 @@ class WebSraperTest(TestCase):
         scraper = WebScraper(None, None, TEST_BASE)
         self.assertEquals(
             'TEST',
-            scraper._req('action').read()
+            scraper.request('action').read()
         )
 
     @httpretty.activate
@@ -52,7 +52,7 @@ class WebSraperTest(TestCase):
         scraper = WebScraper(None, None, TEST_BASE)
         self.assertRaises(
             WebScraperError,
-            scraper._req, '404'
+            scraper.request, '404'
         )
 
     def test_cookies(self):
