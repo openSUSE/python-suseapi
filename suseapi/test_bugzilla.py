@@ -31,6 +31,7 @@ from suseapi.bugzilla import (
     Bugzilla,
     BugzillaNotPermitted,
     BugzillaLoginFailed,
+    BugzillaInvalidBugId,
 )
 
 TEST_DATA = os.path.join(
@@ -61,6 +62,16 @@ class BugzillaTest(TestCase):
         )
         bugzilla = Bugzilla('', '')
         self.assertRaises(BugzillaNotPermitted, bugzilla.get_bug, 582198)
+
+    @httpretty.activate
+    def test_get_invalid_bug(self):
+        httpretty.register_uri(
+            httpretty.POST,
+            'https://bugzilla.novell.com/show_bug.cgi?ctype=xml&id=XXX',
+            body=open(os.path.join(TEST_DATA, 'bug-XXX.xml')).read(),
+        )
+        bugzilla = Bugzilla('', '')
+        self.assertRaises(BugzillaInvalidBugId, bugzilla.get_bug, 'XXX')
 
     @httpretty.activate
     def test_login(self):
