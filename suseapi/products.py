@@ -65,6 +65,7 @@ def codestream_name(name):
 
     return dist
 
+
 def codestream_base(name):
     '''
     Returns base of a codestream, without servicepack info.
