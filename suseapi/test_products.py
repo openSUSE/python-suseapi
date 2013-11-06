@@ -23,20 +23,29 @@ Testing of product name manipulations.
 
 from unittest import TestCase
 
-from suseapi.products import codestream_name
+from suseapi.products import codestream_name, codestream_base
 
 PRODUCT_TESTS = (
-    ('sles9-sp3', 'SLE-9-SP3'),
-    ('sles9', 'SLE-9'),
-    ('sles11-sp2-pl3', 'SLE-11-SP2-HWRefresh'),
-    ('sle11-pl', 'SLE-11-HWRefresh'),
+    ('sles9-sp3', 'SLE-9-SP3', 'SLE-9'),
+    ('sles9', 'SLE-9', 'SLE-9'),
+    ('sles11-sp2-pl3', 'SLE-11-SP2-HWRefresh', 'SLE-11'),
+    ('sle11-pl', 'SLE-11-HWRefresh', 'SLE-11'),
+    ('slepos10', 'SLE-10-SP4', 'SLE-10'),
+    ('openSUSE:12.1', 'OPENSUSE:12.1', 'OPENSUSE:12.1'),
 )
 
 
 class ProductTest(TestCase):
     def test_codestream_name(self):
-        for product, expected in PRODUCT_TESTS:
+        for product, expected, dummy in PRODUCT_TESTS:
             self.assertEqual(
                 codestream_name(product),
                 expected,
+            )
+
+    def test_codestream_base(self):
+        for dummy, codestream, expected in PRODUCT_TESTS:
+            self.assertEqual(
+                codestream_base(codestream),
+                expected
             )

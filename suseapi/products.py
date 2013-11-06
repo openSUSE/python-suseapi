@@ -64,3 +64,14 @@ def codestream_name(name):
             dist = '%s-HWRefresh' % base
 
     return dist
+
+def codestream_base(name):
+    '''
+    Returns base of a codestream, without servicepack info.
+    '''
+    if not (name.startswith('SLE-') or name.startswith('OES-')):
+        return name
+    separator = name.find('-', 4)
+    if separator == -1:
+        return name
+    return name[:separator]
