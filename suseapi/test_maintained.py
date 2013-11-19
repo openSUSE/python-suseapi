@@ -24,7 +24,9 @@ Testing of maintained data parser.
 from unittest import TestCase
 import os.path
 
-from suseapi.maintained import MaintainedData, load_maintained_data
+from suseapi.maintained import (
+    MaintainedData, load_maintained_data, get_revision
+)
 
 TEST_DATA = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
@@ -33,7 +35,7 @@ TEST_DATA = os.path.join(
 )
 
 
-class PresenceTest(TestCase):
+class MaintainedTest(TestCase):
     def test_1(self):
         with open(os.path.join(TEST_DATA, 'opensuse')) as fileobj:
             maintained = MaintainedData('opensuse', fileobj)
@@ -48,3 +50,9 @@ class PresenceTest(TestCase):
         data = load_maintained_data(TEST_DATA)
         data = list(data)
         self.assertEquals(2, len(data))
+
+    def test_revision(self):
+        self.assertEquals(
+            1235,
+            get_revision(TEST_DATA)
+        )
