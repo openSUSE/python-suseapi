@@ -314,7 +314,7 @@ class WebSWAMP(WebScraper):
         '''
         Changes workflow attributes.
         '''
-        response = self.request(
+        self.request(
             'template/DisplayWorkflow.vm/workflowid/{0}/dataedit/true'.format(
                 wfid
             )
