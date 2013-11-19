@@ -38,6 +38,7 @@ SWAMP_NEW_RE = re.compile(
 FIELD_ADDITIONAL_BUGZILLA = 'laufzettelset.bugzilla.additional_ids'
 FIELD_PACKAGES = 'laufzettelset.packages'
 FIELD_DATE = 'laufzettelset.duedate_release'
+FIELD_MAINTAINER = 'laufzettelset.roles.maintainer'
 
 # We follow naming convetion of SWAMP API here
 # pylint: disable=C0103
@@ -278,7 +279,7 @@ class WebSWAMP(WebScraper):
         if not 'Logout' in data:
             raise WebSWAMPError('Failed to login!')
 
-    def create(self, main_bug, extra_bugs, packages, release_date=None):
+    def create(self, main_bug, extra_bugs, packages, maintainer=None):
         '''
         Creates new maintenance workflow.
         '''
@@ -303,12 +304,27 @@ class WebSWAMP(WebScraper):
         self.browser['field_%s' % FIELD_ADDITIONAL_BUGZILLA] = \
             ','.join(extra_bugs)
         self.browser['field_%s' % FIELD_PACKAGES] = ','.join(packages)
+        if maintainer is not None:
+            self.browser['field_%s' % FIELD_MAINTAINER] = maintainer
+        self._submit()
+
+        return ids[0]
+
+    def edit(self, wfid, release_date=None):
+        '''
+        Changes workflow attributes.
+        '''
+        response = self.request(
+            'template/DisplayWorkflow.vm/workflowid/{0}/dataedit/true'.format(
+                wfid
+            )
+        )
+
+        self.browser.select_form('dataedit')
         if release_date is not None:
             date_str = release_date.strftime('%Y-%m-%d')
             self.browser['field_%s' % FIELD_DATE] = date_str
         self._submit()
-
-        return ids[0]
 
 
 def get_django_webswamp(request):
