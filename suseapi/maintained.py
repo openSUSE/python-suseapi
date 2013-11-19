@@ -77,6 +77,21 @@ class MaintainedData(object):
         )
 
 
+def get_revision(base_dir=None):
+    '''
+    Loads SVN revision of maintained data.
+    '''
+    if base_dir is None:
+        base_dir = BASE_DIR
+
+    with open(os.path.join(base_dir, '.svn', 'entries'), 'r') as handle:
+        lines = handle.readlines()
+        version = int(lines[0])
+        if version != 10:
+            raise ValueError('Not supported SVN format: {0}'.format(version))
+        return int(lines[3])
+
+
 def load_maintained_data(base_dir=None):
     '''
     Loads all maintained data and returs iterator over them.
