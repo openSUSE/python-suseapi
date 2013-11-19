@@ -45,13 +45,14 @@ class TimeoutBrowser(mechanize.Browser):
         mechanize.Browser.__init__(self, factory, history, request_class)
         self._forced_timeout = timeout
 
-    def _mech_open(self, url, data=None, update_history=True, visit=None,
-                   timeout=None):
+    def _request(self, url_or_req, data, visit, timeout=None):
         '''
-        Forces timeout to _mech_open.
+        Forces timeout to _request method.
         '''
-        return mechanize.Browser._mech_open(
-            self, url, data, update_history, visit, self._forced_timeout
+        if hasattr(url_or_req, 'timeout'):
+            url_or_req.timeout = self._forced_timeout
+        return mechanize.Browser._request(
+            self, url_or_req, data, visit, self._forced_timeout
         )
 
 
