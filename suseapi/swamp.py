@@ -37,6 +37,7 @@ SWAMP_NEW_RE = re.compile(
 
 FIELD_ADDITIONAL_BUGZILLA = 'laufzettelset.bugzilla.additional_ids'
 FIELD_PACKAGES = 'laufzettelset.packages'
+FIELD_DATE = 'laufzettelset.duedate_release'
 
 # We follow naming convetion of SWAMP API here
 # pylint: disable=C0103
@@ -277,7 +278,7 @@ class WebSWAMP(WebScraper):
         if not 'Logout' in data:
             raise WebSWAMPError('Failed to login!')
 
-    def create(self, main_bug, extra_bugs, packages):
+    def create(self, main_bug, extra_bugs, packages, release_date=None):
         '''
         Creates new maintenance workflow.
         '''
@@ -302,6 +303,9 @@ class WebSWAMP(WebScraper):
         self.browser['field_%s' % FIELD_ADDITIONAL_BUGZILLA] = \
             ','.join(extra_bugs)
         self.browser['field_%s' % FIELD_PACKAGES] = ','.join(packages)
+        if release_date is not None:
+            date_str = release_date.strftime('%Y-%m-%d')
+            self.browser['field_%s' % FIELD_DATE] = date_str
         self._submit()
 
         return ids[0]
