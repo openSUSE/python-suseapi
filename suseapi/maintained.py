@@ -84,8 +84,8 @@ def get_revision(base_dir=None):
     if base_dir is None:
         base_dir = BASE_DIR
 
-    for svnpath in ('.svn', '_svn'):
-        filepath = os.path.join(base_dir, svnpath, 'entries')
+    for svnpath in (('.svn', 'entries'), ('.svn-entries',)):
+        filepath = os.path.join(base_dir, *svnpath)
         if os.path.exists(filepath):
             break
 
