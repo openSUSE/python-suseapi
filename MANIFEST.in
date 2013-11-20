@@ -5,3 +5,4 @@ include requirements.txt
 include requirements-test.txt
 include suseapi/testdata/*
 include suseapi/testdata/maintained/*
+include suseapi/testdata/maintained/.svn/entries

@@ -49,7 +49,10 @@ setup(
         'suseapi',
     ],
     package_dir={'suseapi': 'suseapi'},
-    package_data={'suseapi': ['testdata/*.xml', 'testdata/maintained/*']},
+    package_data={'suseapi': [
+        'testdata/*.xml', 'testdata/maintained/*',
+        'testdata/maintained/_svn/entries'
+    ]},
     long_description=LONG_DESCRIPTION,
     install_requires=requires,
     classifiers=[

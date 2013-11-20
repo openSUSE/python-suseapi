@@ -84,7 +84,12 @@ def get_revision(base_dir=None):
     if base_dir is None:
         base_dir = BASE_DIR
 
-    with open(os.path.join(base_dir, '.svn', 'entries'), 'r') as handle:
+    for svnpath in ('.svn', '_svn'):
+        filepath = os.path.join(base_dir, svnpath, 'entries')
+        if os.path.exists(filepath):
+            break
+
+    with open(filepath, 'r') as handle:
         lines = handle.readlines()
         version = int(lines[0])
         if version != 10:
