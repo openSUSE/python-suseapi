@@ -80,8 +80,10 @@ class WebScraper(object):
             return call(*args, **kwargs)
         except urllib2.URLError as exc:
             for attrname in ('reason', 'msg', 'message'):
-                if hasattr(exc, attrname):
-                    raise WebScraperError(getattr(exc, attrname))
+                value = getattr(exc, attrname, '')
+                if value:
+                    raise WebScraperError(value)
+                raise WebScraperError(str(exc))
             raise WebScraperError('Unknown url error (%s)' % str(exc))
         except httplib.BadStatusLine as exc:
             raise WebScraperError('Bad status line (%s)' % str(exc))
