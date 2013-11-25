@@ -144,23 +144,21 @@ class Presence(CacherMixin):
 
         if absence_list is None:
             absence_list = []
-            failure = False
 
-            for hostname, no_send in self.hosts:
-                try:
+            try:
+                for hostname, no_send in self.hosts:
                     absence_list.extend(
                         self._get_presence_data(hostname, person, no_send)
                     )
-                except PresenceError as error:
-                    logger.warn('could not get presence data: %s', str(error))
-                    failure = True
 
-            if failure:
+                self._cache_set(person, absence_list)
+            except PresenceError as error:
+                logger.warn('could not get presence data: %s', str(error))
+
                 cached_absence = self._cache_get(person, True)
                 if cached_absence is not None:
                     absence_list = cached_absence
-            else:
-                self._cache_set(person, absence_list)
+
         return absence_list
 
     def is_absent(self, person, when, threshold=0):
