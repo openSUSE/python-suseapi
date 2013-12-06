@@ -107,10 +107,11 @@ class Bug(object):
     '''
     def __init__(self, bug_et, anonymous=False):
         error = bug_et.get('error')
+        self.bug_id = None
         if error is not None:
             bug_id = bug_et.find("bug_id")
             if bug_id is not None:
-                bug_id = bug_id.text
+                self.bug_id = bug_id.text
             if error == 'NotPermitted':
                 raise BugzillaNotPermitted(error, bug_id)
             if error == 'NotFound':
