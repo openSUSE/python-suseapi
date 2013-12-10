@@ -343,7 +343,7 @@ class Bugzilla(WebScraper):
             return None
         return result[0]
 
-    def get_bugs(self, ids, retry=True, permissive=False):
+    def get_bugs(self, ids, retry=True, permissive=False, store_errors=False):
         '''
         Returns Bug objects based on data received from bugzilla for each bug
         ID.
@@ -375,6 +375,8 @@ class Bugzilla(WebScraper):
                 try:
                     bugs.append(Bug(bug, self.anonymous))
                 except BugzillaError as exc:
+                    if store_errors:
+                        bugs.append(exc)
                     if permissive:
                         logger.error(exc)
                     else:
