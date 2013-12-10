@@ -28,34 +28,6 @@ import socket
 import cookielib
 
 
-class TimeoutBrowser(mechanize.Browser):
-    '''
-    Browser with fixed timeout.
-    '''
-
-    def __init__(self,
-                 factory=None,
-                 history=None,
-                 request_class=None,
-                 timeout=10,
-                 ):
-        '''
-        Creates browser object.
-        '''
-        mechanize.Browser.__init__(self, factory, history, request_class)
-        self._forced_timeout = timeout
-
-    def _request(self, url_or_req, data, visit, timeout=None):
-        '''
-        Forces timeout to _request method.
-        '''
-        if hasattr(url_or_req, 'timeout'):
-            url_or_req.timeout = self._forced_timeout
-        return mechanize.Browser._request(
-            self, url_or_req, data, visit, self._forced_timeout
-        )
-
-
 class WebScraperError(Exception):
     '''
     Web scaper class.
@@ -67,7 +39,7 @@ class WebScraper(object):
     '''
     Web based scraper using mechanize.
     '''
-    def __init__(self, user, password, base, useragent=None, timeout=10):
+    def __init__(self, user, password, base, useragent=None):
         self.base = base
         self.user = user
         self.password = password
@@ -76,7 +48,7 @@ class WebScraper(object):
         self.cookiejar = cookielib.CookieJar()
 
         # Browser instance
-        self.browser = TimeoutBrowser(timeout=timeout)
+        self.browser = mechanize.Browser()
 
         # Set cookies
         self.browser.set_cookiejar(self.cookiejar)
@@ -155,3 +127,15 @@ class WebScraper(object):
         Returns cookies set in browser.
         '''
         return [cookie for cookie in self.cookiejar]
+
+
+def browser_init():
+    '''
+    Inits the mechanize with usable params.
+    '''
+    from mechanize import _sockettimeout
+
+    # Force default timeout, there is no better way to do this
+    _sockettimeout._GLOBAL_DEFAULT_TIMEOUT = 10
+
+browser_init()

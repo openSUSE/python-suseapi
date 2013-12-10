@@ -218,9 +218,9 @@ class Bugzilla(WebScraper):
     Class for access to Novell bugzilla.
     '''
     def __init__(self, user, password, base='https://bugzilla.novell.com',
-                 useragent=None, timeout=10):
+                 useragent=None):
         super(Bugzilla, self).__init__(
-            user, password, base, useragent, timeout
+            user, password, base, useragent
         )
 
     def check_login(self):
@@ -562,9 +562,9 @@ class APIBugzilla(Bugzilla):
     Wrapper class to use apibugzilla.novell.com.
     '''
     def __init__(self, user, password, base='https://apibugzilla.novell.com',
-                 useragent=None, timeout=10):
+                 useragent=None):
         super(APIBugzilla, self).__init__(
-            user, password, base, useragent, timeout
+            user, password, base, useragent
         )
         # Use normal Bugzilla for anonymous access
         if self.anonymous and 'novell.com' in base:
@@ -619,7 +619,6 @@ def get_django_bugzilla():
         settings.BUGZILLA_USERNAME,
         settings.BUGZILLA_PASSWORD,
         useragent=settings.EMAIL_SUBJECT_PREFIX.strip('[] '),
-        timeout=settings.BUGZILLA_TIMEOUT
     )
 
     # Check for anonymous access
