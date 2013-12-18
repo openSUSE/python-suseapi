@@ -302,7 +302,7 @@ class WebSWAMP(WebScraper):
         # Set some additional attributes
         self.browser.select_form('dataedit')
         self.browser['field_%s' % FIELD_ADDITIONAL_BUGZILLA] = \
-            ','.join(extra_bugs)
+            ','.join([str(bug) for bug in extra_bugs])
         self.browser['field_%s' % FIELD_PACKAGES] = ','.join(packages)
         if maintainer is not None:
             self.browser['field_%s' % FIELD_MAINTAINER] = maintainer
