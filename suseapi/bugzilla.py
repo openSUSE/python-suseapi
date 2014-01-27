@@ -181,7 +181,7 @@ class Bug(object):
         '''
         try:
             bug_id = self.bug_id
-        except:
+        except AttributeError:
             bug_id = None
 
         who_elm = element.find('who')
@@ -363,7 +363,7 @@ class Bugzilla(WebScraper):
         # Parse XML
         try:
             response_et = ElementTree.fromstring(data)
-        except:
+        except SyntaxError:
             self._handle_parse_error(
                 ','.join([str(bugid) for bugid in ids]),
                 data
@@ -399,7 +399,7 @@ class Bugzilla(WebScraper):
         data = escape_xml_text(data)
         try:
             response_et = ElementTree.fromstring(data)
-        except:
+        except SyntaxError:
             self._handle_parse_error('recent', data)
             return []
 
