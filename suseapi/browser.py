@@ -100,7 +100,7 @@ class WebScraper(object):
 
     def request(self, action, paramlist=None, **kwargs):
         '''
-        Performs single request on SWAMP (loads single page).
+        Performs single request on a server (loads single page).
         '''
         url = self._get_req_url(action)
         if paramlist is not None:
