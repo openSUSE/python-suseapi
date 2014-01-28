@@ -63,7 +63,7 @@ class Presence(CacherMixin):
     '''
     Class for caching presence data.
     '''
-    cache_key = 'presence-%s'
+    cache_key_template = 'presence-%s'
 
     def __init__(self, hosts=None):
         '''
@@ -140,7 +140,7 @@ class Presence(CacherMixin):
         '''
         Gets complete presence data.
         '''
-        absence_list = self._cache_get(person)
+        absence_list = self.cache_get(person)
 
         if absence_list is None:
             absence_list = []
@@ -151,11 +151,11 @@ class Presence(CacherMixin):
                         self._get_presence_data(hostname, person, no_send)
                     )
 
-                self._cache_set(person, absence_list)
+                self.cache_set(person, absence_list)
             except PresenceError as error:
                 logger.warn('could not get presence data: %s', str(error))
 
-                cached_absence = self._cache_get(person, True)
+                cached_absence = self.cache_get(person, True)
                 if cached_absence is not None:
                     absence_list = cached_absence
 

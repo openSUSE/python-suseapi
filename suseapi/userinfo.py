@@ -18,7 +18,7 @@ class UserInfo(CacherMixin):
     Class for LDAP access.
     '''
 
-    cache_key = 'userinfo-%s'
+    cache_key_template = 'userinfo-%s'
 
     searches = [
         '(mail={0}@novell.com)',
@@ -63,7 +63,7 @@ class UserInfo(CacherMixin):
         '''
         Returns user department.
         '''
-        department = self._cache_get(user)
+        department = self.cache_get(user)
         if department is not None:
             return department
 
@@ -89,7 +89,7 @@ class UserInfo(CacherMixin):
 
             department = self.fixup_department(dept)
 
-        self._cache_set(user, department)
+        self.cache_set(user, department)
 
         return department
 
