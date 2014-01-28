@@ -27,12 +27,27 @@ import httplib
 import socket
 import cookielib
 
+DEFAULT_TIMEOUT = 5.0
+
 
 class WebScraperError(Exception):
     '''
     Web scaper class.
     '''
     pass
+
+
+class TimeoutRequest(mechanize.Request):
+    '''
+    Request class with defined timeout.
+    '''
+    def __init__(self, url, data=None, headers={},
+                 origin_req_host=None, unverifiable=False, visit=None,
+                 timeout=DEFAULT_TIMEOUT):
+        super(TimeoutRequest, self).__init__(
+            url, data, headers, origin_req_host, unverifiable, visit, timeout
+        )
+        self.timeout = DEFAULT_TIMEOUT
 
 
 class WebScraper(object):
@@ -48,7 +63,9 @@ class WebScraper(object):
         self.cookiejar = cookielib.CookieJar()
 
         # Browser instance
-        self.browser = mechanize.Browser()
+        self.browser = mechanize.Browser(
+            request_class=TimeoutRequest
+        )
 
         # Set cookies
         self.browser.set_cookiejar(self.cookiejar)
@@ -109,13 +126,19 @@ class WebScraper(object):
             params = None
         else:
             params = urllib.urlencode(kwargs)
-        return self._safely(self.browser.open, url, params)
+        return self._safely(
+            self.browser.open,
+            url, params, timeout=DEFAULT_TIMEOUT
+        )
 
     def _submit(self):
         '''
         Submits currently selected browser form.
         '''
-        return self._safely(self.browser.submit)
+        return self._safely(
+            self.browser.submit,
+            request_class=TimeoutRequest
+        )
 
     def set_cookies(self, cookies):
         '''
@@ -129,15 +152,3 @@ class WebScraper(object):
         Returns cookies set in browser.
         '''
         return [cookie for cookie in self.cookiejar]
-
-
-def browser_init():
-    '''
-    Inits the mechanize with usable params.
-    '''
-    from mechanize import _sockettimeout
-
-    # Force default timeout, there is no better way to do this
-    _sockettimeout._GLOBAL_DEFAULT_TIMEOUT = 10
-
-browser_init()
