@@ -40,22 +40,22 @@ class CacherMixin(object):
         '''
         Remembers value in internal cache.
         '''
-        self._cache[self._cache_key(key)] = (value, datetime.now())
+        self._cache[self.cache_key(key)] = (value, datetime.now())
 
     def cache_uptodate(self, key):
         '''
         Checks whether cache entry is valid.
         '''
-        expires = self._cache[self._cache_key(key)][1] + timedelta(days=1)
+        expires = self._cache[self.cache_key(key)][1] + timedelta(days=1)
         return expires > datetime.now()
 
     def cache_get(self, key, force=False):
         '''
         Gets value from internal cache.
         '''
-        if (self._cache_key(key) in self._cache
-                and (force or self._cache_uptodate(key))):
-            return self._cache[self._cache_key(key)][0]
+        cache_key = self.cache_key(key)
+        if (cache_key in self._cache and (force or self.cache_uptodate(key))):
+            return self._cache[cache_key][0]
         return None
 
 
@@ -69,11 +69,11 @@ class DjangoCacherMixin(CacherMixin):
         Sets value in django cache.
         '''
         from django.core.cache import cache
-        cache.set(self._cache_key(key), value, 24 * 3600)
+        cache.set(self.cache_key(key), value, 24 * 3600)
 
     def cache_get(self, key, force=False):
         '''
         Gets value from django cache.
         '''
         from django.core.cache import cache
-        return cache.get(self._cache_key(key))
+        return cache.get(self.cache_key(key))
