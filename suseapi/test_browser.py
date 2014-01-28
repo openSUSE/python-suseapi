@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2013 Michal Čihař <mcihar@suse.cz>
+# Copyright © 2012 - 2014 Michal Čihař <mcihar@suse.cz>
 #
 # This file is part of python-suseapi <https://github.com/nijel/python-suseapi>
 #
@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 '''
-Testing of Bugzilla connector
+Testing of browser wrapper.
 '''
 
 from unittest import TestCase
@@ -29,8 +29,15 @@ TEST_BASE = 'http://example.net'
 
 
 class WebSraperTest(TestCase):
+    '''
+    Tests web sraping.
+    '''
+
     @httpretty.activate
     def test_basic(self):
+        '''
+        Test basic operation.
+        '''
         httpretty.register_uri(
             httpretty.GET,
             '{0}/{1}'.format(TEST_BASE, 'action'),
@@ -44,6 +51,9 @@ class WebSraperTest(TestCase):
 
     @httpretty.activate
     def test_error(self):
+        '''
+        Test error handling.
+        '''
         httpretty.register_uri(
             httpretty.GET,
             '{0}/{1}'.format(TEST_BASE, '404'),
@@ -56,6 +66,9 @@ class WebSraperTest(TestCase):
         )
 
     def test_cookies(self):
+        '''
+        Test cookie getting and setting.
+        '''
         scraper = WebScraper(None, None, TEST_BASE)
         cookies = scraper.get_cookies()
         scraper.set_cookies(cookies)

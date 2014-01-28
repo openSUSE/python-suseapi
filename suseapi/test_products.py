@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2013 Michal Čihař <mcihar@suse.cz>
+# Copyright © 2012 - 2014 Michal Čihař <mcihar@suse.cz>
 #
 # This file is part of python-suseapi <https://github.com/nijel/python-suseapi>
 #
@@ -36,7 +36,14 @@ PRODUCT_TESTS = (
 
 
 class ProductTest(TestCase):
+    '''
+    Tests for product names mapping.
+    '''
+
     def test_codestream_name(self):
+        '''
+        Tests getting codestream name.
+        '''
         for product, expected, dummy in PRODUCT_TESTS:
             self.assertEqual(
                 codestream_name(product),
@@ -44,6 +51,9 @@ class ProductTest(TestCase):
             )
 
     def test_codestream_base(self):
+        '''
+        Test getting codestream base.
+        '''
         for dummy, codestream, expected in PRODUCT_TESTS:
             self.assertEqual(
                 codestream_base(codestream),

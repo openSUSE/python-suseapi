@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2013 Michal Čihař <mcihar@suse.cz>
+# Copyright © 2012 - 2014 Michal Čihař <mcihar@suse.cz>
 #
 # This file is part of python-suseapi <https://github.com/nijel/python-suseapi>
 #
@@ -36,22 +36,38 @@ TEST_DATA = os.path.join(
 
 
 class MaintainedTest(TestCase):
-    def test_1(self):
+    '''
+    Maintained data tests.
+    '''
+
+    def test_opensuse(self):
+        '''
+        Test parsing openSUSE data.
+        '''
         with open(os.path.join(TEST_DATA, 'opensuse')) as fileobj:
             maintained = MaintainedData('opensuse', fileobj)
         self.assertFalse(maintained.is_maintained())
 
-    def test_2(self):
+    def test_sles(self):
+        '''
+        Test parsing SLES data.
+        '''
         with open(os.path.join(TEST_DATA, 'sles')) as fileobj:
             maintained = MaintainedData('sles', fileobj)
         self.assertTrue(maintained.is_maintained())
 
     def test_load(self):
+        '''
+        Test loading directory.
+        '''
         data = load_maintained_data(TEST_DATA)
         data = list(data)
         self.assertEquals(2, len(data))
 
     def test_revision(self):
+        '''
+        Test parsing revision info out of SVN.
+        '''
         self.assertEquals(
             1235,
             get_revision(TEST_DATA)

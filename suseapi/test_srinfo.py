@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2013 Michal Čihař <mcihar@suse.cz>
+# Copyright © 2012 - 2014 Michal Čihař <mcihar@suse.cz>
 #
 # This file is part of python-suseapi <https://github.com/nijel/python-suseapi>
 #
@@ -60,8 +60,15 @@ It does not work at all!
 
 
 class SRInfoTest(TestCase):
+    '''
+    Test SR information retrieval.
+    '''
+
     @httpretty.activate
     def test_status(self):
+        '''
+        Test getting SR status.
+        '''
         httpretty.register_uri(
             httpretty.GET,
             'http://kueue.hwlab.suse.de:8080/srstatus/1234567890/',
@@ -75,6 +82,9 @@ class SRInfoTest(TestCase):
 
     @httpretty.activate
     def test_info(self):
+        '''
+        Test getting SR information.
+        '''
         httpretty.register_uri(
             httpretty.GET,
             'http://kueue.hwlab.suse.de:8080/srinfo/1234567890/',

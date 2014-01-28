@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2013 Michal Čihař <mcihar@suse.cz>
+# Copyright © 2012 - 2014 Michal Čihař <mcihar@suse.cz>
 #
 # This file is part of python-suseapi <https://github.com/nijel/python-suseapi>
 #
@@ -60,7 +60,14 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
 
 
 class PresenceTest(TestCase):
+    '''
+    Presence testing.
+    '''
+
     def test_trim_weekends(self):
+        '''
+        Test for weekend trimming.
+        '''
         self.assertEqual(
             datetime.date(2013, 7, 15),
             trim_weekends(datetime.date(2013, 7, 13)),
@@ -75,6 +82,9 @@ class PresenceTest(TestCase):
         )
 
     def test_presence(self):
+        '''
+        Test for presence retrieving.
+        '''
         presence = Presence([('127.0.0.1', True)])
         SocketServer.TCPServer.allow_reuse_address = True
         server = SocketServer.TCPServer(('127.0.0.1', 9874), MyTCPHandler)

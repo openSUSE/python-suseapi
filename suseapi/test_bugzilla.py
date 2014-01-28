@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2013 Michal Čihař <mcihar@suse.cz>
+# Copyright © 2012 - 2014 Michal Čihař <mcihar@suse.cz>
 #
 # This file is part of python-suseapi <https://github.com/nijel/python-suseapi>
 #
@@ -42,8 +42,15 @@ TEST_DATA = os.path.join(
 
 
 class BugzillaTest(TestCase):
+    '''
+    Bugzilla connector tests.
+    '''
+
     @httpretty.activate
     def test_get_bug(self):
+        '''
+        Test getting existing bug.
+        '''
         httpretty.register_uri(
             httpretty.POST,
             'https://bugzilla.novell.com/show_bug.cgi?ctype=xml&id=81873',
@@ -56,6 +63,9 @@ class BugzillaTest(TestCase):
 
     @httpretty.activate
     def test_get_private_bug(self):
+        '''
+        Test getting private bug.
+        '''
         httpretty.register_uri(
             httpretty.POST,
             'https://bugzilla.novell.com/show_bug.cgi?ctype=xml&id=582198',
@@ -66,6 +76,9 @@ class BugzillaTest(TestCase):
 
     @httpretty.activate
     def test_get_nonexisting_bug(self):
+        '''
+        Test getting non existing bug.
+        '''
         httpretty.register_uri(
             httpretty.POST,
             'https://bugzilla.novell.com/show_bug.cgi?ctype=xml&id=20000000',
@@ -76,6 +89,9 @@ class BugzillaTest(TestCase):
 
     @httpretty.activate
     def test_get_invalid_bug(self):
+        '''
+        Test getting bug with invalid ID.
+        '''
         httpretty.register_uri(
             httpretty.POST,
             'https://bugzilla.novell.com/show_bug.cgi?ctype=xml&id=none',
@@ -86,6 +102,9 @@ class BugzillaTest(TestCase):
 
     @httpretty.activate
     def test_login(self):
+        '''
+        Test login to novell bugzilla.
+        '''
         httpretty.register_uri(
             httpretty.POST,
             'https://bugzilla.novell.com/index.cgi',
@@ -95,6 +114,9 @@ class BugzillaTest(TestCase):
 
     @httpretty.activate
     def test_recent(self):
+        '''
+        Test fetching recent bugs.
+        '''
         httpretty.register_uri(
             httpretty.POST,
             'https://bugzilla.novell.com/buglist.cgi',

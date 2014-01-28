@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2013 Michal Čihař <mcihar@suse.cz>
+# Copyright © 2012 - 2014 Michal Čihař <mcihar@suse.cz>
 #
 # This file is part of python-suseapi <https://github.com/nijel/python-suseapi>
 #
@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 '''
-Testing of Bugzilla connector
+Testing of user information connector
 '''
 
 from unittest import TestCase
@@ -28,7 +28,14 @@ from suseapi.userinfo import UserInfo
 
 
 class UserInfoTest(TestCase):
+    '''
+    User information tests.
+    '''
+
     def test_department(self):
+        '''
+        Test department lookups.
+        '''
         mockldap = MockLdap({
             'o=Novell': {'o': 'Novell'},
             'cn=mcihar,o=Novell': {
