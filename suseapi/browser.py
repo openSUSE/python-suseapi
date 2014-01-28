@@ -41,11 +41,14 @@ class TimeoutRequest(mechanize.Request):
     '''
     Request class with defined timeout.
     '''
-    def __init__(self, url, data=None, headers={},
+    def __init__(self, url, data=None, headers=None,
                  origin_req_host=None, unverifiable=False, visit=None,
                  timeout=DEFAULT_TIMEOUT):
-        super(TimeoutRequest, self).__init__(
-            url, data, headers, origin_req_host, unverifiable, visit, timeout
+        if headers is None:
+            headers = {}
+        mechanize.Request.__init__(
+            self, url, data, headers, origin_req_host,
+            unverifiable, visit, timeout
         )
         self.timeout = DEFAULT_TIMEOUT
 
