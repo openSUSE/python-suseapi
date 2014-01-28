@@ -27,8 +27,6 @@ import socket
 import re
 from suseapi.cacher import CacherMixin, DjangoCacherMixin
 
-logger = logging.getLogger('suse.presence')
-
 DATE_REGEXP = r'\w{3} (\d{4})-(\d{2})-(\d{2})'
 DATE_RANGE_MATCH = re.compile(
     r'\s' + DATE_REGEXP + ' - ' + DATE_REGEXP + r'\s*$'
@@ -77,6 +75,7 @@ class Presence(CacherMixin):
         else:
             self.hosts = hosts
         super(Presence, self).__init__()
+        self.logger = logging.getLogger('suse.presence')
 
     def _process_data(self, handle, who):
         '''
@@ -104,7 +103,7 @@ class Presence(CacherMixin):
                         from_date = [int(x) for x in match.group(1, 2, 3)]
                         till_date = from_date
                     else:
-                        logger.error(
+                        self.logger.error(
                             'unparsable absence data for %s: %s',
                             who, line
                         )
@@ -153,7 +152,7 @@ class Presence(CacherMixin):
 
                 self.cache_set(person, absence_list)
             except PresenceError as error:
-                logger.warn('could not get presence data: %s', str(error))
+                self.logger.warn('could not get presence data: %s', str(error))
 
                 cached_absence = self.cache_get(person, True)
                 if cached_absence is not None:

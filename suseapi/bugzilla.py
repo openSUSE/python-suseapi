@@ -36,8 +36,6 @@ from BeautifulSoup import BeautifulSoup
 
 from suseapi.browser import WebScraper, WebScraperError
 
-logger = logging.getLogger('suse.bugzilla')
-
 SR_MATCH = re.compile(r'\[(\d+)\]')
 
 
@@ -222,12 +220,13 @@ class Bugzilla(WebScraper):
         super(Bugzilla, self).__init__(
             user, password, base, useragent
         )
+        self.logger = logging.getLogger('suse.bugzilla')
 
     def check_login(self):
         '''
         Check whether we're logged in.
         '''
-        logger.info('Getting login page')
+        self.logger.info('Getting login page')
         self.request('index', GoAheadAndLogIn=1)
 
         if not self.browser.viewing_html():
@@ -235,7 +234,7 @@ class Bugzilla(WebScraper):
 
         try:
             self.browser.find_link(text='Log\xc2\xa0out')
-            logger.info('Already logged in')
+            self.logger.info('Already logged in')
             return True
         except LinkNotFoundError:
             return False
@@ -266,7 +265,7 @@ class Bugzilla(WebScraper):
         except ControlNotFoundError:
             raise BugzillaUpdateError('Failed to parse HTML for login!')
 
-        logger.info('Doing login')
+        self.logger.info('Doing login')
         response = self._submit()
 
         text = response.read()
@@ -324,9 +323,11 @@ class Bugzilla(WebScraper):
         Logs information about parse error.
         '''
         if data.startswith('<!DOCTYPE html'):
-            logger.error('Got HTML instead of from bugzilla for bug %s', bugid)
+            self.logger.error(
+                'Got HTML instead of from bugzilla for bug %s', bugid
+            )
         else:
-            logger.error(
+            self.logger.error(
                 'Failed to parse XML response from bugzilla for bug %s: %s',
                 bugid,
                 traceback.format_exc()
@@ -378,13 +379,13 @@ class Bugzilla(WebScraper):
                     if store_errors:
                         bugs.append(exc)
                     if permissive:
-                        logger.error(exc)
+                        self.logger.error(exc)
                     else:
                         raise exc
             return bugs
         except BugzillaNotPermitted as exc:
             if retry and not self.anonymous:
-                logger.error("%s - login and retry", exc)
+                self.logger.error("%s - login and retry", exc)
                 self.login()
                 return self.get_bugs(ids, False, permissive)
             raise exc
@@ -394,7 +395,7 @@ class Bugzilla(WebScraper):
         Performs search and returns list of IDs.
         '''
         req = [('ctype', 'atom')] + params
-        logger.info('Doing bugzilla search: %s', req)
+        self.logger.info('Doing bugzilla search: %s', req)
         data = self.request('buglist', paramlist=req).read()
         data = escape_xml_text(data)
         try:
@@ -451,7 +452,7 @@ class Bugzilla(WebScraper):
         Black magic to obtain SR ids from bugzilla.
         '''
         # Load the form
-        logger.info('Loading bug page for %d', bugid)
+        self.logger.info('Loading bug page for %d', bugid)
         self.request('show_bug', id=bugid)
         if not self.browser.viewing_html():
             raise BugzillaUpdateError('Failed to load bugzilla form')
@@ -483,7 +484,7 @@ class Bugzilla(WebScraper):
             raise BugzillaUpdateError('No updates in anonymous mode!')
 
         # Load the form
-        logger.info('Loading bug form for %d', bugid)
+        self.logger.info('Loading bug form for %d', bugid)
         data = self.request('show_bug', id=bugid)
         if 'You are not authorized to access bug' in data.read():
             raise BugzillaNotPermitted(
@@ -576,7 +577,7 @@ class APIBugzilla(Bugzilla):
         '''
         Checks login to Bugzilla using HTTP authentication.
         '''
-        logger.info('Getting login page')
+        self.logger.info('Getting login page')
         self.request('index', GoAheadAndLogIn=1)
 
         if not self.browser.viewing_html():
@@ -584,7 +585,7 @@ class APIBugzilla(Bugzilla):
 
         try:
             self.browser.find_link(text='Log\xc2\xa0out')
-            logger.info('Already logged in')
+            self.logger.info('Already logged in')
             return
         except LinkNotFoundError:
             raise BugzillaLoginFailed('Failed to login to bugzilla')
