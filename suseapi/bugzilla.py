@@ -177,16 +177,11 @@ class Bug(object):
         '''
         Stores commend data within this object.
         '''
-        try:
-            bug_id = self.bug_id
-        except AttributeError:
-            bug_id = None
-
         who_elm = element.find('who')
         if who_elm is None:
             if not self.anonymous:
                 raise BugzillaNotPermitted(
-                    'Could not load author from bugzilla', bug_id
+                    'Could not load author from bugzilla', self.bug_id
                 )
             else:
                 who = ''
@@ -197,7 +192,7 @@ class Bug(object):
         if when_elm is None:
             if not self.anonymous:
                 raise BugzillaNotPermitted(
-                    'Could not load time of change from bugzilla', bug_id
+                    'Could not load time of change from bugzilla', self.bug_id
                 )
             else:
                 when = None
