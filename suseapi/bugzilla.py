@@ -111,11 +111,11 @@ class Bug(object):
             if bug_id is not None:
                 self.bug_id = bug_id.text
             if error == 'NotPermitted':
-                raise BugzillaNotPermitted(error, bug_id)
+                raise BugzillaNotPermitted(error, self.bug_id)
             if error == 'NotFound':
-                raise BugzillaNotFound(error, bug_id)
+                raise BugzillaNotFound(error, self.bug_id)
             if error == 'InvalidBugId':
-                raise BugzillaInvalidBugId(error, bug_id)
+                raise BugzillaInvalidBugId(error, self.bug_id)
             raise BugzillaError(error)
         self.cc_list = []
         self.groups = []
