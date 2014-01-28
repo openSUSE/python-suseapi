@@ -72,6 +72,9 @@ class SWAMP(object):
         self._client = Client(url)
 
     def _dict2map(self, dictdata):
+        '''
+        Converts Python dict into Apache map object.
+        '''
         result = self._client.factory.create('ns2:Map')
         for item in dictdata:
             mapitem = self._client.factory.create('ns2:mapItem')
