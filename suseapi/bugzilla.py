@@ -512,7 +512,6 @@ class Bugzilla(WebScraper):
         # Whiteboard manipulations
         if whiteboard_add is not None or whiteboard_remove is not None:
             changes |= self._update_bug_whiteboard(
-                self.browser,
                 whiteboard_remove,
                 whiteboard_add
             )
@@ -529,11 +528,11 @@ class Bugzilla(WebScraper):
         if data.find('Changes submitted for') == -1:
             raise BugzillaUpdateError('Unknown error while submitting form')
 
-    def _update_bug_whiteboard(self, browser, remove, add):
+    def _update_bug_whiteboard(self, remove, add):
         '''
         Callback for changing bug whiteboard.
         '''
-        whiteboard = browser['status_whiteboard']
+        whiteboard = self.browser['status_whiteboard']
 
         if remove is not None and remove in whiteboard:
             whiteboard = whiteboard.replace(remove, '')
@@ -541,13 +540,13 @@ class Bugzilla(WebScraper):
         if add is not None and add not in whiteboard:
             whiteboard = '%s %s' % (whiteboard, add)
 
-        changes = (browser['status_whiteboard'] != whiteboard)
+        changes = (self.browser['status_whiteboard'] != whiteboard)
 
-        browser['status_whiteboard'] = whiteboard
+        self.browser['status_whiteboard'] = whiteboard
 
         # Do not add ourselves to cc
-        if 'addselfcc' in browser:
-            browser['addselfcc'] = []
+        if 'addselfcc' in self.browser:
+            self.browser['addselfcc'] = []
 
         return changes
 
