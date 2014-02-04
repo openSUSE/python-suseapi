@@ -27,12 +27,7 @@ LONG_DESCRIPTION = """
 python-suseapi is set of helpers to access various SUSE APIs.
 """
 
-requires = [
-    'Django>=1.4',
-    'mechanize',
-    'python-dateutil',
-    'suds',
-]
+REQUIRES = file('requirements.txt').read().split()
 
 setup(
     name='python-suseapi',
@@ -54,7 +49,7 @@ setup(
         'testdata/maintained/.svn-entries'
     ]},
     long_description=LONG_DESCRIPTION,
-    install_requires=requires,
+    install_requires=REQUIRES,
     classifiers=[
         'Development Status :: 4 - Beta',
         'Topic :: Internet',
