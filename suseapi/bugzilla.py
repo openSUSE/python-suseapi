@@ -202,7 +202,7 @@ class Bug(object):
         self.comments.append({
             'who': who,
             'bug_when': when,
-            'private': (element.get('isprivate')=='1'),
+            'private': (element.get('isprivate') == '1'),
             'thetext': element.find('thetext').text,
         })
 
