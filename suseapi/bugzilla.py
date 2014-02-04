@@ -218,6 +218,13 @@ class Bugzilla(WebScraper):
         )
         self.logger = logging.getLogger('suse.bugzilla')
 
+    def check_viewing_html(self):
+        '''
+        Checks whether the browser is in HTML viewing state.
+        '''
+        if not self.browser.viewing_html():
+            raise BugzillaLoginFailed('Failed to load bugzilla form')
+
     def check_login(self):
         '''
         Check whether we're logged in.
@@ -225,8 +232,7 @@ class Bugzilla(WebScraper):
         self.logger.info('Getting login page')
         self.request('index', GoAheadAndLogIn=1)
 
-        if not self.browser.viewing_html():
-            raise BugzillaLoginFailed('Failed to load bugzilla login form')
+        self.check_viewing_html()
 
         try:
             self.browser.find_link(text='Log\xc2\xa0out')
@@ -450,8 +456,8 @@ class Bugzilla(WebScraper):
         # Load the form
         self.logger.info('Loading bug page for %d', bugid)
         self.request('show_bug', id=bugid)
-        if not self.browser.viewing_html():
-            raise BugzillaUpdateError('Failed to load bugzilla form')
+
+        self.check_viewing_html()
 
         # Find link containing SR ids
         try:
@@ -486,8 +492,8 @@ class Bugzilla(WebScraper):
             raise BugzillaNotPermitted(
                 'You are not authorized to access bug #%d.' % bugid
             )
-        if not self.browser.viewing_html():
-            raise BugzillaUpdateError('Failed to load bugzilla form')
+
+        self.check_viewing_html()
 
         changes = False
 
@@ -573,8 +579,7 @@ class APIBugzilla(Bugzilla):
         self.logger.info('Getting login page')
         self.request('index', GoAheadAndLogIn=1)
 
-        if not self.browser.viewing_html():
-            raise BugzillaLoginFailed('Failed to load bugzilla login form')
+        self.check_viewing_html()
 
         try:
             self.browser.find_link(text='Log\xc2\xa0out')
