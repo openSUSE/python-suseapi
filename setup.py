@@ -21,7 +21,7 @@
 """Setup file for easy installation"""
 from setuptools import setup
 
-version = __import__('suseapi').__version__
+VERSION = __import__('suseapi').__version__
 
 LONG_DESCRIPTION = """
 python-suseapi is set of helpers to access various SUSE APIs.
@@ -36,7 +36,7 @@ requires = [
 
 setup(
     name='python-suseapi',
-    version=version,
+    version=VERSION,
     author='Michal Čihař',
     author_email='mcihar@suse.cz',
     description='Python module for SUSE APIs.',
