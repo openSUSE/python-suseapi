@@ -546,10 +546,8 @@ class Bugzilla(WebScraper):
         browser['status_whiteboard'] = whiteboard
 
         # Do not add ourselves to cc
-        try:
+        if 'addselfcc' in browser:
             browser['addselfcc'] = []
-        except ValueError:
-            pass
 
         return changes
 
