@@ -551,8 +551,10 @@ class Bugzilla(WebScraper):
         self.browser['status_whiteboard'] = whiteboard
 
         # Do not add ourselves to cc
-        if 'addselfcc' in self.browser:
+        try:
             self.browser['addselfcc'] = []
+        except ControlNotFoundError:
+            pass
 
         return changes
 
