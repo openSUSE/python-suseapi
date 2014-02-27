@@ -90,7 +90,7 @@ class Presence(CacherMixin):
                 gather_data = 1
             if re.match(r"-+\s*$", line):
                 gather_data = 0
-            if (gather_data == 1 and ABSENCE_MATCH.match(line)):
+            if gather_data == 1 and ABSENCE_MATCH.match(line):
                 gather_data = 2
             if gather_data == 2:
                 match = DATE_RANGE_MATCH.search(line)
@@ -169,7 +169,7 @@ class Presence(CacherMixin):
         absence_list = self.get_presence_data(person)
 
         for absence in absence_list:
-            if (when >= absence[0] and when <= absence[1]):
+            if when >= absence[0] and when <= absence[1]:
                 if (absence[1] - absence[0]) < timedelta(days=threshold):
                     continue
                 return absence

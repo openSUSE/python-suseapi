@@ -54,7 +54,7 @@ class CacherMixin(object):
         Gets value from internal cache.
         '''
         cache_key = self.cache_key(key)
-        if (cache_key in self._cache and (force or self.cache_uptodate(key))):
+        if cache_key in self._cache and (force or self.cache_uptodate(key)):
             return self._cache[cache_key][0]
         return None
 
