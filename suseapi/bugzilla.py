@@ -248,24 +248,18 @@ class Bugzilla(WebScraper):
         if self.check_login():
             return
 
-        # Submit fake javascript form
         try:
+            # Submit fake javascript form
             self.browser.select_form(nr=0)
-        except FormNotFoundError:
-            raise BugzillaUpdateError('Failed to parse HTML for login!')
-        response = self._submit()
+            response = self._submit()
 
-        # Find the login form
-        try:
+            # Find the login form
             self.browser.select_form(nr=0)
-        except FormNotFoundError:
-            raise BugzillaUpdateError('Failed to parse HTML for login!')
 
-        try:
             self.browser['Ecom_User_ID'] = self.user
             self.browser['Ecom_Password'] = self.password
-        except ControlNotFoundError:
-            raise BugzillaUpdateError('Failed to parse HTML for login!')
+        except (FormNotFoundError, ControlNotFoundError):
+            raise BugzillaLoginFailed('Failed to parse HTML for login!')
 
         self.logger.info('Doing login')
         response = self._submit()
