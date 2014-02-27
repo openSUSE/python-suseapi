@@ -32,7 +32,7 @@ import logging
 from mechanize import (
     LinkNotFoundError, FormNotFoundError, ControlNotFoundError
 )
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 
 from suseapi.browser import WebScraper, WebScraperError
 
@@ -273,9 +273,17 @@ class Bugzilla(WebScraper):
         text = response.read()
 
         # Check for error messages
+        print 'TEXT:'
+        print text
+        print '-=' * 40
         soup = BeautifulSoup(text)
-        for para in soup.findAll('p'):
-            if para.get('class') == 'error':
+        print 'SOUP:'
+        print soup
+        print '-=' * 40
+        for para in soup.find_all('p'):
+            print 'PARA:', para.get('class')
+            print para
+            if 'error' in para['class']:
                 raise BugzillaLoginFailed(para.text)
 
         # Emulate javascript redirect

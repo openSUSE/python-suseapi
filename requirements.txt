@@ -2,4 +2,4 @@ Django>=1.4
 mechanize
 python-dateutil
 suds
-BeautifulSoup
+beautifulsoup4
