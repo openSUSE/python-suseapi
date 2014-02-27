@@ -273,16 +273,8 @@ class Bugzilla(WebScraper):
         text = response.read()
 
         # Check for error messages
-        print 'TEXT:'
-        print text
-        print '-=' * 40
         soup = BeautifulSoup(text)
-        print 'SOUP:'
-        print soup
-        print '-=' * 40
         for para in soup.find_all('p'):
-            print 'PARA:', para.get('class')
-            print para
             if 'error' in para['class']:
                 raise BugzillaLoginFailed(para.text)
 
