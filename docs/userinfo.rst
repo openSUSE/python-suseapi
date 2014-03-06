@@ -24,8 +24,7 @@ LDAP and provides some convenience functions.
       :type base: string
       :param uid: Search string
       :type uid: string
-      :param attribs: Attributes to read from LDAP, defaults to
-      :default attribs: ['cn', 'mail', 'ou', 'sn', 'givenName']
+      :param attribs: Attributes to read from LDAP, defaults to ['cn', 'mail', 'ou', 'sn', 'givenName']
       :type attribs: list of strings
       :rtype: list of dictionaries
       :return: Search results
@@ -45,5 +44,5 @@ LDAP and provides some convenience functions.
 
 .. class:: DjangoUserInfo(server, base)
 
-    Wrapper around :class:`suseapi.ldap` class to use Django settings and cache
+    Wrapper around :class:`suseapi.userinfo.UserInfo` class to use Django settings and cache
     results in Django cache.
