@@ -67,11 +67,17 @@ read Bugzilla and SOAP service for writing to Bugzilla.
       :throws: :exc:`BugzillaLoginFailed` in case login fails.
 
       Performs login to Bugzilla.
+    
+   .. method: check_login()
 
-   .. method:: get_bug(id, retry=True)
+      :rtype: boolean
+        
+      Check whether we're logged in.
 
-      :param id: Bug id
-      :type id: integer
+   .. method:: get_bug(bugid, retry=True)
+
+      :param bugid: Bug id
+      :type bugid: integer
       :param retry: Whether to retry with new login on failure
       :type retry: boolean
       :return: Bug data
@@ -90,6 +96,14 @@ read Bugzilla and SOAP service for writing to Bugzilla.
 
       Reads list of bugs from Bugzilla.
 
+   .. method:: do_search(params):
+
+      :param params: URL parameters for search
+      :type params: list of tuples
+      :return: List of bug ids
+      :rtype: list of integers
+      :throw: :exc:`BuglistTooLarge` in case search result is too long.
+
    .. method:: get_recent_bugs(startdate)
 
       :param startdate: Date from which to search.
@@ -99,75 +113,53 @@ read Bugzilla and SOAP service for writing to Bugzilla.
       :throw: :exc:`BuglistTooLarge` in case search result is too long.
 
       Gets list of bugs modified since defined date.
+ 
+   .. method:: get_openl3_bugs()
 
+      :return: List of bug ids
+      :rtype: list of integers
+      :throw: :exc:`BuglistTooLarge` in case search result is too long.
 
-.. function:: update_bug(user, cookie, bugid, updates, url=BUGZILLA_SOAP_URL)
+      Searches for bugs with openL3 in whiteboard.
+
+   .. method:: get_l3_summary_bugs()
+
+      :return: List of bug ids
+      :rtype: list of integers
+      :throw: :exc:`BuglistTooLarge` in case search result is too long.
+
+      Searches for open bugs with L3: in summary.
+
+   .. method:: get_sr(bugid)
+
+      :param bugid: Bug id
+      :type bugid: integer
+      :rtype: list of integers
+
+      Returns list of SRs associated with given bug.
     
-    :param user: Email of user which should be used as author of changes. If
-        the email is not existing in Bugzilla, the update will not happen and you
-        will not get any failure.
-    :type user: string
-    :param cookie: Authentication cookie, which is secret string used to
-        access SOAP intefrace.
-    :type cookie: string
-    :param bugid: Bug to update
-    :type bugid: integer
-    :param updates: Updates to the bug. Please note that interface allows to
-        enter more updates at once, but in most cases such request fails. See
-        :func:`get_bug_update_xml` for description of this parameter.
-    :type updates: dictionary
-    :param url: Bugzilla SOAP interface URL.
-    :type url: string
-    :throw: :exc:`BugzillaUpdateError` in case of failure
+   .. method:: update_bug(bugid, callback=None, callback_param=None, whiteboard_add=None, whiteboard_remove=None, \*\*kwargs)
 
-    
-    Updates bug using SOAP interface.
+      :param bugid: Bug id
+      :type bugid: integer
 
-.. function:: get_bug_update_xml(updates)
+      Updates single bug in bugzilla.
 
-    :param updates: Updates to the bug.
-    :type updates: dictionary
 
-    Generates XML to update bug. This function should not be used directly and
-    is called internally from :func:`update_bug`.
+.. class:: APIBugzilla(user, password, base='https://apibugzilla.novell.com')
 
-    The update dictionary keys are fields to update, following fields are
-    currently supported
-    
-        * keywords (extended)
-        * cc (extended)
-        * comment (with private flag)
-        * product
-        * component
-        * status
-        * resolution
-        * assignee
-        * qa_contact
-        * url
-        * summary
-        * status_whiteboard
-        * hardware
-        * os
-        * found_in_version
-        * priority
-        * severity
-        * target_milestone
-        * original_estimate
-        * deadline
-        * partner_id
-        * found_by
-        * business_priority
-        * services_priority
-        * nts_support_number
+    Wrapper around :class:`suseapi.bugzilla.Bugzilla` class to use HTTP
+    authentization instead of iChain.
 
-    The fields which have no comment allow only to replace whole value of the
-    field and expect new value to be stored in dictionary.
+.. class:: DjangoBugzilla(user, password, base='https://apibugzilla.novell.com')
 
-    The comment field allows to specify private flag for a comment, so you can
-    specify value either as string (no private flag will be set) or as a
-    tuple, where second member is a boolean indicating private flag.
+    Wrapper around :class:`suseapi.bugzilla.APIBugzilla` class to use Django
+    logging.
 
-    The extended fields (keywords and cc currently) allow finer grained
-    control - you can add/delete parts or replace whole value. In this case
-    function expects tuple, where first member is action to perform (``add``,
-    ``delete`` or ``replace``) and second member is the value.
+.. function:: get_django_bugzilla()
+
+    :rtype: object
+    :return: DjangoBugzilla instance
+
+    Constructs :class:`DjangoBugzilla` objects with cookie persistence in
+    Django cache, so the there is no need to login on every request.
