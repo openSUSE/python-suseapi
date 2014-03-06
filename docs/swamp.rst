@@ -1,7 +1,7 @@
-:mod:`suse.swamp`
+:mod:`suseapi.swamp`
 =================
 
-.. module:: suse.swamp
+.. module:: suseapi.swamp
    :synopsis: SWAMP access library.
 
 .. index:: single: SOAP

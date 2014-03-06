@@ -1,7 +1,7 @@
-:mod:`suse.userinfo`
+:mod:`suseapi.userinfo`
 ====================
 
-.. module:: suse.userinfo
+.. module:: suseapi.userinfo
     :synopsis: LDAP access library.
 
 .. index:: single: LDAP
@@ -44,5 +44,5 @@ LDAP and provides some convenience functions.
 
 .. class:: DjangoUserInfo(server, base)
 
-    Wrapper around :class:`suse.ldap` class to use Django settings and cache
+    Wrapper around :class:`suseapi.ldap` class to use Django settings and cache
     results in Django cache.

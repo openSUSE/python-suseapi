@@ -1,7 +1,7 @@
-:mod:`suse.bugzilla`
+:mod:`suseapi.bugzilla`
 ====================
 
-.. module:: suse.bugzilla
+.. module:: suseapi.bugzilla
    :synopsis: Bugzilla access library.
 
 .. index:: single: SOAP
