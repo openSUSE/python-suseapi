@@ -14,6 +14,6 @@ Searching for bugs changed in last hour::
 
     from suseapi.bugzilla import Bugzilla
     bugzilla = Bugzilla('user', 'pass')
-    bugs = self.bugzilla.do_search([
+    bugs = bugzilla.bugzilla.do_search([
         ('chfieldfrom', '1h'),
     ])
