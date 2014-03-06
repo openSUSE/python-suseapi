@@ -104,6 +104,9 @@ read Bugzilla and SOAP service for writing to Bugzilla.
       :rtype: list of integers
       :throw: :exc:`BuglistTooLarge` in case search result is too long.
 
+      Searches for bugs matching given criteria, you can construct the query
+      based on the bugzilla web interface.
+
    .. method:: get_recent_bugs(startdate)
 
       :param startdate: Date from which to search.
