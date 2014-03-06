@@ -18,13 +18,14 @@ LDAP and provides some convenience functions.
 
    LDAP class wrapping ldap access.
 
-   .. method:: search_uid(base, uid, attribs=['cn', 'mail', 'ou'])
+   .. method:: search_uid(base, uid, attribs=None)
 
       :param base: Search base
       :type base: string
       :param uid: Search string
       :type uid: string
-      :param attribs: Attributes to read from LDAP
+      :param attribs: Attributes to read from LDAP, defaults to
+      :default attribs: ['cn', 'mail', 'ou', 'sn', 'givenName']
       :type attribs: list of strings
       :rtype: list of dictionaries
       :return: Search results
