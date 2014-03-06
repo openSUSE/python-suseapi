@@ -13,7 +13,7 @@ Contents:
 
    swamp
    bugzilla
-   ldap
+   userinfo
 
 
 Indices and tables
