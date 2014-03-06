@@ -11,6 +11,9 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   swamp
+   bugzilla
+   ldap
 
 
 Indices and tables
