@@ -16,6 +16,8 @@ python-suseapi
 Python module to work with various SUSE services. Please note that many of them
 are internal only.
 
+Documentation is available at http://python-suseapi.readthedocs.org/.
+
 Bugzilla
 --------
 
