@@ -9,10 +9,6 @@
 This module allows remote access to Bugzilla. It wraps XML interface to
 read Bugzilla and SOAP service for writing to Bugzilla.
 
-.. exception:: WebScraperError
-
-   Base class for all web scaper errors.
-
 .. exception:: BugzillaError
 
    Base class for all Bugzilla errors.
