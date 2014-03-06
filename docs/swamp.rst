@@ -7,8 +7,8 @@
 .. index:: single: SOAP
            single: suds
 
-This module allows remote access to SWAMP service. It is basically just a
-wrapper around suds to workaround some weirdness which SWAMP SOAP interface
+This module allows remote access to :index:`SWAMP` service. It is basically just a
+wrapper around suds to workaround some weirdness which SWAMP :index:`SOAP` interface
 exposes.
 
 
