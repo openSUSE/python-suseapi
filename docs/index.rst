@@ -11,11 +11,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   browser
-   bugzilla
-   srinfo
-   swamp
-   userinfo
+   examples
+   api
 
 
 Indices and tables
