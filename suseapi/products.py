@@ -28,6 +28,8 @@ def codestream_name(name):
     '''
     # Standard replacing magic
     dist = name.upper().replace(
+        'SLE12', 'SLE-12'
+    ).replace(
         'SLE11', 'SLE-11'
     ).replace(
         'SLE10', 'SLE-10'
