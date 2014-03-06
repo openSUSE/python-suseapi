@@ -1,5 +1,5 @@
 :mod:`suseapi.browser`
-=======================
+======================
 
 .. module:: suseapi.browser
    :synopsis: Web browser emulation class
@@ -21,8 +21,14 @@ abstraction for our needs.
 
     .. method:: set_cookies(cookies)
 
-        Sets browser cookies.
+        :param cookies: Cookies to set
+        :type cookies: List of strings
+
+        Sets authentication cookies. 
 
     .. method:: get_cookies()
 
-        Returns list of current browser cookies.
+        :return: Authentication cookies
+        :rtype: List of strings
+
+        Gets list of authentication cookies. 

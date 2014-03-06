@@ -21,6 +21,14 @@ read Bugzilla and SOAP service for writing to Bugzilla.
    
    Bug was not found.
 
+.. exception:: BugzillaInvalidBugId
+   
+   Bug ID is invalid.
+
+.. exception:: BugzillaConnectionError
+
+   Failed to connect to bugzilla.
+
 .. exception:: BugzillaLoginFailed
 
    Login failed.
@@ -29,18 +37,14 @@ read Bugzilla and SOAP service for writing to Bugzilla.
 
    The search result is too long.
 
-.. exception:: URLError
-
-   URL error while talking to Bugzilla.
-
 .. exception:: BugzillaUpdateError
 
    Error while updating bugzilla field.
 
-.. class:: Bug(et)
+.. class:: Bug(bug_et, anonymous=False)
 
-   :param et: Data obtained from XML interface
-   :type et: ElementTree instance
+   :param bug_et: Data obtained from XML interface
+   :type bug_et: ElementTree instance
 
    This class holds all data for single bug from Bugzilla.
 
@@ -56,20 +60,7 @@ read Bugzilla and SOAP service for writing to Bugzilla.
    Bugzilla communication class for read only access. With iChain
    authentication. The authentication part is expensive so it is good idea to
    remember authentication cookies and reuse them as much as possible.
-
-   .. method:: set_cookies(cookies)
-
-      :param cookies: Cookies to set
-      :type cookies: List of strings
-
-      Sets authentication cookies. 
-
-   .. method:: get_cookies()
-
-      :return: Authentication cookies
-      :rtype: List of strings
-
-      Gets list of authentication cookies. 
+   It is subclass of :class:`suseapi.browser.WebScraper`.
 
    .. method:: login()
 
