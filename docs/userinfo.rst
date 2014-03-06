@@ -1,5 +1,5 @@
 :mod:`suseapi.userinfo`
-====================
+=======================
 
 .. module:: suseapi.userinfo
     :synopsis: LDAP access library.

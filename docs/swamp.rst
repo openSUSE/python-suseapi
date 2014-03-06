@@ -1,5 +1,5 @@
 :mod:`suseapi.swamp`
-=================
+====================
 
 .. module:: suseapi.swamp
    :synopsis: SWAMP access library.

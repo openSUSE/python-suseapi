@@ -1,5 +1,5 @@
 :mod:`suseapi.bugzilla`
-====================
+=======================
 
 .. module:: suseapi.bugzilla
    :synopsis: Bugzilla access library.
