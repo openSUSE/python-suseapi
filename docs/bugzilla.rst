@@ -4,8 +4,7 @@
 .. module:: suseapi.bugzilla
    :synopsis: Bugzilla access library.
 
-.. index:: single: SOAP
-           single: XML
+.. index:: single: XML
 
 This module allows remote access to Bugzilla. It wraps XML interface to
 read Bugzilla and SOAP service for writing to Bugzilla.
