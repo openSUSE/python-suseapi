@@ -6,3 +6,7 @@ include requirements-test.txt
 include suseapi/testdata/*
 include suseapi/testdata/maintained/*
 include suseapi/testdata/maintained/.svn-entries
+include docs/Makefile
+include docs/make.bat
+include docs/conf.py
+include docs/*.rst
