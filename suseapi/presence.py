@@ -83,7 +83,9 @@ class Presence(CacherMixin):
         '''
         absences = []
         gather_data = 0
-        for line in handle:
+        data = handle.read().decode('utf-8')
+
+        for line in data.splitlines():
             line = line.rstrip()
             match = re.match(r"Login\s*:\s*(%s)\s*$" % who, line)
             if match:
@@ -124,7 +126,7 @@ class Presence(CacherMixin):
             sock.connect((host, 9874))
             if not no_send:
                 sock.send(who + "\n")
-            handle = sock.makefile('r', 0)
+            handle = sock.makefile('rb', 0)
             absences = self._process_data(handle, who)
 
         except socket.error as error:

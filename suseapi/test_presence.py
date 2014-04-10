@@ -28,7 +28,7 @@ import threading
 
 from suseapi.presence import trim_weekends, Presence
 
-RESPONSE = '''
+RESPONSE = b'''
 ------------------------------------------------------------
 Name       : Michal Cihar
 Login      : mcihar
