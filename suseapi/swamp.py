@@ -279,7 +279,7 @@ class WebSWAMP(WebScraper):
         self.browser['password'] = self.password
         response = self._submit()
         data = response.read()
-        if not 'Logout' in data:
+        if 'Logout' not in data:
             raise WebSWAMPError('Failed to login!')
 
     def create(self, main_bug, extra_bugs, packages, maintainer=None):
