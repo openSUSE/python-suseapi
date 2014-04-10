@@ -74,13 +74,13 @@ class WebScraper(object):
         self.browser.set_cookiejar(self.cookiejar)
 
         # Log information about HTTP redirects and Refreshes.
-        #self.browser.set_debug_redirects(True)
+        # self.browser.set_debug_redirects(True)
 
         # Log HTTP response bodies (ie. the HTML, most of the time).
-        #self.browser.set_debug_responses(True)
+        # self.browser.set_debug_responses(True)
 
         # Print HTTP headers.
-        #self.browser.set_debug_http(True)
+        # self.browser.set_debug_http(True)
 
         # Ignore robots.txt
         self.browser.set_handle_robots(False)
