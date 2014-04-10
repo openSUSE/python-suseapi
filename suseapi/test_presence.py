@@ -44,7 +44,10 @@ Absence    : Fri 2013-10-25 - Mon 2013-10-28
 '''
 
 
-import SocketServer
+try:
+    import SocketServer
+except ImportError:
+    import socketserver as SocketServer
 
 
 class MyTCPHandler(SocketServer.BaseRequestHandler):
