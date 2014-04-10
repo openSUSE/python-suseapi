@@ -38,6 +38,12 @@ from suseapi.browser import WebScraper, WebScraperError
 
 SR_MATCH = re.compile(r'\[(\d+)\]')
 
+IGNORABLE_FIELDS = frozenset((
+    'commentprivacy',
+    'comment_is_private',
+    'addselfcc',
+))
+
 
 class BugzillaError(WebScraperError):
     '''Generic error'''
@@ -502,7 +508,11 @@ class Bugzilla(WebScraper):
             val = kwargs[k]
             if type(val) == unicode:
                 val = val.encode('utf-8')
-            self.browser[k] = val
+            try:
+                self.browser[k] = val
+            except ControlNotFoundError:
+                if k not in IGNORABLE_FIELDS:
+                    raise
             changes = True
 
         # Callback can adjust data on fly
