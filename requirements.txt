@@ -1,5 +1,5 @@
 Django>=1.4
 mechanize
 python-dateutil
-suds
+suds-jurko
 beautifulsoup4
