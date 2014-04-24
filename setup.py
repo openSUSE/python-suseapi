@@ -27,7 +27,7 @@ LONG_DESCRIPTION = """
 python-suseapi is set of helpers to access various SUSE APIs.
 """
 
-REQUIRES = file('requirements.txt').read().split()
+REQUIRES = open('requirements.txt').read().split()
 
 setup(
     name='python-suseapi',
