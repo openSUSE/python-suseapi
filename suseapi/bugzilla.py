@@ -436,6 +436,8 @@ class Bugzilla(WebScraper):
             ('bug_status', 'ASSIGNED'),
             ('bug_status', 'NEEDINFO'),
             ('bug_status', 'REOPENED'),
+            ('component', 'Incidents'),
+            ('product', 'SUSE Security Incidents'),
             ('short_desc_type', 'regexp')
         ])
 
@@ -448,6 +450,8 @@ class Bugzilla(WebScraper):
             ('query_format', 'advanced'),
             ('short_desc_type', 'regexp'),
             ('chfieldto', 'Now'),
+            ('component', 'Incidents'),
+            ('product', 'SUSE Security Incidents'),
             ('chfieldfrom', startdate.strftime('%Y-%m-%d %H:%M:%S +0000'))
         ])
 
