@@ -425,6 +425,36 @@ class Bugzilla(WebScraper):
             ('chfieldfrom', startdate.strftime('%Y-%m-%d %H:%M:%S +0000'))
         ])
 
+    def get_opensec_bugs(self):
+        '''
+        Searches for security related bugs
+        '''
+        return self.do_search([
+            ('short_desc', '^VUL-[0-9]'),
+            ('query_format', 'advanced'),
+            ('bug_status', 'NEW'),
+            ('bug_status', 'ASSIGNED'),
+            ('bug_status', 'NEEDINFO'),
+            ('bug_status', 'REOPENED'),
+            ('component', 'Incidents'),
+            ('product', 'SUSE Security Incidents'),
+            ('short_desc_type', 'regexp')
+        ])
+
+    def get_recent_secbugs(self, startdate):
+        '''
+        Returns lis of security bugs changed since start date.
+        '''
+        return self.do_search([
+            ('short_desc', '^VUL-[0-9]'),
+            ('query_format', 'advanced'),
+            ('short_desc_type', 'regexp'),
+            ('chfieldto', 'Now'),
+            ('component', 'Incidents'),
+            ('product', 'SUSE Security Incidents'),
+            ('chfieldfrom', startdate.strftime('%Y-%m-%d %H:%M:%S +0000'))
+        ])
+
     def get_openl3_bugs(self):
         '''
         Searches for bugs with openL3 in whiteboard.
