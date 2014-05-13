@@ -14,6 +14,7 @@ Contents:
    install
    examples
    api
+   develop
 
 
 Indices and tables
