@@ -46,7 +46,9 @@ read Bugzilla and SOAP service for writing to Bugzilla.
    :param bug_et: Data obtained from XML interface
    :type bug_et: ElementTree instance
 
-   This class holds all data for single bug from Bugzilla.
+   This class holds all data for single bug from Bugzilla. All XML elements 
+   are parsed to the Bug class attributes, so you can access them like 
+   ``bug.bug_severity``.
 
 .. class:: Bugzilla(user, password, base='https://bugzilla.novell.com')
 
