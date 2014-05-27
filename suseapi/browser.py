@@ -30,8 +30,6 @@ import cookielib
 DEFAULT_TIMEOUT = 5.0
 
 
-
-
 class WebScraperError(Exception):
     '''
     Web scaper class.
