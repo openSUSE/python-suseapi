@@ -277,7 +277,7 @@ class WebSWAMP(WebScraper):
         self.browser.select_form(name='loginform')
         self.browser['username'] = self.user
         self.browser['password'] = self.password
-        response = self._submit()
+        response = self.submit()
         data = response.read()
         if 'Logout' not in data:
             raise WebSWAMPError('Failed to login!')
@@ -309,7 +309,7 @@ class WebSWAMP(WebScraper):
         self.browser['field_%s' % FIELD_PACKAGES] = ','.join(packages)
         if maintainer is not None:
             self.browser['field_%s' % FIELD_MAINTAINER] = maintainer
-        self._submit()
+        self.submit()
 
         return ids[0]
 
@@ -327,7 +327,7 @@ class WebSWAMP(WebScraper):
         if release_date is not None:
             date_str = release_date.strftime('%Y-%m-%d')
             self.browser['field_%s' % FIELD_DATE] = date_str
-        self._submit()
+        self.submit()
 
 
 def get_django_webswamp(request):

@@ -134,7 +134,7 @@ class WebScraper(object):
             url, params, timeout=DEFAULT_TIMEOUT
         )
 
-    def _submit(self):
+    def submit(self):
         '''
         Submits currently selected browser form.
         '''

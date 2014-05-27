@@ -112,7 +112,7 @@ class WebSraperTest(TestCase):
             scraper = WebScraper(None, None, 'http://localhost:8888')
             scraper.request('foo')
             scraper.browser.select_form(nr=0)
-            self.assertRaises(WebScraperError, scraper._submit)
+            self.assertRaises(WebScraperError, scraper.submit)
             self.assertRaises(WebScraperError, scraper.request, 'bar?')
         finally:
             suseapi.browser.DEFAULT_TIMEOUT = original_timeout

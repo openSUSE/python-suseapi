@@ -257,7 +257,7 @@ class Bugzilla(WebScraper):
         try:
             # Submit fake javascript form
             self.browser.select_form(nr=0)
-            response = self._submit()
+            response = self.submit()
 
             # Find the login form
             self.browser.select_form(nr=0)
@@ -268,7 +268,7 @@ class Bugzilla(WebScraper):
             raise BugzillaLoginFailed('Failed to parse HTML for login!')
 
         self.logger.info('Doing login')
-        response = self._submit()
+        response = self.submit()
 
         text = response.read()
 
@@ -572,7 +572,7 @@ class Bugzilla(WebScraper):
             return
 
         # Submit
-        resp = self._submit()
+        resp = self.submit()
         data = resp.read()
         if data.find('Mid-air collision!') != -1:
             raise BugzillaUpdateError('Mid-air collision!')
