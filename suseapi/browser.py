@@ -30,11 +30,34 @@ import cookielib
 DEFAULT_TIMEOUT = 5.0
 
 
+
+
 class WebScraperError(Exception):
     '''
     Web scaper class.
     '''
     pass
+
+
+def webscraper_safely(call, *args, **kwargs):
+    '''
+    Wrapper to handle errors in HTTP requests.
+    '''
+    try:
+        return call(*args, **kwargs)
+    except urllib2.URLError as exc:
+        for attrname in ('reason', 'msg', 'message'):
+            value = getattr(exc, attrname, '')
+            if value:
+                raise WebScraperError(value)
+            raise WebScraperError(str(exc))
+        raise WebScraperError('Unknown url error (%s)' % str(exc))
+    except httplib.BadStatusLine as exc:
+        raise WebScraperError('Bad status line (%s)' % str(exc))
+    except socket.error as exc:
+        raise WebScraperError('Socket error: %s' % str(exc))
+    except IOError as exc:
+        raise WebScraperError('IO error: %s' % str(exc))
 
 
 class TimeoutRequest(mechanize.Request):
@@ -92,26 +115,6 @@ class WebScraper(object):
         if useragent is not None:
             self.browser.addheaders = [('User-agent', useragent)]
 
-    def _safely(self, call, *args, **kwargs):
-        '''
-        Wrapper to handle errors in HTTP requests.
-        '''
-        try:
-            return call(*args, **kwargs)
-        except urllib2.URLError as exc:
-            for attrname in ('reason', 'msg', 'message'):
-                value = getattr(exc, attrname, '')
-                if value:
-                    raise WebScraperError(value)
-                raise WebScraperError(str(exc))
-            raise WebScraperError('Unknown url error (%s)' % str(exc))
-        except httplib.BadStatusLine as exc:
-            raise WebScraperError('Bad status line (%s)' % str(exc))
-        except socket.error as exc:
-            raise WebScraperError('Socket error: %s' % str(exc))
-        except IOError as exc:
-            raise WebScraperError('IO error: %s' % str(exc))
-
     def _get_req_url(self, action):
         '''
         Formats request URL based on action.
@@ -129,7 +132,7 @@ class WebScraper(object):
             params = None
         else:
             params = urllib.urlencode(kwargs)
-        return self._safely(
+        return webscraper_safely(
             self.browser.open,
             url, params, timeout=DEFAULT_TIMEOUT
         )
@@ -138,7 +141,7 @@ class WebScraper(object):
         '''
         Submits currently selected browser form.
         '''
-        return self._safely(
+        return webscraper_safely(
             self.browser.submit,
             request_class=TimeoutRequest
         )
