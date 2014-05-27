@@ -507,11 +507,10 @@ class Bugzilla(WebScraper):
         # Convert to integers
         return [int(x) for x in match]
 
-    def update_bug(self, bugid, callback=None, callback_param=None,
-                   whiteboard_add=None, whiteboard_remove=None, **kwargs):
-        '''
-        Updates bugzilla.
-        '''
+    def load_update_form(self, bugid):
+        """
+        Selects form for bug update.
+        """
         if self.anonymous:
             raise BugzillaUpdateError('No updates in anonymous mode!')
 
@@ -525,13 +524,20 @@ class Bugzilla(WebScraper):
 
         self.check_viewing_html()
 
-        changes = False
-
         # Find the form
         try:
             self.browser.select_form(name="changeform")
         except FormNotFoundError:
             raise BugzillaUpdateError('Failed to parse HTML to update bug!')
+
+    def update_bug(self, bugid, callback=None, callback_param=None,
+                   whiteboard_add=None, whiteboard_remove=None, **kwargs):
+        '''
+        Updates bugzilla.
+        '''
+        self.load_update_form(bugid)
+
+        changes = False
 
         # Set parameters
         for k in kwargs:
