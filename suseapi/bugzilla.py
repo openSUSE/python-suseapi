@@ -539,6 +539,11 @@ class Bugzilla(WebScraper):
 
         changes = False
 
+        # Do not add ourselves to CC when setting whiteboard
+        if ((whiteboard_add is not None or whiteboard_remove is not None)
+                and 'addselfcc' not in kwargs):
+            kwargs['addselfcc'] = []
+
         # Set parameters
         for k in kwargs:
             val = kwargs[k]
@@ -589,12 +594,6 @@ class Bugzilla(WebScraper):
         changes = (self.browser['status_whiteboard'] != whiteboard)
 
         self.browser['status_whiteboard'] = whiteboard
-
-        # Do not add ourselves to cc
-        try:
-            self.browser['addselfcc'] = []
-        except ControlNotFoundError:
-            pass
 
         return changes
 
