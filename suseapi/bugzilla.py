@@ -617,6 +617,9 @@ class APIBugzilla(Bugzilla):
         '''
         Checks login to Bugzilla using HTTP authentication.
         '''
+        if not self.user or not self.password:
+            raise ValueError('No credentials supplied')
+
         self.logger.info('Getting login page')
         self.request('index', GoAheadAndLogIn=1)
 
