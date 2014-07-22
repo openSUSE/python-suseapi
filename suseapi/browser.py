@@ -34,7 +34,9 @@ class WebScraperError(Exception):
     '''
     Web scraper error class.
     '''
-    pass
+    def __init__(self, message, original=None):
+        super(WebScraperError, self).__init__(message)
+        self.original = original
 
 
 def webscraper_safely(call, *args, **kwargs):
@@ -47,14 +49,14 @@ def webscraper_safely(call, *args, **kwargs):
         for attrname in ('reason', 'msg', 'message'):
             value = getattr(exc, attrname, '')
             if value:
-                raise WebScraperError('URL error: {0!s}'.format(value))
-        raise WebScraperError('Unknown URL error: {0!s}'.format(exc))
+                raise WebScraperError('URL error: {0!s}'.format(value), exc)
+        raise WebScraperError('Unknown URL error: {0!s}'.format(exc), exc)
     except httplib.HTTPException as exc:
-        raise WebScraperError('HTTP error: {0!s}'.format(exc))
+        raise WebScraperError('HTTP error: {0!s}'.format(exc), exc)
     except socket.error as exc:
-        raise WebScraperError('Socket error: {0!s}'.format(exc))
+        raise WebScraperError('Socket error: {0!s}'.format(exc), exc)
     except IOError as exc:
-        raise WebScraperError('IO error: {0!s}'.format(exc))
+        raise WebScraperError('IO error: {0!s}'.format(exc), exc)
 
 
 class TimeoutRequest(mechanize.Request):
