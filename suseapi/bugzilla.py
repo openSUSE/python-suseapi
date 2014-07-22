@@ -234,7 +234,7 @@ class Bugzilla(WebScraper):
                 and self.cookie_set):
             self.cookie_set = False
             self.cookiejar.clear()
-            self.login()
+            self.login(force=True)
             return True
         return False
 
@@ -283,7 +283,7 @@ class Bugzilla(WebScraper):
         except LinkNotFoundError:
             return False
 
-    def login(self):
+    def login(self, force=False):
         '''
         Login to Bugzilla using Access Manager.
         '''
@@ -649,7 +649,7 @@ class APIBugzilla(Bugzilla):
         else:
             self.browser.add_password(base + '/', user, password)
 
-    def login(self):
+    def login(self, force=False):
         '''
         Checks login to Bugzilla using HTTP authentication.
         '''
@@ -686,6 +686,21 @@ class DjangoBugzilla(APIBugzilla):
         mail_admins(subject, message, fail_silently=True)
         super(DjangoBugzilla, self).log_parse_error(bugid, data)
 
+    def login(self, force=False):
+        """
+        Login with caching cookies in Django.
+        """
+        if force:
+            cookies = None
+        else:
+            cookies = cache.get('bugzilla-access-cookies')
+
+        if cookies is None:
+            bugzilla.login(force)
+            cache.set('bugzilla-access-cookies', bugzilla.get_cookies())
+        else:
+            bugzilla.set_cookies(cookies)
+
 
 def get_django_bugzilla():
     '''
@@ -704,12 +719,6 @@ def get_django_bugzilla():
     if settings.BUGZILLA_USERNAME == '':
         return bugzilla
 
-    cookies = cache.get('bugzilla-access-cookies')
-
-    if cookies is None:
-        bugzilla.login()
-        cache.set('bugzilla-access-cookies', bugzilla.get_cookies())
-    else:
-        bugzilla.set_cookies(cookies)
+    bugzilla.login()
 
     return bugzilla
