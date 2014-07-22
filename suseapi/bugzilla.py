@@ -48,7 +48,7 @@ IGNORABLE_FIELDS = frozenset((
 class BugzillaError(WebScraperError):
     '''Generic error'''
     def __init__(self, error, bug_id=None):
-        super(BugzillaError, self).__init__()
+        super(BugzillaError, self).__init__(error)
         self.bug_id = bug_id
         self.error = error
 
