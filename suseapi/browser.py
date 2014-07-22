@@ -53,7 +53,7 @@ def webscraper_safely(call, *args, **kwargs):
         raise WebScraperError('Unknown URL error: {0!s}'.format(exc), exc)
     except httplib.HTTPException as exc:
         raise WebScraperError(
-            'HTTP error {0!s}: {0!s}'.format(exc.__name__, exc),
+            'HTTP error {0!s}: {1!s}'.format(type(exc).__name__, exc),
             exc
         )
     except socket.error as exc:
