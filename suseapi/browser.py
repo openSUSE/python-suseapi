@@ -47,15 +47,14 @@ def webscraper_safely(call, *args, **kwargs):
         for attrname in ('reason', 'msg', 'message'):
             value = getattr(exc, attrname, '')
             if value:
-                raise WebScraperError(value)
-            raise WebScraperError(str(exc))
-        raise WebScraperError('Unknown url error (%s)' % str(exc))
+                raise WebScraperError('URL error: {0!s}'.format(value))
+        raise WebScraperError('Unknown URL error: {0!s}'.format(exc))
     except httplib.BadStatusLine as exc:
-        raise WebScraperError('Bad status line (%s)' % str(exc))
+        raise WebScraperError('Bad status line: {0!s}'.format(exc))
     except socket.error as exc:
-        raise WebScraperError('Socket error: %s' % str(exc))
+        raise WebScraperError('Socket error: {0!s}'.format(exc))
     except IOError as exc:
-        raise WebScraperError('IO error: %s' % str(exc))
+        raise WebScraperError('IO error: {0!s}'.format(exc))
 
 
 class TimeoutRequest(mechanize.Request):
