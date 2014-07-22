@@ -49,8 +49,8 @@ def webscraper_safely(call, *args, **kwargs):
             if value:
                 raise WebScraperError('URL error: {0!s}'.format(value))
         raise WebScraperError('Unknown URL error: {0!s}'.format(exc))
-    except httplib.BadStatusLine as exc:
-        raise WebScraperError('Bad status line: {0!s}'.format(exc))
+    except httplib.HTTPException as exc:
+        raise WebScraperError('HTTP error: {0!s}'.format(exc))
     except socket.error as exc:
         raise WebScraperError('Socket error: {0!s}'.format(exc))
     except IOError as exc:
