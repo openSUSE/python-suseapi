@@ -34,7 +34,7 @@ class CacherTest(TestCase):
         self.cache = CacherMixin()
 
     def test_empty(self):
-        self.assertIsNone(self.cache.cache_get('empty'))
+        self.assertTrue(self.cache.cache_get('empty') is None)
 
     def test_set(self):
         self.cache.cache_set('value', 42)
