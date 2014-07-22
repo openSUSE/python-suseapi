@@ -233,7 +233,7 @@ class Bugzilla(WebScraper):
                 and error.original.code == 502
                 and self.cookie_set):
             self.logger.warning(
-                'Got 502 (Bad Gateway), trying to clear cookies and login again'
+                'Got 502 (Bad Gateway), clearing cookies and loging in again'
             )
             self.cookie_set = False
             self.cookiejar.clear()
