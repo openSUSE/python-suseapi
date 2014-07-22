@@ -34,6 +34,7 @@ from suseapi.bugzilla import (
     BugzillaLoginFailed,
     BugzillaInvalidBugId,
     BugzillaNotFound,
+    get_django_bugzilla,
 )
 
 TEST_DATA = os.path.join(
@@ -113,6 +114,15 @@ class BugzillaTest(TestCase):
         bugzilla = Bugzilla('', '')
         self.assertRaises(BugzillaLoginFailed, bugzilla.login)
 
+    @httpretty.activate
+    def test_django(self):
+        os.environ['DJANGO_SETTINGS_MODULE'] = 'suseapi.django_test_settings'
+
+        from django.core.cache import cache
+
+        cache.set('bugzilla-access-cookies', [])
+
+        bugzilla = get_django_bugzilla()
 
     @httpretty.activate
     def test_apilogin(self):
