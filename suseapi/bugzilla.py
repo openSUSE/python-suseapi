@@ -224,6 +224,42 @@ class Bugzilla(WebScraper):
         )
         self.logger = logging.getLogger('suse.bugzilla')
 
+    def possible_relogin(self, error):
+        """
+        Logins again to workaround possible bad cookies.
+        """
+        if (error.original
+                and hasattr(error.original, 'code')
+                and error.original.code == 502
+                and self.cookie_set):
+            self.cookie_set = False
+            self.cookiejar.clear()
+            self.login()
+            return True
+        return False
+
+    def request(self, action, paramlist=None, **kwargs):
+        '''
+        Performs single request on a server (loads single page).
+        '''
+        try:
+            return super(Bugzilla, self).request(action, paramlist, **kwargs)
+        except WebScraperError as error:
+            if self.possible_relogin(error):
+                return super(Bugzilla, self).request(action, paramlist, **kwargs)
+            raise error
+
+    def submit(self):
+        '''
+        Submits currently selected browser form.
+        '''
+        try:
+            return super(Bugzilla, self).submit()
+        except WebScraperError as error:
+            if self.possible_relogin(error):
+                return super(Bugzilla, self).submit()
+            raise error
+
     def check_viewing_html(self):
         '''
         Checks whether the browser is in HTML viewing state.

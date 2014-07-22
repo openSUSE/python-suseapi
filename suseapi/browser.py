@@ -86,6 +86,7 @@ class WebScraper(object):
 
         # Cookie storage
         self.cookiejar = cookielib.CookieJar()
+        self.cookie_set = False
 
         # Browser instance
         self.browser = mechanize.Browser(
@@ -151,6 +152,7 @@ class WebScraper(object):
         '''
         for cookie in cookies:
             self.cookiejar.set_cookie(cookie)
+        self.cookie_set = True
 
     def get_cookies(self):
         '''
