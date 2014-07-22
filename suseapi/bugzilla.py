@@ -243,10 +243,14 @@ class Bugzilla(WebScraper):
         Performs single request on a server (loads single page).
         '''
         try:
-            return super(Bugzilla, self).request(action, paramlist, **kwargs)
+            return super(Bugzilla, self).request(
+                action, paramlist, **kwargs
+            )
         except WebScraperError as error:
             if self.possible_relogin(error):
-                return super(Bugzilla, self).request(action, paramlist, **kwargs)
+                return super(Bugzilla, self).request(
+                    action, paramlist, **kwargs
+                )
             raise error
 
     def submit(self):
