@@ -13,6 +13,10 @@ python-suseapi
     :alt: Code Health
     :target: https://landscape.io/github/nijel/python-suseapi/master
 
+.. image:: http://img.shields.io/pypi/dm/python-suseapi.svg
+    :alt: PyPi
+    :target: https://pypi.python.org/pypi/python-suseapi
+
 Python module to work with various SUSE services. Please note that many of them
 are internal only.
 
