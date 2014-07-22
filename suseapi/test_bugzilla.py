@@ -48,6 +48,14 @@ class BugzillaTest(TestCase):
     Bugzilla connector tests.
     '''
 
+    def httpretty_login(self):
+        httpretty.register_uri(
+            httpretty.POST,
+            'https://bugzilla.novell.com/index.cgi',
+            body='<html><body><a href="#">Log\xc2\xa0out</a></body></html>',
+            content_type='text/html',
+        )
+
     @httpretty.activate
     def test_get_bug(self):
         '''
@@ -123,18 +131,15 @@ class BugzillaTest(TestCase):
         cache.set('bugzilla-access-cookies', [])
 
         bugzilla = get_django_bugzilla()
+        self.httpretty_login()
+        bugzilla.login(force=True)
 
     @httpretty.activate
     def test_apilogin(self):
         '''
         Test login to novell bugzilla.
         '''
-        httpretty.register_uri(
-            httpretty.POST,
-            'https://bugzilla.novell.com/index.cgi',
-            body='<html><body><a href="#">Log\xc2\xa0out</a></body></html>',
-            content_type='text/html',
-        )
+        self.httpretty_login()
         bugzilla = APIBugzilla('', '')
         bugzilla.login()
 
