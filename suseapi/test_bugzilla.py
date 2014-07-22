@@ -28,6 +28,7 @@ import os
 import httpretty
 
 from suseapi.bugzilla import (
+    APIBugzilla,
     Bugzilla,
     BugzillaNotPermitted,
     BugzillaLoginFailed,
@@ -111,6 +112,21 @@ class BugzillaTest(TestCase):
         )
         bugzilla = Bugzilla('', '')
         self.assertRaises(BugzillaLoginFailed, bugzilla.login)
+
+
+    @httpretty.activate
+    def test_apilogin(self):
+        '''
+        Test login to novell bugzilla.
+        '''
+        httpretty.register_uri(
+            httpretty.POST,
+            'https://bugzilla.novell.com/index.cgi',
+            body='<html><body><a href="#">Log\xc2\xa0out</a></body></html>',
+            content_type='text/html',
+        )
+        bugzilla = APIBugzilla('', '')
+        bugzilla.login()
 
     @httpretty.activate
     def test_recent(self):
