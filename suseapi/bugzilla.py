@@ -690,16 +690,17 @@ class DjangoBugzilla(APIBugzilla):
         """
         Login with caching cookies in Django.
         """
+        from django.core.cache import cache
         if force:
             cookies = None
         else:
             cookies = cache.get('bugzilla-access-cookies')
 
         if cookies is None:
-            bugzilla.login(force)
-            cache.set('bugzilla-access-cookies', bugzilla.get_cookies())
+            super(DjangoBugzilla, self).login(force)
+            cache.set('bugzilla-access-cookies', self.get_cookies())
         else:
-            bugzilla.set_cookies(cookies)
+            self.set_cookies(cookies)
 
 
 def get_django_bugzilla():
@@ -707,7 +708,6 @@ def get_django_bugzilla():
     Returns logged in bugzilla object. Access cookies are stored in django
     cache.
     '''
-    from django.core.cache import cache
     from django.conf import settings
     bugzilla = DjangoBugzilla(
         settings.BUGZILLA_USERNAME,
