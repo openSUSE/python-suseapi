@@ -32,7 +32,7 @@ DEFAULT_TIMEOUT = 5.0
 
 class WebScraperError(Exception):
     '''
-    Web scaper class.
+    Web scraper error class.
     '''
     pass
 
