@@ -48,6 +48,7 @@ class BugzillaTest(TestCase):
     '''
     Bugzilla connector tests.
     '''
+    _backup = {}
 
     def httpretty_login(self):
         httpretty.register_uri(
@@ -129,58 +130,87 @@ class BugzillaTest(TestCase):
         bugzilla = Bugzilla('', '')
         self.assertRaises(BugzillaLoginFailed, bugzilla.login)
 
+    def override_django_settings(self):
+        if 'DJANGO_SETTINGS_MODULE' in os.environ:
+            # Executed in Django context
+            from django.conf import settings
+            for setting in ('BUGZILLA_USERNAME', 'BUGZILLA_PASSWORD'):
+                self._backup[setting] = getattr(settings, setting, '')
+                setattr(settings, setting, 'test')
+        else:
+            # Non Django testing
+            os.environ['DJANGO_SETTINGS_MODULE'] = 'suseapi.django_test_settings'
+
+    def restore_django_settings(self):
+        if 'BUGZILLA_USERNAME' in self._backup:
+            from django.conf import settings
+            for setting in ('BUGZILLA_USERNAME', 'BUGZILLA_PASSWORD'):
+                setattr(settings, setting, self._backup[setting])
+
     @httpretty.activate
     def test_django_cache(self):
-        os.environ['DJANGO_SETTINGS_MODULE'] = 'suseapi.django_test_settings'
+        self.override_django_settings()
 
-        from django.core.cache import cache
-        cache.set('bugzilla-access-cookies', [])
+        try:
+            from django.core.cache import cache
+            cache.set('bugzilla-access-cookies', [])
 
-        bugzilla = get_django_bugzilla()
-        self.assertTrue(bugzilla.cookie_set)
+            bugzilla = get_django_bugzilla()
+            self.assertTrue(bugzilla.cookie_set)
+        finally:
+            self.restore_django_settings()
 
     @httpretty.activate
     def test_django_login(self):
-        os.environ['DJANGO_SETTINGS_MODULE'] = 'suseapi.django_test_settings'
+        self.override_django_settings()
 
-        from django.core.cache import cache
-        cache.delete('bugzilla-access-cookies')
+        try:
+            from django.core.cache import cache
+            cache.delete('bugzilla-access-cookies')
 
-        self.httpretty_login()
-        bugzilla = get_django_bugzilla()
-        self.assertFalse(bugzilla.cookie_set)
+            self.httpretty_login()
+            bugzilla = get_django_bugzilla()
+            self.assertFalse(bugzilla.cookie_set)
+        finally:
+            self.restore_django_settings()
 
     @httpretty.activate
     def test_django_relogin(self):
-        os.environ['DJANGO_SETTINGS_MODULE'] = 'suseapi.django_test_settings'
+        self.override_django_settings()
 
-        from django.core.cache import cache
-        cache.set('bugzilla-access-cookies', [])
+        try:
+            from django.core.cache import cache
+            cache.set('bugzilla-access-cookies', [])
 
-        bugzilla = get_django_bugzilla()
-        self.assertTrue(bugzilla.cookie_set)
-        self.httpretty_login()
-        bugzilla.login(force=True)
+            bugzilla = get_django_bugzilla()
+            self.assertTrue(bugzilla.cookie_set)
+            self.httpretty_login()
+            bugzilla.login(force=True)
+        finally:
+            self.restore_django_settings()
 
     @httpretty.activate
     def test_django_auto_relogin(self):
-        os.environ['DJANGO_SETTINGS_MODULE'] = 'suseapi.django_test_settings'
+        self.override_django_settings()
 
-        from django.core.cache import cache
-        cache.set('bugzilla-access-cookies', [])
+        try:
+            from django.core.cache import cache
+            cache.set('bugzilla-access-cookies', [])
 
-        bugzilla = get_django_bugzilla()
-        self.assertTrue(bugzilla.cookie_set)
+            bugzilla = get_django_bugzilla()
+            self.assertTrue(bugzilla.cookie_set)
 
-        httpretty.register_uri(
-            httpretty.POST,
-            'https://apibugzilla.novell.com/show_bug.cgi',
-            status=502,
-        )
-        self.httpretty_login()
-        self.assertRaises(WebScraperError, bugzilla.get_bug, 81873)
+            httpretty.register_uri(
+                httpretty.POST,
+                'https://apibugzilla.novell.com/show_bug.cgi',
+                status=502,
+            )
+            self.httpretty_login()
+            self.assertRaises(WebScraperError, bugzilla.get_bug, 81873)
 
-        self.assertFalse(bugzilla.cookie_set)
+            self.assertFalse(bugzilla.cookie_set)
+        finally:
+            self.restore_django_settings()
 
     @httpretty.activate
     def test_apilogin(self):
