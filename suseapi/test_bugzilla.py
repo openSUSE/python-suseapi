@@ -139,7 +139,8 @@ class BugzillaTest(TestCase):
                 setattr(settings, setting, 'test')
         else:
             # Non Django testing
-            os.environ['DJANGO_SETTINGS_MODULE'] = 'suseapi.django_test_settings'
+            os.environ['DJANGO_SETTINGS_MODULE'] = \
+                'suseapi.django_test_settings'
 
     def restore_django_settings(self):
         if 'BUGZILLA_USERNAME' in self._backup:
