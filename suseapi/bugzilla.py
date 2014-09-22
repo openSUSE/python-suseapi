@@ -284,11 +284,16 @@ class Bugzilla(WebScraper):
         self.check_viewing_html()
 
         try:
-            self.browser.find_link(text='Log\xc2\xa0out')
+            self.browser.find_link(text='Log out')
             self.logger.info('Already logged in')
             return True
         except LinkNotFoundError:
-            return False
+            try:
+                self.browser.find_link(text='Log\xc2\xa0out')
+                self.logger.info('Already logged in')
+                return True
+            except LinkNotFoundError:
+                return False
 
     def login(self, force=False):
         '''
