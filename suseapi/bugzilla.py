@@ -281,6 +281,13 @@ class Bugzilla(WebScraper):
         self.logger.info('Getting login page')
         self.request('index', GoAheadAndLogIn=1)
 
+        return self._check_login()
+
+    def _check_login(self):
+        """
+        Checks whether current page is logged in.
+        """
+
         self.check_viewing_html()
 
         try:
@@ -668,13 +675,7 @@ class APIBugzilla(Bugzilla):
         self.logger.info('Getting login page')
         self.request('index', GoAheadAndLogIn=1)
 
-        self.check_viewing_html()
-
-        try:
-            self.browser.find_link(text='Log\xc2\xa0out')
-            self.logger.info('Already logged in')
-            return
-        except LinkNotFoundError:
+        if not self._check_login():
             raise BugzillaLoginFailed('Failed to login to bugzilla')
 
 
