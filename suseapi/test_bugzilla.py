@@ -60,7 +60,7 @@ class BugzillaTest(TestCase):
         httpretty.register_uri(
             httpretty.POST,
             'https://apibugzilla.novell.com/index.cgi',
-            body='<html><body><a href="#">Log\xc2\xa0out</a></body></html>',
+            body='<html><body><a href="#">Log out</a></body></html>',
             content_type='text/html',
         )
 
