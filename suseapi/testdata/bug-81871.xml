@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE bugzilla SYSTEM "http://bugzilla.suse.com/page.cgi?id=bugzilla.dtd">
+
+<bugzilla version="4.4.5"
+          urlbase="http://bugzilla.suse.com/"
+          
+          maintainer="novbugzilla-dev@forge.provo.novell.com"
+>
+
+    <bug>
+          <bug_id>81871</bug_id>
+          
+          <creation_ts>2005-05-04 16:21:00 +0000</creation_ts>
+          <short_desc>testBug</short_desc>
+          <delta_ts>2009-09-22 12:17:15 +0000</delta_ts>
+          <reporter_accessible>1</reporter_accessible>
+          <cclist_accessible>1</cclist_accessible>
+          <classification_id>40</classification_id>
+          <classification>SUSE Tools</classification>
+          <product>SWAMP</product>
+          <component>Core</component>
+          <version>all</version>
+          <rep_platform>All</rep_platform>
+          <op_sys>All</op_sys>
+          <bug_status>NEW</bug_status>
+          <resolution></resolution>
+          
+          <see_also>https://fate.suse.com/123456</see_also>
+          <bug_file_loc></bug_file_loc>
+          <status_whiteboard>wasL3:1</status_whiteboard>
+          <keywords>DSLA_REQUIRED, DSLA_SOLUTION_PROVIDED</keywords>
+          <priority>P4 - Low</priority>
+          <bug_severity>Normal</bug_severity>
+          <target_milestone>---</target_milestone>
+          
+          
+          <everconfirmed>1</everconfirmed>
+          <reporter name="Thomas Schmidt">tschmidt</reporter>
+          <assigned_to name="Thomas Schmidt">tschmidt</assigned_to>
+          <cc>tschmidt</cc>
+          <qa_contact name="Thomas Schmidt">tschmidt</qa_contact>
+          <cf_foundby>Other</cf_foundby>
+          <cf_nts_priority></cf_nts_priority>
+          <cf_biz_priority></cf_biz_priority>
+          <cf_blocker>---</cf_blocker>
+          <cf_foundby>Other</cf_foundby>
+          <cf_nts_priority></cf_nts_priority>
+          <cf_biz_priority></cf_biz_priority>
+          <votes>0</votes>
+          <flag name="needinfo" id="12345" type_id="4" status="?" setter="tester" requestee="testee"/>
+          <flag name="SHIP_STOPPER" id="23456" type_id="2" status="-" setter="tester"/>
+
+      
+
+      
+
+      
+
+          <comment_sort_order>oldest_to_newest</comment_sort_order>  
+          <long_desc isprivate="0" >
+    <commentid>432280</commentid>
+    <comment_count>0</comment_count>
+    <who name="Thomas Schmidt">tschmidt</who>
+    <bug_when>2005-05-04 16:21:32 +0000</bug_when>
+    <thetext>playground for testing Bugzilla stuff from inside SWAMP</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>446921</commentid>
+    <comment_count>1</comment_count>
+    <who name="Thomas Schmidt">tschmidt</who>
+    <bug_when>2005-05-23 09:53:27 +0000</bug_when>
+    <thetext>encoding: ö ÜÖ 
+Bürgermeister
+größten europäischen Outdoor-Hacker-Camps
+ß ÖÄ |«æßßđŋŋŋħħj¶ŧj↓ĸ←↓→ł</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>511061</commentid>
+    <comment_count>2</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2005-07-28 14:07:21 +0000</bug_when>
+    <thetext>Automatic Test-Post from SWAMP</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>511131</commentid>
+    <comment_count>3</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2005-07-28 14:36:19 +0000</bug_when>
+    <thetext>Automatic Test-Post from SWAMP</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>511193</commentid>
+    <comment_count>4</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2005-07-28 14:59:02 +0000</bug_when>
+    <thetext>Automatic Test-Post from SWAMP</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>511200</commentid>
+    <comment_count>5</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2005-07-28 15:02:57 +0000</bug_when>
+    <thetext>Automatic Test-Post from SWAMP</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>511208</commentid>
+    <comment_count>6</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2005-07-28 15:06:12 +0000</bug_when>
+    <thetext>Automatic Test-Post from SWAMP</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>511355</commentid>
+    <comment_count>7</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2005-07-28 15:57:18 +0000</bug_when>
+    <thetext>Automatic Test-Post from SWAMP</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>511360</commentid>
+    <comment_count>8</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2005-07-28 15:58:18 +0000</bug_when>
+    <thetext>Automatic Test-Post from SWAMP</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>511387</commentid>
+    <comment_count>9</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2005-07-28 16:07:01 +0000</bug_when>
+    <thetext>Automatic Test-Post from SWAMP</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>514225</commentid>
+    <comment_count>10</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2005-08-01 08:24:07 +0000</bug_when>
+    <thetext>Automatic Test-Post from SWAMP</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>514248</commentid>
+    <comment_count>11</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2005-08-01 08:49:36 +0000</bug_when>
+    <thetext>Automatic Test-Post from SWAMP</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>514277</commentid>
+    <comment_count>12</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2005-08-01 09:14:50 +0000</bug_when>
+    <thetext>Automatic Test-Post from SWAMP</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>514425</commentid>
+    <comment_count>13</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2005-08-01 12:12:00 +0000</bug_when>
+    <thetext>Automatic Test-Post from SWAMP</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>514464</commentid>
+    <comment_count>14</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2005-08-01 13:03:19 +0000</bug_when>
+    <thetext>test</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>514472</commentid>
+    <comment_count>15</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2005-08-01 13:10:38 +0000</bug_when>
+    <thetext>MaintenanceTracker started with SWAMPID=1834 \nAvailable at https://swamp.suse.de/webswamp/swamp/template/DisplayWorkflow.vm/workflowid/1834</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>514475</commentid>
+    <comment_count>16</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2005-08-01 13:14:51 +0000</bug_when>
+    <thetext>MaintenanceTracker started with SWAMPID=1834 \nAvailable at https://swamp.suse.de/webswamp/swamp/template/DisplayWorkflow.vm/workflowid/1834</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>514480</commentid>
+    <comment_count>17</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2005-08-01 13:19:53 +0000</bug_when>
+    <thetext>MaintenanceTracker started with SWAMPID=1834 \nAvailable at https://swamp.suse.de/webswamp/swamp/template/DisplayWorkflow.vm/workflowid/1834</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>514483</commentid>
+    <comment_count>18</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2005-08-01 13:22:11 +0000</bug_when>
+    <thetext>MaintenanceTracker started with SWAMPID=1835 \b\nAvailable \\nat https://swamp.suse.de/webswamp/swamp/template/DisplayWorkflow.vm/workflowid/1835</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>514489</commentid>
+    <comment_count>19</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2005-08-01 13:29:26 +0000</bug_when>
+    <thetext>MaintenanceTracker started with SWAMPID=1836 \b\nAvailable \\nat https://swamp.suse.de/webswamp/swamp/template/DisplayWorkflow.vm/workflowid/1836</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>514491</commentid>
+    <comment_count>20</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2005-08-01 13:31:47 +0000</bug_when>
+    <thetext>MaintenanceTracker started with SWAMPID=1836 \b\nAvailable \\nat https://swamp.suse.de/webswamp/swamp/template/DisplayWorkflow.vm/workflowid/1836</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>514525</commentid>
+    <comment_count>21</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2005-08-01 14:05:28 +0000</bug_when>
+    <thetext>MaintenanceTracker started with SWAMPID=1836 \r\n \n\r Available \\nat https://swamp.suse.de/webswamp/swamp/template/DisplayWorkflow.vm/workflowid/1836</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>584943</commentid>
+    <comment_count>22</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2005-09-14 11:38:58 +0000</bug_when>
+    <thetext>Automatic Test-Post from SWAMP</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>584950</commentid>
+    <comment_count>23</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2005-09-14 11:47:11 +0000</bug_when>
+    <thetext>Automatic Test-Post from SWAMP</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>625072</commentid>
+    <comment_count>24</comment_count>
+    <who name="Thomas Schmidt">tschmidt</who>
+    <bug_when>2005-10-14 11:42:55 +0000</bug_when>
+    <thetext>bla</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>1594010</commentid>
+    <comment_count>25</comment_count>
+    <who name="Thomas Schmidt">tschmidt</who>
+    <bug_when>2007-06-11 15:39:34 +0000</bug_when>
+    <thetext>xxx</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>1594143</commentid>
+    <comment_count>26</comment_count>
+    <who name="Thomas Schmidt">tschmidt</who>
+    <bug_when>2007-06-11 16:17:10 +0000</bug_when>
+    <thetext>xxx</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>1594155</commentid>
+    <comment_count>27</comment_count>
+    <who name="Thomas Schmidt">tschmidt</who>
+    <bug_when>2007-06-11 16:20:25 +0000</bug_when>
+    <thetext>xxx</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>2287390</commentid>
+    <comment_count>28</comment_count>
+    <who name="Thomas Schmidt">tschmidt</who>
+    <bug_when>2008-06-04 15:51:11 +0000</bug_when>
+    <thetext>..</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>2486745</commentid>
+    <comment_count>29</comment_count>
+    <who name="Thomas Schmidt">tschmidt</who>
+    <bug_when>2008-09-11 10:08:33 +0000</bug_when>
+    <thetext>reopen
+</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>2626783</commentid>
+    <comment_count>30</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2008-11-17 17:45:37 +0000</bug_when>
+    <thetext>Here we go
+bla
+</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>2647550</commentid>
+    <comment_count>31</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2008-11-25 15:17:29 +0000</bug_when>
+    <thetext>123
+</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>2647562</commentid>
+    <comment_count>32</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2008-11-25 15:19:10 +0000</bug_when>
+    <thetext>jkgjkgkgjkgjkgjkgjkgjkgjkgjkgkj
+</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>2647568</commentid>
+    <comment_count>33</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2008-11-25 15:20:36 +0000</bug_when>
+    <thetext>test3
+</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>2651378</commentid>
+    <comment_count>34</comment_count>
+    <who name="Swamp Workflow Management">swamp</who>
+    <bug_when>2008-11-26 15:50:55 +0000</bug_when>
+    <thetext>toms test
+</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>2777013</commentid>
+    <comment_count>35</comment_count>
+    <who name="Libor Pecháček">lpechacek</who>
+    <bug_when>2009-02-03 07:31:42 +0000</bug_when>
+    <thetext>test NEEDINFO - Sorry Tom for abusing your bug for this ;-)</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>2803619</commentid>
+    <comment_count>36</comment_count>
+    <who name="Jean Delvare">jdelvare</who>
+    <bug_when>2009-02-13 09:01:36 +0000</bug_when>
+    <thetext>Getting this test bug out of my radar.</thetext>
+  </long_desc><long_desc isprivate="0" >
+    <commentid>3197605</commentid>
+    <comment_count>37</comment_count>
+    <who name="Thomas Schmidt">tschmidt</who>
+    <bug_when>2009-08-24 20:10:47 +0000</bug_when>
+    <thetext>test</thetext>
+  </long_desc>
+      
+      
+
+    </bug>
+
+</bugzilla>
