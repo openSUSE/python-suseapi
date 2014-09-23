@@ -131,6 +131,7 @@ class Bug(object):
         self.delta_ts = None
         self.creation_ts = None
         self.anonymous = anonymous
+        self.flags = []
         for element in bug_et.getchildren():
             self.process_element(element)
 
@@ -156,6 +157,8 @@ class Bug(object):
             self.creation_ts = dateutil.parser.parse(element.text)
         elif element.tag == 'delta_ts':
             self.delta_ts = dateutil.parser.parse(element.text)
+        elif element.tag == 'flag':
+            self.process_flag(element)
         elif len(element.getchildren()) == 0:
             setattr(self, element.tag, element.text)
         elif element.tag == 'long_desc':
@@ -211,6 +214,19 @@ class Bug(object):
             'private': (element.get('isprivate') == '1'),
             'thetext': element.find('thetext').text,
         })
+
+    def process_flag(self, element):
+        '''
+        Store the given flag in the flag-list.
+        '''
+        flag = {}
+        flag_attributes = ['name', 'id', 'type_id', 'status', 'setter',
+                           'requestee']
+        for attribute in flag_attributes:
+            value = element.get(attribute)
+            if value:
+                flag[attribute] = value
+        self.flags.append(flag)
 
 
 class Bugzilla(WebScraper):
