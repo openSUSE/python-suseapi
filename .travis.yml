@@ -8,6 +8,7 @@ python:
   - "pypy"
 # commands to install dependencies
 install: 
+  - pip install "Django<1.7"
   - pip install -r requirements.txt
   - pip install -r requirements-test.txt
 # commands to run tests

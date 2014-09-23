@@ -130,6 +130,39 @@ class BugzillaTest(TestCase):
         bugzilla = Bugzilla('', '')
         self.assertRaises(BugzillaLoginFailed, bugzilla.login)
 
+    @httpretty.activate
+    def test_get_flag_bug(self):
+        '''
+        Test that the bugzilla-flag are parsed as well.
+        '''
+        httpretty.register_uri(
+            httpretty.POST,
+            'https://bugzilla.novell.com/show_bug.cgi?ctype=xml&id=',
+            body=open(os.path.join(TEST_DATA, 'bug-81872.xml')).read(),
+        )
+        bugzilla = Bugzilla('', '')
+        bug = bugzilla.get_bug(81872)
+        self.assertEqual(bug.bug_id, '81872')
+        self.assertTrue(bug.has_nonempty('flags'))
+        flag = bug.flags[0]
+        self.assertEqual(flag['name'], 'needinfo')
+
+    @httpretty.activate
+    def test_get_multiple_flag_bug(self):
+        '''
+        Test that multiple flags can be handled as well.
+        '''
+        httpretty.register_uri(
+            httpretty.POST,
+            'https://bugzilla.novell.com/show_bug.cgi?ctype=xml&id=',
+            body=open(os.path.join(TEST_DATA, 'bug-81871.xml')).read(),
+        )
+        bugzilla = Bugzilla('', '')
+        bug = bugzilla.get_bug(81871)
+        self.assertEqual(bug.bug_id, '81871')
+        self.assertTrue(bug.has_nonempty('flags'))
+        self.assertEqual(len(bug.flags), 2)
+
     def override_django_settings(self):
         if 'DJANGO_SETTINGS_MODULE' in os.environ:
             # Executed in Django context
