@@ -645,11 +645,11 @@ class Bugzilla(WebScraper):
         # Submit
         resp = self.submit()
         data = resp.read()
-        if data.find('Mid-air collision!') != -1:
+        if 'Mid-air collision!' in data:
             raise BugzillaUpdateError('Mid-air collision!')
-        if data.find('reason=invalid_token') != -1:
+        if 'reason=invalid_token' in data:
             raise BugzillaUpdateError('Suspicious Action')
-        if data.find('Changes submitted for') == -1:
+        if 'Changes submitted for' not in data:
             raise BugzillaUpdateError('Unknown error while submitting form')
 
     def _update_bug_whiteboard(self, remove, add):
