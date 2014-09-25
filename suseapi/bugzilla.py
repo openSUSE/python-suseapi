@@ -647,6 +647,8 @@ class Bugzilla(WebScraper):
         data = resp.read()
         if data.find('Mid-air collision!') != -1:
             raise BugzillaUpdateError('Mid-air collision!')
+        if data.find('reason=invalid_token') != -1:
+            raise BugzillaUpdateError('Suspicious Action')
         if data.find('Changes submitted for') == -1:
             raise BugzillaUpdateError('Unknown error while submitting form')
 
