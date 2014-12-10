@@ -1,0 +1,5 @@
+#!/usr/bin/python
+# Simple wrapper to execute suseapi commandline
+
+import suseapi.main
+suseapi.main.main()
