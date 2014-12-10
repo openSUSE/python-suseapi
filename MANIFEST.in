@@ -4,6 +4,7 @@ include MANIFEST.in
 include requirements.txt
 include requirements-test.txt
 include suseapi/testdata/*
+include suseapi/testdata/_svn
 include suseapi/testdata/maintained/*
 include suseapi/testdata/maintained/.svn-entries
 include docs/Makefile

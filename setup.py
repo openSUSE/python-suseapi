@@ -45,7 +45,10 @@ setup(
     ],
     package_dir={'suseapi': 'suseapi'},
     package_data={'suseapi': [
-        'testdata/*.xml', 'testdata/maintained/*',
+        'testdata/*.xml',
+        'testdata/maintained/opensuse',
+        'testdata/maintained/sles',
+        'testdata/maintained/_svn/*',
         'testdata/maintained/.svn-entries'
     ]},
     long_description=LONG_DESCRIPTION,
