@@ -28,6 +28,7 @@ from pprint import pformat
 from argparse import ArgumentParser
 
 from suseapi.userinfo import UserInfo
+from suseapi.presence import Presence
 
 
 class ErrorMessage(Exception):
@@ -44,6 +45,7 @@ def main():
     try:
         realmain(load_first_config, {
             'lookup-user': LookupUser,
+            'absence': Absence,
         })
     except ErrorMessage as error:
         print(error, file=sys.stderr)
@@ -63,6 +65,12 @@ def get_parser():
     )
     lup.add_argument("--by", type=str, default='smart-uid')
     lup.add_argument("value", nargs=1, type=str)
+
+    absence = subparser.add_parser(
+        "absence",
+        description="Look up a user in presence database",
+    )
+    absence.add_argument("value", nargs=1, type=str)
 
     return parser
 
@@ -100,6 +108,15 @@ class LookupUser(Command):
             return userinfo.search_uid(self.args.value[0], [])
 
         return userinfo.search_by(self.args.by, self.args.value[0])
+
+
+class Absence(Command):
+    """
+    Displays absences for user.
+    """
+    def run(self):
+        for absence in Presence().get_presence_data(self.args.value[0]):
+            self.println('{0} - {1}'.format(*absence))
 
 
 def realmain(config_loader, commands):
