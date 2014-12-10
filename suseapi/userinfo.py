@@ -68,17 +68,14 @@ class UserInfo(CacherMixin):
         :param val: value of the attribute to search for
         :param attribs: attributes to return
         """
-        for search in self.searches:
-            filterstring = '({0}={1})'.format(attr, val)
-            result = self._ldap.search_s(
-                self._base,
-                ldap.SCOPE_SUBTREE,
-                filterstring,
-                attribs
-            )
-            if len(result) > 0:
-                return result
-        return []
+        filterstring = '({0}={1})'.format(attr, val)
+        result = self._ldap.search_s(
+            self._base,
+            ldap.SCOPE_SUBTREE,
+            filterstring,
+            attribs
+        )
+        return result
 
     def fixup_department(self, name):
         '''
