@@ -22,7 +22,6 @@ def main():
         sys.exit(1)
 
 
-
 def get_parser():
     parser = ArgumentParser()
     subparser = parser.add_subparsers(dest="cmd")
