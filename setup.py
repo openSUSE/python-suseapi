@@ -20,12 +20,12 @@
 #
 """Setup file for easy installation"""
 from setuptools import setup
+import os
 
 VERSION = __import__('suseapi').__version__
 
-LONG_DESCRIPTION = """
-python-suseapi is set of helpers to access various SUSE APIs.
-"""
+with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
+    LONG_DESCRIPTION = readme.read()
 
 REQUIRES = open('requirements.txt').read().split()
 
