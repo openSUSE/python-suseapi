@@ -15,28 +15,28 @@ class ErrorMessage(Exception):
 
 def main():
     try:
-        rc = realmain(sys, load_first_config, {
+        result = realmain(sys, load_first_config, {
             'lookup-user': LookupUser,
         })
     except ErrorMessage as e:
         print(e, file=sys.stderr)
-        rc = 1
+        result = 1
 
-    sys.exit(rc)
+    sys.exit(result)
 
 
 def get_parser():
-    p = ArgumentParser()
-    sp = p.add_subparsers(dest="cmd")
+    parser = ArgumentParser()
+    subparser = parser.add_subparsers(dest="cmd")
 
-    lup = sp.add_parser(
+    lup = subparser.add_parser(
         "lookup-user",
         description="Look up a user in LDAP",
     )
     lup.add_argument("--by", type=str, default='smart-uid')
     lup.add_argument("value", nargs=1, type=str)
 
-    return p
+    return parser
 
 
 class Command(object):
@@ -47,8 +47,8 @@ class Command(object):
 
         self.run()
 
-    def println(self, ln):
-        print(ln, file=self.sys.stdout)
+    def println(self, line):
+        print(line, file=self.sys.stdout)
 
     def run(self):
         raise NotImplementedError
@@ -56,15 +56,15 @@ class Command(object):
     def _kwargs(self, expected, got):
         got = deepcopy(got)
 
-        for k, v in expected.items():
+        for key, value in expected.items():
             try:
-                v = got[k]
+                value = got[key]
             except KeyError:
                 pass
             else:
-                del got[k]
+                del got[key]
 
-            setattr(self, k, v)
+            setattr(self, key, value)
 
         return got
 
@@ -80,30 +80,31 @@ class LookupUser(Command):
 
     def run(self):
         self.println(self.pformat(self.search()))
+        return 0
 
     def search(self):
-        ui = self.userinfo(
+        userinfo = self.userinfo(
             self.config['ldap.server'],
             self.config['ldap.base']
         )
         if self.args.by == "smart-uid":
-            return ui.search_uid(self.args.value[0], [])
+            return userinfo.search_uid(self.args.value[0], [])
 
-        return ui.search_by(self.args.by, self.args.value[0])
+        return userinfo.search_by(self.args.by, self.args.value[0])
 
 
 def realmain(sys, config_loader, commands):
-    p = get_parser()
-    args = p.parse_args(sys.argv[1:])
+    parser = get_parser()
+    args = parser.parse_args(sys.argv[1:])
 
-    f = config_loader("suseapi")
-    if not f:
+    filename = config_loader("suseapi")
+    if not filename:
         raise ErrorMessage("Missing config file")
 
     # parse like Xdefaults file
-    cg = dict([
+    config = dict([
         (key.strip(), val.strip()) for key, _, val
-        in [x.partition(":") for x in open(f).readlines()]
+        in [x.partition(":") for x in open(filename).readlines()]
     ])
 
-    commands[args.cmd](args, sys, cg)
+    return commands[args.cmd](args, sys, config)
