@@ -15,14 +15,13 @@ class ErrorMessage(Exception):
 
 def main():
     try:
-        result = realmain(load_first_config, {
+        realmain(load_first_config, {
             'lookup-user': LookupUser,
         })
     except ErrorMessage as e:
         print(e, file=sys.stderr)
-        result = 1
+        sys.exit(1)
 
-    sys.exit(result)
 
 
 def get_parser():
@@ -44,7 +43,7 @@ class Command(object):
         self.args = args
         self.config = config
 
-        return self.run()
+        self.run()
 
     def println(self, line):
         print(line, file=sys.stdout)
@@ -52,26 +51,10 @@ class Command(object):
     def run(self):
         raise NotImplementedError
 
-    def _kwargs(self, expected, got):
-        got = deepcopy(got)
-
-        for key, value in expected.items():
-            try:
-                value = got[key]
-            except KeyError:
-                pass
-            else:
-                del got[key]
-
-            setattr(self, key, value)
-
-        return got
-
 
 class LookupUser(Command):
     def run(self):
         self.println(pformat(self.search()))
-        return 0
 
     def search(self):
         userinfo = UserInfo(
@@ -98,4 +81,4 @@ def realmain(config_loader, commands):
         in [x.partition(":") for x in open(filename).readlines()]
     ])
 
-    return commands[args.cmd](args, config)
+    commands[args.cmd](args, config)
