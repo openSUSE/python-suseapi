@@ -69,13 +69,15 @@ class UserInfo(CacherMixin):
         :param attribs: attributes to return
         """
         filterstring = '({0}={1})'.format(attr, val)
-        result = self._ldap.search_s(
-            self._base,
-            ldap.SCOPE_SUBTREE,
-            filterstring,
-            attribs
-        )
-        return result
+        try:
+            return self._ldap.search_s(
+                self._base,
+                ldap.SCOPE_SUBTREE,
+                filterstring,
+                attribs
+            )
+        except ldap.NO_SUCH_OBJECT:
+            return []
 
     def fixup_department(self, name):
         '''
