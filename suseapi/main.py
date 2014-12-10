@@ -107,7 +107,7 @@ class LookupUser(Command):
         if self.args.by == "smart-uid":
             return userinfo.search_uid(self.args.value[0], [])
 
-        return userinfo.search_by(self.args.by, self.args.value[0])
+        return userinfo.search_by(self.args.by, self.args.value[0], [])
 
 
 class Absence(Command):
@@ -116,7 +116,9 @@ class Absence(Command):
     """
     def run(self):
         for absence in Presence().get_presence_data(self.args.value[0]):
-            self.println('{0} - {1}'.format(*absence))
+            self.println(
+                '{0} - {1}'.format(absence[0], absence[1])
+            )
 
 
 def realmain(config_loader, commands):
