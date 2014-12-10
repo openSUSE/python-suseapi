@@ -62,7 +62,7 @@ class UserInfo(CacherMixin):
                 return result
         return []
 
-    def search_by(self, attr, val, attribs=[]):
+    def search_by(self, attr, val, attribs=None):
         """
         :param attr: attribute name to search by
         :param val: value of the attribute to search for
