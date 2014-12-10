@@ -8,8 +8,10 @@ from copy import deepcopy
 
 from suseapi.userinfo import UserInfo
 
+
 class ErrorMessage(Exception):
     pass
+
 
 def main():
     try:
@@ -17,23 +19,25 @@ def main():
             'lookup-user': LookupUser,
         })
     except ErrorMessage as e:
-        print(e, file = sys.stderr)
+        print(e, file=sys.stderr)
         rc = 1
 
     sys.exit(rc)
 
+
 def get_parser():
     p = ArgumentParser()
-    sp = p.add_subparsers(dest = "cmd")
+    sp = p.add_subparsers(dest="cmd")
 
     lup = sp.add_parser(
         "lookup-user",
-        description = "Look up a user in LDAP",
+        description="Look up a user in LDAP",
     )
     lup.add_argument("--by", type=str, default='smart-uid')
     lup.add_argument("value", nargs=1, type=str)
 
     return p
+
 
 class Command(object):
     def __init__(self, args, sys, config):
@@ -44,7 +48,7 @@ class Command(object):
         self.run()
 
     def println(self, ln):
-        print(ln, file = self.sys.stdout)
+        print(ln, file=self.sys.stdout)
 
     def run(self):
         raise NotImplementedError
@@ -64,11 +68,12 @@ class Command(object):
 
         return got
 
+
 class LookupUser(Command):
     def __init__(self, *a, **kw):
         kw = self._kwargs(dict(
-            userinfo = UserInfo,
-            pformat = pformat,
+            userinfo=UserInfo,
+            pformat=pformat,
         ), kw)
 
         super(LookupUser, self).__init__(*a, **kw)
@@ -77,11 +82,15 @@ class LookupUser(Command):
         self.println(self.pformat(self.search()))
 
     def search(self):
-        ui = self.userinfo(self.config['ldap.server'], self.config['ldap.base'])
+        ui = self.userinfo(
+            self.config['ldap.server'],
+            self.config['ldap.base']
+        )
         if self.args.by == "smart-uid":
             return ui.search_uid(self.args.value[0], [])
 
         return ui.search_by(self.args.by, self.args.value[0])
+
 
 def realmain(sys, config_loader, commands):
     p = get_parser()
@@ -92,9 +101,9 @@ def realmain(sys, config_loader, commands):
         raise ErrorMessage("Missing config file")
 
     # parse like Xdefaults file
-    cg = dict(
-        [ (key.strip(), val.strip()) for key, _, val
-        in [ x.partition(":") for x in open(f).readlines() ]
+    cg = dict([
+        (key.strip(), val.strip()) for key, _, val
+        in [x.partition(":") for x in open(f).readlines()]
     ])
 
     commands[args.cmd](args, sys, cg)

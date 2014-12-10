@@ -1,5 +1,4 @@
 from unittest import TestCase
-from mockldap import MockLdap
 from argparse import Namespace
 
 from suseapi.main import get_parser
@@ -10,7 +9,7 @@ class TestArgParser(TestCase):
         p = get_parser()
         args = p.parse_args(["lookup-user", "foo"])
         self.assertEqual(args, Namespace(
-            cmd = 'lookup-user',
-            by = 'smart-uid',
-            value = ['foo']
+            cmd='lookup-user',
+            by='smart-uid',
+            value=['foo']
         ))

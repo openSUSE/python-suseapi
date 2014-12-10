@@ -35,8 +35,8 @@ class UserInfo(CacherMixin):
     searches = [
         ('mail', '{0}@novell.com'),
         ('mail', '{0}@suse.com'),
-        ('uid' , '{0}'),
-        ('cn'  , '{0}'),
+        ('uid', '{0}'),
+        ('cn', '{0}'),
     ]
 
     department_fixups = {
@@ -62,7 +62,7 @@ class UserInfo(CacherMixin):
                 return result
         return []
 
-    def search_by(self, attr, val, attribs = []):
+    def search_by(self, attr, val, attribs=[]):
         """
         :param attr: attribute name to search by
         :param val: value of the attribute to search for
