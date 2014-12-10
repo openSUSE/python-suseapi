@@ -3,11 +3,14 @@ python:
   - "2.6"
   - "2.7"
 sudo: false
+cache:
+  directories:
+    - $HOME/.pip-cache/
 # commands to install dependencies
 install: 
-  - if [ $TRAVIS_PYTHON_VERSION = 2.6 ] ; then pip install "Django<1.7" "pylint!=1.4.0" ; fi
-  - pip install -r requirements.txt
-  - pip install -r requirements-test.txt
+  - if [ $TRAVIS_PYTHON_VERSION = 2.6 ] ; then pip install --download-cache ~/.pip-cache/ "Django<1.7" "pylint!=1.4.0" ; fi
+  - pip install --download-cache ~/.pip-cache/ -r requirements.txt
+  - pip install --download-cache ~/.pip-cache/ -r requirements-test.txt
 # commands to run tests
 script: 
   - py.test --cov=suseapi
