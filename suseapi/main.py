@@ -102,7 +102,7 @@ def realmain(config_loader, commands):
 
     # parse like Xdefaults file
     config = dict([
-        (key.strip(), val.strip()) for key, _, val
+        (key.strip(), val.strip()) for key, dummy, val
         in [x.partition(":") for x in open(filename).readlines()]
     ])
 
