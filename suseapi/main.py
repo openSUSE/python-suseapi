@@ -44,7 +44,7 @@ class Command(object):
         self.args = args
         self.config = config
 
-        self.run()
+        return self.run()
 
     def println(self, line):
         print(line, file=sys.stdout)
@@ -69,20 +69,12 @@ class Command(object):
 
 
 class LookupUser(Command):
-    def __init__(self, *a, **kw):
-        kw = self._kwargs(dict(
-            userinfo=UserInfo,
-            pformat=pformat,
-        ), kw)
-
-        super(LookupUser, self).__init__(*a, **kw)
-
     def run(self):
-        self.println(self.pformat(self.search()))
+        self.println(pformat(self.search()))
         return 0
 
     def search(self):
-        userinfo = self.userinfo(
+        userinfo = UserInfo(
             self.config['ldap.server'],
             self.config['ldap.base']
         )
