@@ -15,7 +15,7 @@ class ErrorMessage(Exception):
 
 def main():
     try:
-        result = realmain(sys, load_first_config, {
+        result = realmain(load_first_config, {
             'lookup-user': LookupUser,
         })
     except ErrorMessage as e:
@@ -40,15 +40,14 @@ def get_parser():
 
 
 class Command(object):
-    def __init__(self, args, sys, config):
-        self.sys = sys
+    def __init__(self, args, config):
         self.args = args
         self.config = config
 
         self.run()
 
     def println(self, line):
-        print(line, file=self.sys.stdout)
+        print(line, file=sys.stdout)
 
     def run(self):
         raise NotImplementedError
@@ -93,7 +92,7 @@ class LookupUser(Command):
         return userinfo.search_by(self.args.by, self.args.value[0])
 
 
-def realmain(sys, config_loader, commands):
+def realmain(config_loader, commands):
     parser = get_parser()
     args = parser.parse_args(sys.argv[1:])
 
@@ -107,4 +106,4 @@ def realmain(sys, config_loader, commands):
         in [x.partition(":") for x in open(filename).readlines()]
     ])
 
-    return commands[args.cmd](args, sys, config)
+    return commands[args.cmd](args, config)
