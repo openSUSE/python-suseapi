@@ -4,7 +4,6 @@ import sys
 from xdg.BaseDirectory import load_first_config
 from pprint import pformat
 from argparse import ArgumentParser
-from copy import deepcopy
 
 from suseapi.userinfo import UserInfo
 
