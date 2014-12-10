@@ -33,10 +33,10 @@ class UserInfo(CacherMixin):
     cache_key_template = 'userinfo-%s'
 
     searches = [
-        '(mail={0}@novell.com)',
-        '(mail={0}@suse.com)',
-        '(uid={0})',
-        '(cn={0})',
+        ('mail', '{0}@novell.com'),
+        ('mail', '{0}@suse.com'),
+        ('uid' , '{0}'),
+        ('cn'  , '{0}'),
     ]
 
     department_fixups = {
@@ -55,8 +55,21 @@ class UserInfo(CacherMixin):
         if attribs is None:
             attribs = ['cn', 'mail', 'ou', 'sn', 'givenName']
 
+        for attr, val in self.searches:
+            val = val.format(uid)
+            result = self.search_by(attr, val, attribs)
+            if len(result) > 0:
+                return result
+        return []
+
+    def search_by(self, attr, val, attribs = []):
+        """
+        :param attr: attribute name to search by
+        :param val: value of the attribute to search for
+        :param attribs: attributes to return
+        """
         for search in self.searches:
-            filterstring = search.format(uid)
+            filterstring = '({0}={1})'.format(attr, val)
             result = self._ldap.search_s(
                 self._base,
                 ldap.SCOPE_SUBTREE,

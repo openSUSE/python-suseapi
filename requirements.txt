@@ -3,3 +3,4 @@ mechanize
 python-dateutil
 suds-jurko
 beautifulsoup4
+pyxdg
