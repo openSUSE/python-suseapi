@@ -17,8 +17,9 @@ script:
   - pep8 suseapi
   - pylint --reports=n --rcfile=pylint.rc suseapi || true
   - pyflakes suseapi
-after_success:
+after_script:
   - coveralls
+  - ocular --data-file ".coverage" --config-file ".coveragerc"
 matrix:
   allow_failures:
     - python: "3.4"

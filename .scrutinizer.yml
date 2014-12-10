@@ -2,9 +2,9 @@
 imports:
     - python
 tools:
-#    external_code_coverage:
-#        runs: 2
-#        timeout: 3600
+    external_code_coverage:
+        runs: 2
+        timeout: 3600
     pylint:
         python_version: 2
         config_file: '.pylintrc'

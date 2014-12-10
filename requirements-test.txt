@@ -7,3 +7,4 @@ pytest-cov
 pyflakes
 mockldap
 Django
+scrutinizer-ocular
