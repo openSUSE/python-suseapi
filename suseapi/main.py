@@ -17,8 +17,8 @@ def main():
         realmain(load_first_config, {
             'lookup-user': LookupUser,
         })
-    except ErrorMessage as e:
-        print(e, file=sys.stderr)
+    except ErrorMessage as error:
+        print(error, file=sys.stderr)
         sys.exit(1)
 
 
