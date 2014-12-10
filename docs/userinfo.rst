@@ -29,6 +29,14 @@ LDAP and provides some convenience functions.
 
       Performs UID search and returns list of search results.
 
+   .. method:: search_by(attr, val, attribs=None)
+
+      :param attr: attribute name to search by
+      :param val: value of the attribute to search for
+      :param attribs: attributes to return
+
+      Performs search by any attribute.
+
    .. method:: get_department(user)
 
       :param user: Search string
