@@ -65,5 +65,6 @@ setup(
     ],
 
     entry_points = {
-        'console_scripts': ['suseapi = suseapi.main:main']},
+        'console_scripts': ['suseapi = suseapi.main:main']
+    },
 )

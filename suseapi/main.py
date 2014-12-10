@@ -1,3 +1,25 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright © 2012 - 2014 Michal Čihař <mcihar@suse.cz>
+#
+# This file is part of python-suseapi <https://github.com/nijel/python-suseapi>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+'''
+Command line interface for suseapi.
+'''
 from __future__ import print_function
 
 import sys
@@ -9,10 +31,16 @@ from suseapi.userinfo import UserInfo
 
 
 class ErrorMessage(Exception):
+    """
+    Error raised by commands.
+    """
     pass
 
 
 def main():
+    """
+    Execution entry point.
+    """
     try:
         realmain(load_first_config, {
             'lookup-user': LookupUser,
@@ -23,6 +51,9 @@ def main():
 
 
 def get_parser():
+    """
+    Creates argument parser.
+    """
     parser = ArgumentParser()
     subparser = parser.add_subparsers(dest="cmd")
 
@@ -37,6 +68,9 @@ def get_parser():
 
 
 class Command(object):
+    """
+    Basic command object.
+    """
     def __init__(self, args, config):
         self.args = args
         self.config = config
@@ -51,6 +85,9 @@ class Command(object):
 
 
 class LookupUser(Command):
+    """
+    User lookup command.
+    """
     def run(self):
         self.println(pformat(self.search()))
 
@@ -66,6 +103,9 @@ class LookupUser(Command):
 
 
 def realmain(config_loader, commands):
+    """
+    The core of the invoker.
+    """
     parser = get_parser()
     args = parser.parse_args(sys.argv[1:])
 
