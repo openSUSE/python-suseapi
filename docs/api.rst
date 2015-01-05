@@ -6,6 +6,7 @@ API documentation
 
    browser
    bugzilla
+   presence
    srinfo
    swamp
    userinfo
