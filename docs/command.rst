@@ -45,3 +45,6 @@ The configuration file is INI file, for example:
     [ldap]
     server = ldap://pan.suse.de
     base = o=Novell
+
+    [presence]
+    servers = present.suse.de,bolzano.suse.de/nosend

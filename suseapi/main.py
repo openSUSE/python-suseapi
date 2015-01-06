@@ -48,8 +48,12 @@ class SuseAPIConfig(RawConfigParser):
         RawConfigParser.__init__(self)
         # Set defaults
         self.add_section('ldap')
+        self.add_section('presence')
         self.set('ldap', 'server', 'ldap://pan.suse.de')
         self.set('ldap', 'base', 'o=Novell')
+        self.set(
+            'presence', 'servers', 'present.suse.de,bolzano.suse.de/nosend'
+        )
 
     def load(self):
         self.read(load_config_paths('suseapi'))
@@ -149,7 +153,18 @@ class Absence(Command):
         return parser
 
     def run(self):
-        for absence in Presence().get_presence_data(self.args.value[0]):
+        servers = []
+        for server in self.config.get('presence', 'servers').split(','):
+            server = server.strip()
+            if not server:
+                continue
+            nosend = False
+            if server.endswith('/nosend'):
+                server = server[:-7]
+                nosend = True
+            servers.append((server, nosend))
+
+        for absence in Presence(servers).get_presence_data(self.args.value[0]):
             self.println(
                 '{0} - {1}'.format(absence[0], absence[1])
             )
