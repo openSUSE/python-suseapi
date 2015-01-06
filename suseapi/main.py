@@ -75,9 +75,13 @@ class Command(object):
     name = ''
     description = ''
 
-    def __init__(self, args, config):
+    def __init__(self, args, config, stdout=None):
         self.args = args
         self.config = config
+        if stdout is None:
+            self.stdout = sys.stdout
+        else:
+            self.stdout = stdout
 
     @classmethod
     def add_parser(cls, subparser):
@@ -89,7 +93,7 @@ class Command(object):
         )
 
     def println(self, line):
-        print(line, file=sys.stdout)
+        print(line, file=self.stdout)
 
     def run(self):
         raise NotImplementedError
@@ -151,7 +155,7 @@ class Absence(Command):
             )
 
 
-def main(loadconfig=True):
+def main(loadconfig=True, stdout=None):
     """
     Execution entry point.
     """
@@ -162,5 +166,5 @@ def main(loadconfig=True):
     if loadconfig:
         config.load()
 
-    command = COMMANDS[args.cmd](args, config)
+    command = COMMANDS[args.cmd](args, config, stdout)
     command.run()
