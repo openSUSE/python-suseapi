@@ -23,12 +23,25 @@ Command line interface for suseapi.
 from __future__ import print_function
 
 import sys
-from xdg.BaseDirectory import load_first_config
+from xdg.BaseDirectory import load_config_paths
 from pprint import pformat
 from argparse import ArgumentParser
+from ConfigParser import RawConfigParser
 
 from suseapi.userinfo import UserInfo
 from suseapi.presence import Presence
+
+
+class SuseAPIConfig(RawConfigParser):
+    def __init__(self):
+        RawConfigParser.__init__(self)
+        # Set defaults
+        self.add_section('ldap')
+        self.set('ldap', 'server', 'ldap://pan.suse.de')
+        self.set('ldap', 'base', 'o=Novell')
+
+    def load(self):
+        self.read(load_config_paths('suseapi'))
 
 
 class ErrorMessage(Exception):
@@ -43,7 +56,7 @@ def main():
     Execution entry point.
     """
     try:
-        realmain(load_first_config, {
+        realmain({
             'lookup-user': LookupUser,
             'absence': Absence,
         })
@@ -101,8 +114,8 @@ class LookupUser(Command):
 
     def search(self):
         userinfo = UserInfo(
-            self.config['ldap.server'],
-            self.config['ldap.base']
+            self.config.get('ldap', 'server'),
+            self.config.get('ldap', 'base'),
         )
         if self.args.by == "smart-uid":
             return userinfo.search_uid(self.args.value[0], [])
@@ -121,21 +134,14 @@ class Absence(Command):
             )
 
 
-def realmain(config_loader, commands):
+def realmain(commands):
     """
     The core of the invoker.
     """
     parser = get_parser()
     args = parser.parse_args(sys.argv[1:])
 
-    filename = config_loader("suseapi")
-    if not filename:
-        raise ErrorMessage("Missing config file")
-
-    # parse like Xdefaults file
-    config = dict([
-        (key.strip(), val.strip()) for key, dummy, val
-        in [x.partition(":") for x in open(filename).readlines()]
-    ])
+    config = SuseAPIConfig()
+    config.load()
 
     commands[args.cmd](args, config)
