@@ -79,8 +79,6 @@ class Command(object):
         self.args = args
         self.config = config
 
-        self.run()
-
     @classmethod
     def add_parser(cls, subparser):
         """
@@ -164,4 +162,5 @@ def main(loadconfig=True):
     if loadconfig:
         config.load()
 
-    COMMANDS[args.cmd](args, config)
+    command = COMMANDS[args.cmd](args, config)
+    command.run()
