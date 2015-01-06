@@ -44,25 +44,14 @@ class SuseAPIConfig(RawConfigParser):
         self.read(load_config_paths('suseapi'))
 
 
-class ErrorMessage(Exception):
-    """
-    Error raised by commands.
-    """
-    pass
-
-
 def main():
     """
     Execution entry point.
     """
-    try:
-        realmain({
-            'lookup-user': LookupUser,
-            'absence': Absence,
-        })
-    except ErrorMessage as error:
-        print(error, file=sys.stderr)
-        sys.exit(1)
+    realmain({
+        'lookup-user': LookupUser,
+        'absence': Absence,
+    })
 
 
 def get_parser():
