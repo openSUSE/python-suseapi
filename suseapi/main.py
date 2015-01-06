@@ -117,9 +117,24 @@ class LookupUser(Command):
         Creates parser for command line.
         """
         parser = super(LookupUser, cls).add_parser(subparser)
-        parser.add_argument("--by", type=str, default='smart-uid')
-        parser.add_argument("--attribs", type=str, default='')
-        parser.add_argument("value", nargs=1, type=str)
+        parser.add_argument(
+            "--by",
+            type=str,
+            default='smart-uid',
+            help='LDAP lookup attribute'
+        )
+        parser.add_argument(
+            "--attribs",
+            type=str,
+            default='',
+            help='Comma separated list of LDAP attributes to print'
+        )
+        parser.add_argument(
+            "value",
+            nargs=1,
+            type=str,
+            help='LDAP lookup string, usually username'
+        )
         return parser
 
     def run(self):
@@ -154,7 +169,12 @@ class Absence(Command):
         Creates parser for command line.
         """
         parser = super(Absence, cls).add_parser(subparser)
-        parser.add_argument("value", nargs=1, type=str)
+        parser.add_argument(
+            "value",
+            nargs=1,
+            type=str,
+            help='Username to lookup'
+        )
         return parser
 
     def run(self):
