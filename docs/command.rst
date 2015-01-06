@@ -19,7 +19,7 @@ This module also installs :program:`suseapi` program, which allows you to
 easily access some of the functionality from command line. Currently following
 subcommands are available:
 
-.. option:: lookup-user [--by BY] value
+.. option:: lookup-user [--by BY] [--attribs ATTRIBS] value
 
     Lookups user information using :mod:`suseapi.userinfo`.
 

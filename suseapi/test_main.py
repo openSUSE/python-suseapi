@@ -14,7 +14,8 @@ class TestArgParser(TestCase):
         self.assertEqual(args, Namespace(
             cmd='lookup-user',
             by='smart-uid',
-            value=['foo']
+            value=['foo'],
+            attribs='',
         ))
 
 
@@ -39,7 +40,7 @@ class TestCommands(TestCase):
         try:
             main(
                 settings=(('ldap', 'server', 'ldap://ldap'),),
-                args=['lookup-user', 'mcihar'],
+                args=['lookup-user', '--attribs', 'ou', 'mcihar'],
                 stdout=output
             )
         finally:

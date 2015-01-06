@@ -118,6 +118,7 @@ class LookupUser(Command):
         """
         parser = super(LookupUser, cls).add_parser(subparser)
         parser.add_argument("--by", type=str, default='smart-uid')
+        parser.add_argument("--attribs", type=str, default='')
         parser.add_argument("value", nargs=1, type=str)
         return parser
 
@@ -129,10 +130,14 @@ class LookupUser(Command):
             self.config.get('ldap', 'server'),
             self.config.get('ldap', 'base'),
         )
+        if self.args.attribs:
+            attribs = self.args.attribs.split(',')
+        else:
+            attribs = []
         if self.args.by == "smart-uid":
-            return userinfo.search_uid(self.args.value[0])
+            return userinfo.search_uid(self.args.value[0], attribs)
 
-        return userinfo.search_by(self.args.by, self.args.value[0], [])
+        return userinfo.search_by(self.args.by, self.args.value[0], attribs)
 
 
 @register_command
