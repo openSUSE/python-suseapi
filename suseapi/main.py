@@ -32,6 +32,17 @@ from suseapi.userinfo import UserInfo
 from suseapi.presence import Presence
 
 
+COMMANDS = {}
+
+
+def register_command(command):
+    """
+    Decorator to register command in command line interface.
+    """
+    COMMANDS[command.name] = command
+    return command
+
+
 class SuseAPIConfig(RawConfigParser):
     def __init__(self):
         RawConfigParser.__init__(self)
@@ -48,10 +59,7 @@ def main():
     """
     Execution entry point.
     """
-    realmain({
-        'lookup-user': LookupUser,
-        'absence': Absence,
-    })
+    realmain(COMMANDS)
 
 
 def get_parser():
@@ -94,10 +102,13 @@ class Command(object):
         raise NotImplementedError
 
 
+@register_command
 class LookupUser(Command):
     """
     User lookup command.
     """
+    name = 'lookup-user'
+
     def run(self):
         self.println(pformat(self.search()))
 
@@ -112,10 +123,13 @@ class LookupUser(Command):
         return userinfo.search_by(self.args.by, self.args.value[0], [])
 
 
+@register_command
 class Absence(Command):
     """
     Displays absences for user.
     """
+    name = 'absence'
+
     def run(self):
         for absence in Presence().get_presence_data(self.args.value[0]):
             self.println(
