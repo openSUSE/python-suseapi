@@ -228,8 +228,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'python-suseapi', u'python-suseapi Documentation',
-     [u'Michal Čihař'], 1)
+    ('command', 'suseapi', u'python-suseapi Documentation', [u'Michal Čihař <michal@cihar.com>'], 1)
 ]
 
 # If true, show URL addresses after external links.
