@@ -69,18 +69,8 @@ def get_parser():
     parser = ArgumentParser()
     subparser = parser.add_subparsers(dest="cmd")
 
-    lup = subparser.add_parser(
-        "lookup-user",
-        description="Look up a user in LDAP",
-    )
-    lup.add_argument("--by", type=str, default='smart-uid')
-    lup.add_argument("value", nargs=1, type=str)
-
-    absence = subparser.add_parser(
-        "absence",
-        description="Look up a user in presence database",
-    )
-    absence.add_argument("value", nargs=1, type=str)
+    for command in COMMANDS:
+        COMMANDS[command].add_parser(subparser)
 
     return parser
 
@@ -89,11 +79,23 @@ class Command(object):
     """
     Basic command object.
     """
+    name = ''
+    description = ''
+
     def __init__(self, args, config):
         self.args = args
         self.config = config
 
         self.run()
+
+    @classmethod
+    def add_parser(cls, subparser):
+        """
+        Creates parser for command line.
+        """
+        return subparser.add_parser(
+            cls.name, description=cls.description
+        )
 
     def println(self, line):
         print(line, file=sys.stdout)
@@ -108,6 +110,17 @@ class LookupUser(Command):
     User lookup command.
     """
     name = 'lookup-user'
+    description = "Look up a user in LDAP"
+
+    @classmethod
+    def add_parser(cls, subparser):
+        """
+        Creates parser for command line.
+        """
+        parser = super(LookupUser, cls).add_parser(subparser)
+        parser.add_argument("--by", type=str, default='smart-uid')
+        parser.add_argument("value", nargs=1, type=str)
+        return parser
 
     def run(self):
         self.println(pformat(self.search()))
@@ -129,6 +142,16 @@ class Absence(Command):
     Displays absences for user.
     """
     name = 'absence'
+    description = "Look up a user in presence database"
+
+    @classmethod
+    def add_parser(cls, subparser):
+        """
+        Creates parser for command line.
+        """
+        parser = super(Absence, cls).add_parser(subparser)
+        parser.add_argument("value", nargs=1, type=str)
+        return parser
 
     def run(self):
         for absence in Presence().get_presence_data(self.args.value[0]):
