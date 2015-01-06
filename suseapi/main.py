@@ -155,16 +155,21 @@ class Absence(Command):
             )
 
 
-def main(loadconfig=True, stdout=None):
+def main(settings=None, stdout=None, args=None):
     """
     Execution entry point.
     """
     parser = get_parser()
-    args = parser.parse_args(sys.argv[1:])
+    if args is None:
+        args = sys.argv[1:]
+    args = parser.parse_args(args)
 
     config = SuseAPIConfig()
-    if loadconfig:
+    if settings is None:
         config.load()
+    else:
+        for section, key, value in settings:
+            config.set(section, key, value)
 
     command = COMMANDS[args.cmd](args, config, stdout)
     command.run()
