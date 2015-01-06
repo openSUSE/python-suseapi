@@ -27,6 +27,29 @@ from mockldap import MockLdap
 from suseapi.userinfo import UserInfo
 
 
+def start_ldap_mock():
+    """
+    Starts LDAP mocking.
+    """
+    mockldap = MockLdap({
+        'o=Novell': {'o': 'Novell'},
+        'cn=mcihar,o=Novell': {
+            'mail': ['mcihar@suse.com'],
+            'ou': ['TestDept'],
+            'cn': ['mcihar'],
+            'uid': ['mcihar'],
+        },
+        'cn=foobar,o=Novell': {
+            'mail': ['foobar@suse.com'],
+            'ou': ['L3 Maintenance'],
+            'cn': ['foobar'],
+            'uid': ['foobar'],
+        },
+    })
+    mockldap.start()
+    return mockldap
+
+
 class UserInfoTest(TestCase):
     '''
     User information tests.
@@ -36,22 +59,7 @@ class UserInfoTest(TestCase):
         '''
         Test department lookups.
         '''
-        mockldap = MockLdap({
-            'o=Novell': {'o': 'Novell'},
-            'cn=mcihar,o=Novell': {
-                'mail': ['mcihar@suse.com'],
-                'ou': ['TestDept'],
-                'cn': ['mcihar'],
-                'uid': ['mcihar'],
-            },
-            'cn=foobar,o=Novell': {
-                'mail': ['foobar@suse.com'],
-                'ou': ['L3 Maintenance'],
-                'cn': ['foobar'],
-                'uid': ['foobar'],
-            },
-        })
-        mockldap.start()
+        mockldap = start_ldap_mock()
         try:
             userinfo = UserInfo('ldap://ldap', 'o=novell')
             # By mail with fixup

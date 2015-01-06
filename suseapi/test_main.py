@@ -4,6 +4,7 @@ from StringIO import StringIO
 
 from suseapi.main import get_parser, main
 from suseapi.test_presence import start_test_server, stop_test_server
+from suseapi.test_userinfo import start_ldap_mock
 
 
 class TestArgParser(TestCase):
@@ -31,3 +32,16 @@ class TestCommands(TestCase):
             stop_test_server(*server)
 
         self.assertTrue('2013-10-25 - 2013-10-28' in output.getvalue())
+
+    def test_lookup_user(self):
+        output = StringIO()
+        mockldap = start_ldap_mock()
+        try:
+            main(
+                settings=(('ldap', 'server', 'ldap://ldap'),),
+                args=['lookup-user', 'mcihar'],
+                stdout=output
+            )
+        finally:
+            mockldap.stop()
+        self.assertTrue('TestDept' in output.getvalue())

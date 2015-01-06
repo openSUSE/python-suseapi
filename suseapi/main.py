@@ -130,7 +130,7 @@ class LookupUser(Command):
             self.config.get('ldap', 'base'),
         )
         if self.args.by == "smart-uid":
-            return userinfo.search_uid(self.args.value[0], [])
+            return userinfo.search_uid(self.args.value[0])
 
         return userinfo.search_by(self.args.by, self.args.value[0], [])
 
