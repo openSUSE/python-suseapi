@@ -62,6 +62,26 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
         self.request.sendall(RESPONSE)
 
 
+def start_test_server():
+    """
+    Starts test server.
+    """
+    SocketServer.TCPServer.allow_reuse_address = True
+    server = SocketServer.TCPServer(('127.0.0.1', 9874), MyTCPHandler)
+    server_thread = threading.Thread(target=server.serve_forever)
+    server_thread.daemon = False
+    server_thread.start()
+    return server, server_thread
+
+
+def stop_test_server(server, server_thread):
+    """
+    Shutdowns the testing server.
+    """
+    server.shutdown()
+    server_thread.join()
+
+
 class PresenceTest(TestCase):
     '''
     Presence testing.
@@ -89,11 +109,7 @@ class PresenceTest(TestCase):
         Test for presence retrieving.
         '''
         presence = Presence([('127.0.0.1', True)])
-        SocketServer.TCPServer.allow_reuse_address = True
-        server = SocketServer.TCPServer(('127.0.0.1', 9874), MyTCPHandler)
-        server_thread = threading.Thread(target=server.serve_forever)
-        server_thread.daemon = False
-        server_thread.start()
+        server = start_test_server()
         try:
 
             self.assertTrue(
@@ -105,5 +121,4 @@ class PresenceTest(TestCase):
                 is None
             )
         finally:
-            server.shutdown()
-            server_thread.join()
+            stop_test_server(*server)
