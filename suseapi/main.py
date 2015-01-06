@@ -55,13 +55,6 @@ class SuseAPIConfig(RawConfigParser):
         self.read(load_config_paths('suseapi'))
 
 
-def main():
-    """
-    Execution entry point.
-    """
-    realmain(COMMANDS)
-
-
 def get_parser():
     """
     Creates argument parser.
@@ -160,9 +153,9 @@ class Absence(Command):
             )
 
 
-def realmain(commands):
+def main():
     """
-    The core of the invoker.
+    Execution entry point.
     """
     parser = get_parser()
     args = parser.parse_args(sys.argv[1:])
@@ -170,4 +163,4 @@ def realmain(commands):
     config = SuseAPIConfig()
     config.load()
 
-    commands[args.cmd](args, config)
+    COMMANDS[args.cmd](args, config)
