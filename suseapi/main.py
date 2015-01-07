@@ -44,6 +44,9 @@ def register_command(command):
 
 
 class SuseAPIConfig(RawConfigParser):
+    """
+    Configuration parser wrapper with defaults.
+    """
     def __init__(self):
         RawConfigParser.__init__(self)
         # Set defaults
@@ -56,6 +59,9 @@ class SuseAPIConfig(RawConfigParser):
         )
 
     def load(self):
+        """
+        Loads configuration from XDG paths.
+        """
         self.read(load_config_paths('suseapi'))
 
 
@@ -97,9 +103,15 @@ class Command(object):
         )
 
     def println(self, line):
+        """
+        Prints single line to output.
+        """
         print(line, file=self.stdout)
 
     def run(self):
+        """
+        Main execution of the command.
+        """
         raise NotImplementedError
 
 
@@ -141,6 +153,9 @@ class LookupUser(Command):
         self.println(pformat(self.search()))
 
     def search(self):
+        """
+        Performs LDAP search.
+        """
         userinfo = UserInfo(
             self.config.get('ldap', 'server'),
             self.config.get('ldap', 'base'),
