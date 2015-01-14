@@ -5,7 +5,7 @@ python-suseapi
     :alt: Build status
     :target: https://travis-ci.org/nijel/python-suseapi
 
-.. image:: https://coveralls.io/repos/nijel/python-suseapi/badge.png?branch=master 
+.. image:: https://coveralls.io/repos/nijel/python-suseapi/badge.svg?branch=master 
     :alt: Code coverage
     :target: https://coveralls.io/r/nijel/python-suseapi?branch=master 
 
