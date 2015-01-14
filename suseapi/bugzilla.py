@@ -34,7 +34,7 @@ from mechanize import (
 )
 from bs4 import BeautifulSoup
 
-from suseapi.browser import WebScraper, WebScraperError
+from suseapi.browser import WebScraper, WebScraperError, webscraper_safely
 
 SR_MATCH = re.compile(r'\[(\d+)\]')
 
@@ -341,7 +341,7 @@ class Bugzilla(WebScraper):
         self.logger.info('Doing login')
         response = self.submit()
 
-        text = response.read()
+        text = webscraper_safely(response.read)
 
         # Check for error messages
         soup = BeautifulSoup(text)
@@ -429,7 +429,8 @@ class Bugzilla(WebScraper):
         req += [('ctype', 'xml'), ('excludefield', 'attachmentdata')]
 
         # Download data
-        data = self.request('show_bug', paramlist=req).read()
+        response = self.request('show_bug', paramlist=req)
+        data = webscraper_safely(response.read)
 
         # Fixup XML errors bugzilla produces
         data = escape_xml_text(data)
@@ -469,7 +470,8 @@ class Bugzilla(WebScraper):
         '''
         req = [('ctype', 'atom')] + params
         self.logger.info('Doing bugzilla search: %s', req)
-        data = self.request('buglist', paramlist=req).read()
+        response = self.request('buglist', paramlist=req)
+        data = webscraper_safely(response.read)
         data = escape_xml_text(data)
         try:
             response_et = ElementTree.fromstring(data)
@@ -587,8 +589,9 @@ class Bugzilla(WebScraper):
 
         # Load the form
         self.logger.info('Loading bug form for %d', bugid)
-        data = self.request('show_bug', id=bugid)
-        if 'You are not authorized to access bug' in data.read():
+        response = self.request('show_bug', id=bugid)
+        data = webscraper_safely(response.read)
+        if 'You are not authorized to access bug' in data:
             raise BugzillaNotPermitted(
                 'You are not authorized to access bug #%d.' % bugid
             )
@@ -643,8 +646,8 @@ class Bugzilla(WebScraper):
             return
 
         # Submit
-        resp = self.submit()
-        data = resp.read()
+        response = self.submit()
+        data = webscraper_safely(response.read)
         if 'Mid-air collision!' in data:
             raise BugzillaUpdateError('Mid-air collision!')
         if 'reason=invalid_token' in data:
