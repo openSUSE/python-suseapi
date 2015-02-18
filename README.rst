@@ -13,6 +13,10 @@ python-suseapi
     :alt: Code Health
     :target: https://landscape.io/github/nijel/python-suseapi/master
 
+.. image:: https://www.codacy.com/project/badge/91a7d184cf0745249b014aad7bfd265f
+    :alt: Codacy Badge
+    :target: https://www.codacy.com/public/michal_2/python-suseapi
+
 .. image:: http://img.shields.io/pypi/dm/python-suseapi.svg
     :alt: PyPi
     :target: https://pypi.python.org/pypi/python-suseapi
