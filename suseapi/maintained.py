@@ -67,14 +67,14 @@ class MaintainedData(object):
         Checks whether product is maintained.
         '''
         return (
-            (self.data['ProductType'] == 'maintained')
-            and (self.data['Distributionstring'] != 'res')
-            and not self.data['Distributionstring'].startswith('RES')
-            and ('-beta-' not in self.data['Distribution'])
-            and ('-beta-' not in self.name)
-            and ('sle11-hwrefresh10a' not in self.data['Distribution'])
-            and ('sle11-pl11b' not in self.data['Distribution'])
-            and ('openSUSE' not in self.data['Distributionstring'])
+            (self.data['ProductType'] == 'maintained') and
+            (self.data['Distributionstring'] != 'res') and
+            not self.data['Distributionstring'].startswith('RES') and
+            ('-beta-' not in self.data['Distribution']) and
+            ('-beta-' not in self.name) and
+            ('sle11-hwrefresh10a' not in self.data['Distribution']) and
+            ('sle11-pl11b' not in self.data['Distribution']) and
+            ('openSUSE' not in self.data['Distributionstring'])
         )
 
 

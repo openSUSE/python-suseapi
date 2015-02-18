@@ -245,10 +245,10 @@ class Bugzilla(WebScraper):
         """
         Logins again to workaround possible bad cookies.
         """
-        if (error.original
-                and hasattr(error.original, 'code')
-                and error.original.code == 502
-                and self.cookie_set):
+        if (error.original and
+                hasattr(error.original, 'code') and
+                error.original.code == 502 and
+                self.cookie_set):
             self.logger.warning(
                 'Got 502 (Bad Gateway), clearing cookies and loging in again'
             )
@@ -615,8 +615,8 @@ class Bugzilla(WebScraper):
         changes = False
 
         # Do not add ourselves to CC when setting whiteboard
-        if ((whiteboard_add is not None or whiteboard_remove is not None)
-                and 'addselfcc' not in kwargs):
+        if ((whiteboard_add is not None or whiteboard_remove is not None) and
+                'addselfcc' not in kwargs):
             kwargs['addselfcc'] = []
 
         # Set parameters
