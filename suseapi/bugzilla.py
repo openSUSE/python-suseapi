@@ -42,7 +42,7 @@ IGNORABLE_FIELDS = frozenset((
     'commentprivacy',
     'comment_is_private',
     'addselfcc',
-    'group_10',
+    'groups',
 ))
 
 
