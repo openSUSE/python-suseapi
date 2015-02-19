@@ -80,7 +80,7 @@ class SWAMP(object):
             mapitem = self._client.factory.create('ns2:mapItem')
             mapitem.key = item
             mapitem.value = dictdata[item]
-            # pylint: disable=E1101
+            # pylint: disable=E1101,E1103
             result.item.append(mapitem)
         return result
 
