@@ -4,3 +4,4 @@ python-dateutil
 suds-jurko
 beautifulsoup4
 pyxdg
+python-ldap
