@@ -288,6 +288,7 @@ class Bugzilla(WebScraper):
         '''
         Checks whether the browser is in HTML viewing state.
         '''
+        # pylint: disable=E1102
         if not self.browser.viewing_html():
             raise BugzillaLoginFailed('Failed to load bugzilla form')
 
@@ -308,17 +309,20 @@ class Bugzilla(WebScraper):
         self.check_viewing_html()
 
         try:
+            # pylint: disable=E1102
             self.browser.find_link(text='Log out')
             self.logger.info('Already logged in')
             return True
         except LinkNotFoundError:
             try:
+                # pylint: disable=E1102
                 self.browser.find_link(text='Log\xc2\xa0out')
                 self.logger.info('Already logged in')
                 return True
             except LinkNotFoundError:
                 return False
 
+    # pylint: disable=W0613
     def login(self, force=False):
         '''
         Login to Bugzilla using Access Manager.
@@ -328,10 +332,12 @@ class Bugzilla(WebScraper):
 
         try:
             # Submit fake javascript form
+            # pylint: disable=E1102
             self.browser.select_form(nr=0)
             response = self.submit()
 
             # Find the login form
+            # pylint: disable=E1102
             self.browser.select_form(nr=0)
 
             self.browser['Ecom_User_ID'] = self.user
@@ -565,6 +571,7 @@ class Bugzilla(WebScraper):
 
         # Find link containing SR ids
         try:
+            # pylint: disable=E1102
             link = self.browser.find_link(text='Report View')
         except LinkNotFoundError:
             return []
@@ -601,6 +608,7 @@ class Bugzilla(WebScraper):
 
         # Find the form
         try:
+            # pylint: disable=E1102
             self.browser.select_form(name="changeform")
         except FormNotFoundError:
             raise BugzillaUpdateError('Failed to parse HTML to update bug!')

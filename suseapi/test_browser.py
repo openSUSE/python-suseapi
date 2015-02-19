@@ -111,6 +111,7 @@ class WebSraperTest(TestCase):
         try:
             scraper = WebScraper(None, None, 'http://localhost:8888')
             scraper.request('foo')
+            # pylint: disable=E1102
             scraper.browser.select_form(nr=0)
             self.assertRaises(WebScraperError, scraper.submit)
             self.assertRaises(WebScraperError, scraper.request, 'bar?')

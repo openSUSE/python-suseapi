@@ -43,7 +43,8 @@ Absence    : Fri 2013-10-25 - Mon 2013-10-28
 ------------------------------------------------------------
 '''
 
-
+# One of those imports has to fail
+# pylint: disable=F0401
 try:
     import SocketServer
 except ImportError:

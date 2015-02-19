@@ -80,6 +80,7 @@ class SWAMP(object):
             mapitem = self._client.factory.create('ns2:mapItem')
             mapitem.key = item
             mapitem.value = dictdata[item]
+            # pylint: disable=E1101
             result.item.append(mapitem)
         return result
 
@@ -274,6 +275,7 @@ class WebSWAMP(WebScraper):
         Performs login to SWAMP.
         '''
         self.request('')
+        # pylint: disable=E1102
         self.browser.select_form(name='loginform')
         self.browser['username'] = self.user
         self.browser['password'] = self.password
@@ -303,6 +305,7 @@ class WebSWAMP(WebScraper):
             raise WebSWAMPError('Failed to parse workflow ID!')
 
         # Set some additional attributes
+        # pylint: disable=E1102
         self.browser.select_form('dataedit')
         self.browser['field_%s' % FIELD_ADDITIONAL_BUGZILLA] = \
             ','.join([str(bug) for bug in extra_bugs])
@@ -323,6 +326,7 @@ class WebSWAMP(WebScraper):
             )
         )
 
+        # pylint: disable=E1102
         self.browser.select_form('dataedit')
         if release_date is not None:
             date_str = release_date.strftime('%Y-%m-%d')
