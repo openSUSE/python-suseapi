@@ -72,10 +72,12 @@ class UserInfo(CacherMixin):
         try:
             return self._ldap.search_s(
                 self._base,
+                # pylint: disable=E1101
                 ldap.SCOPE_SUBTREE,
                 filterstring,
                 attribs
             )
+        # pylint: disable=E1101
         except ldap.NO_SUCH_OBJECT:
             return []
 
