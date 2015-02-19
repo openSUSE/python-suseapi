@@ -50,7 +50,8 @@ class BugzillaTest(TestCase):
     '''
     _backup = {}
 
-    def httpretty_login(self):
+    @staticmethod
+    def httpretty_login():
         httpretty.register_uri(
             httpretty.POST,
             'https://bugzilla.novell.com/index.cgi',

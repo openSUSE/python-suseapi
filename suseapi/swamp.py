@@ -84,7 +84,8 @@ class SWAMP(object):
             result.item.append(mapitem)
         return result
 
-    def _map2dict(self, apachemap):
+    @staticmethod
+    def _map2dict(apachemap):
         '''
         Converts Apache map object to standard Python dict.
         '''
