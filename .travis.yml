@@ -15,7 +15,7 @@ install:
 script: 
   - py.test --cov=suseapi
   - pep8 suseapi
-  - pylint --reports=n --rcfile=pylint.rc suseapi || true
+  - pylint --reports=n --rcfile=pylint.rc suseapi
   - pyflakes suseapi
 after_script:
   - coveralls
