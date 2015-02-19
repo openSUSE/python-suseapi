@@ -8,7 +8,7 @@ cache:
     - $HOME/.cache/pip
 # commands to install dependencies
 install: 
-  - if [ $TRAVIS_PYTHON_VERSION = 2.6 ] ; then pip install "Django<1.7" "pylint<1.4.0" ; fi
+  - if [ $TRAVIS_PYTHON_VERSION = 2.6 ] ; then pip install "Django<1.7" "pylint<1.4.0" "astroid<1.3" ; fi
   - pip install -r requirements.txt
   - pip install -r requirements-test.txt
 # commands to run tests
