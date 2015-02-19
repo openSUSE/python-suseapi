@@ -21,6 +21,11 @@
 Support classes for caching data.
 '''
 from datetime import datetime, timedelta
+import re
+import hashlib
+
+# Valid keys regexp for memcached
+VALID_KEY_CHARS_RE = re.compile('[\x21-\x7e\x80-\xff]+$')
 
 
 class CacherMixin(object):
@@ -34,6 +39,10 @@ class CacherMixin(object):
         '''
         Get name of the cache key for django caching.
         '''
+        if not VALID_KEY_CHARS_RE.match(key):
+            md5 = hashlib.md5()
+            md5.update(key)
+            key = md5.hexdigest()
         return self.cache_key_template % key
 
     def cache_set(self, key, value):
