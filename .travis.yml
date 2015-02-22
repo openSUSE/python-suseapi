@@ -20,3 +20,7 @@ script:
 after_script:
   - coveralls
   - ocular --data-file ".coverage" --config-file ".coveragerc"
+# trigger Buildtime Trend Service to parse Travis CI log
+notifications:
+  webhooks:
+    - https://buildtimetrend.herokuapp.com/travis
