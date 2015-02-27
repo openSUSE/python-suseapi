@@ -48,3 +48,25 @@ The configuration file is INI file, for example:
 
     [presence]
     servers = present.suse.de,bolzano.suse.de/nosend
+
+Examples
+++++++++
+
+Listing absences for user mcihar:
+
+.. code-block:: sh
+
+    $ suseapi absence mcihar
+    2015-04-06 - 2015-04-06
+    2015-05-01 - 2015-05-01
+    2015-05-08 - 2015-05-08
+    2015-07-06 - 2015-07-06
+    2015-09-28 - 2015-09-28
+    2015-10-28 - 2015-10-28
+
+Listing LDAP attributes for user mcihar:
+
+.. code-block:: sh
+    $ suseapi lookup-user --attribs COMPANY,FULLNAME,uid mcihar
+    [('cn=MCihar,o=Novell',
+      {'COMPANY': ['SUSE'], 'FULLNAME': ['Michal Cihar'], 'uid': ['mcihar']})]
