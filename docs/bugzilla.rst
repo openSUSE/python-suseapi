@@ -87,12 +87,16 @@ read Bugzilla and SOAP service for writing to Bugzilla.
 
       Reads single bug from Bugzilla.
 
-   .. method:: get_bugs(ids, retry=True)
+   .. method:: get_bugs(ids, retry=True, permissive=False, store_errors=False)
 
       :param ids: Bug ids
       :type ids: list of integers
       :param retry: Whether to retry with new login on failure
       :type retry: boolean
+      :param permissive: Whether to ignore not found bugs
+      :type permissive: boolean
+      :param store_errors: Whether to store bug retrieval errors in result
+      :param store_errors: boolean
       :return: Bug data
       :rtype: list of :class:`Bug` instances
 
