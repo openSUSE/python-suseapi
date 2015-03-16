@@ -96,7 +96,7 @@ read Bugzilla and SOAP service for writing to Bugzilla.
       :param permissive: Whether to ignore not found bugs
       :type permissive: boolean
       :param store_errors: Whether to store bug retrieval errors in result
-      :param store_errors: boolean
+      :type store_errors: boolean
       :return: Bug data
       :rtype: list of :class:`Bug` instances
 
