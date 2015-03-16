@@ -630,7 +630,7 @@ class Bugzilla(WebScraper):
         # Set parameters
         for k in kwargs:
             val = kwargs[k]
-            if type(val) == unicode:
+            if isinstance(val, unicode):
                 val = val.encode('utf-8')
             try:
                 self.browser[k] = val
