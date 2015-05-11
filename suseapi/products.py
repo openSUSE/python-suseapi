@@ -53,6 +53,8 @@ def codestream_name(name):
         'OES2', 'OES-2'
     ).replace(
         '-UPDATE', ''
+    ).replace(
+        '-STAGING', ''
     )
     if dist == 'SMT11-SP2':
         return 'SLE-11-SP2-PRODUCTS'
