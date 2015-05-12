@@ -1,0 +1,25 @@
+#!/bin/sh
+set -e
+
+if [ -z "$1" ] ; then
+    echo 'Usage: ./scripts/set-version VERSION'
+    exit 1
+fi
+
+sed -i "s/^__version__ =.*/__version__ = '$1'/" suseapi/__init__.py
+
+# Update docs/changes.rst
+tmp=`mktemp`
+cp NEWS.rst $tmp
+cat > NEWS.rst <<EOT
+Changes
+=======
+
+$1
+----
+
+EOT
+sed '1D;2D;3D' >> NEWS.rst < $tmp
+rm $tmp
+
+git commit -m "Setting version to $1" suseapi/__init__.py NEWS.rst

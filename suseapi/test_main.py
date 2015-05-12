@@ -2,6 +2,7 @@ from unittest import TestCase
 from argparse import Namespace
 from StringIO import StringIO
 
+import suseapi
 from suseapi.main import get_parser, main
 from suseapi.test_presence import start_test_server, stop_test_server
 from suseapi.test_userinfo import start_ldap_mock
@@ -46,3 +47,12 @@ class TestCommands(TestCase):
         finally:
             mockldap.stop()
         self.assertTrue('TestDept' in output.getvalue())
+
+    def test_version(self):
+        output = StringIO()
+        main(
+            args=['version'],
+            stdout=output
+        )
+
+        self.assertTrue(suseapi.__version__ in output.getvalue())

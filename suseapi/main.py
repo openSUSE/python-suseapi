@@ -30,6 +30,7 @@ from ConfigParser import RawConfigParser
 
 from suseapi.userinfo import UserInfo
 from suseapi.presence import Presence
+import suseapi
 
 
 COMMANDS = {}
@@ -113,6 +114,18 @@ class Command(object):
         Main execution of the command.
         """
         raise NotImplementedError
+
+
+@register_command
+class Version(Command):
+    """
+    Prints version.
+    """
+    name = 'version'
+    description = "Prints program version"
+
+    def run(self):
+        self.println(suseapi.__version__)
 
 
 @register_command

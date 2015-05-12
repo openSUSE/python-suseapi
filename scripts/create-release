@@ -1,0 +1,26 @@
+#!/bin/sh
+
+set -e
+
+if [ "x$1" = "x--help" -o "x$1" = "x-h" ] ; then
+    echo "Usage: ./scripts/create-release [--tag]"
+    exit 1
+fi
+
+# Grab version
+version=`./sa version`
+namever=python-suseapi-$version
+
+# What are we going to build?
+if [ "x$1" = "x--tag" ] ; then
+    rev=$namever
+    git tag -s $version -m "Version $version"
+fi
+
+# Create tarball
+./setup.py sdist --formats bztar,gztar,zip
+
+# Optionally upload
+if [ "x$1" = "x--tag" ] ; then
+    ./setup.py sdist upload --formats bztar,gztar,zip
+fi
