@@ -4,6 +4,8 @@ Changes
 0.21
 ----
 
+* Fixed list of files in the release.
+
 0.20
 ----
 
