@@ -22,5 +22,6 @@ fi
 
 # Optionally upload
 if [ "x$1" = "x--tag" ] ; then
-    ./setup.py sdist upload --formats bztar,gztar,zip
+    ./setup.py register
+    ./setup.py sdist --formats bztar,gztar,zip upload
 fi
