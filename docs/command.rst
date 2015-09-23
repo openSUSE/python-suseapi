@@ -67,6 +67,7 @@ Listing absences for user mcihar:
 Listing LDAP attributes for user mcihar:
 
 .. code-block:: sh
+
     $ suseapi lookup-user --attribs COMPANY,FULLNAME,uid mcihar
     [('cn=MCihar,o=Novell',
       {'COMPANY': ['SUSE'], 'FULLNAME': ['Michal Cihar'], 'uid': ['mcihar']})]
