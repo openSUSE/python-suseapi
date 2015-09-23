@@ -17,7 +17,7 @@ python-suseapi
     :alt: PyPi
     :target: https://pypi.python.org/pypi/python-suseapi
 
-.. image:: https://www.codacy.com/project/badge/91a7d184cf0745249b014aad7bfd265f
+.. image:: https://api.codacy.com/project/badge/3976586fadbe46458063d432cd72a02e
     :alt: Codacy Badge
     :target: https://www.codacy.com/public/michal_2/python-suseapi
 
