@@ -2,7 +2,7 @@
 #
 # Copyright © 2012 - 2015 Michal Čihař <mcihar@suse.cz>
 #
-# This file is part of python-suseapi <https://github.com/nijel/python-suseapi>
+# This file is part of python-suseapi <https://github.com/openSUSE/python-suseapi>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

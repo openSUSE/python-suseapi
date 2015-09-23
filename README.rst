@@ -1,21 +1,17 @@
 python-suseapi
 ==============
 
-.. image:: https://travis-ci.org/nijel/python-suseapi.png?branch=master   
+.. image:: https://travis-ci.org/openSUSE/python-suseapi.png?branch=master   
     :alt: Build status
-    :target: https://travis-ci.org/nijel/python-suseapi
+    :target: https://travis-ci.org/openSUSE/python-suseapi
 
-.. image:: https://coveralls.io/repos/nijel/python-suseapi/badge.svg?branch=master 
+.. image:: https://coveralls.io/repos/openSUSE/python-suseapi/badge.svg?branch=master 
     :alt: Code coverage
-    :target: https://coveralls.io/r/nijel/python-suseapi?branch=master 
+    :target: https://coveralls.io/r/openSUSE/python-suseapi?branch=master 
 
-.. image:: https://landscape.io/github/nijel/python-suseapi/master/landscape.png
+.. image:: https://landscape.io/github/openSUSE/python-suseapi/master/landscape.png
     :alt: Code Health
-    :target: https://landscape.io/github/nijel/python-suseapi/master
-
-.. image:: https://www.codacy.com/project/badge/91a7d184cf0745249b014aad7bfd265f
-    :alt: Codacy Badge
-    :target: https://www.codacy.com/public/michal_2/python-suseapi
+    :target: https://landscape.io/github/openSUSE/python-suseapi/master
 
 .. image:: http://img.shields.io/pypi/dm/python-suseapi.svg
     :alt: PyPi

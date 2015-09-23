@@ -3,7 +3,7 @@
 #
 # Copyright © 2012 - 2015 Michal Čihař <mcihar@suse.cz>
 #
-# This file is part of python-suseapi <https://github.com/nijel/python-suseapi>
+# This file is part of python-suseapi <https://github.com/openSUSE/python-suseapi>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ setup(
     description='Python module for SUSE APIs.',
     license='GPLv3+',
     keywords='suse, django',
-    url='https://github.com/nijel/python-suseapi',
+    url='https://github.com/openSUSE/python-suseapi',
     download_url='https://pypi.python.org/pypi/python-suseapi',
     platforms=['any'],
     packages=[
