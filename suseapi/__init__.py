@@ -21,6 +21,6 @@
 '''
 python-suseapi is set of helpers to access various SUSE APIs.
 '''
-__version__ = '0.22'
+__version__ = '0.23'
 
 USER_AGENT = 'python-suseapi/{0}'.format(__version__)
