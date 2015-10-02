@@ -5,9 +5,9 @@ python-suseapi
     :alt: Build status
     :target: https://travis-ci.org/openSUSE/python-suseapi
 
-.. image:: https://coveralls.io/repos/openSUSE/python-suseapi/badge.svg?branch=master 
+.. image:: https://coveralls.io/repos/openSUSE/python-suseapi/badge.svg?branch=master&service=github
     :alt: Code coverage
-    :target: https://coveralls.io/r/openSUSE/python-suseapi?branch=master 
+    :target: https://coveralls.io/github/openSUSE/python-suseapi?branch=master
 
 .. image:: https://landscape.io/github/openSUSE/python-suseapi/master/landscape.png
     :alt: Code Health
