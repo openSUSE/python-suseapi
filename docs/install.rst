@@ -3,7 +3,7 @@ Installation
 
 You can download sources at GitHub:
 
-https://github.com/nijel/python-suseapi/
+https://github.com/openSUSE/python-suseapi/
 
 Package is also on PyPi:
 
