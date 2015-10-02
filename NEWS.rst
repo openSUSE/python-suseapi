@@ -4,6 +4,8 @@ Changes
 0.22
 ----
 
+* Changed location of Git repository.
+
 0.21
 ----
 
