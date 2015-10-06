@@ -4,6 +4,8 @@ Changes
 0.23
 ----
 
+* Specify BeautifulSoup backend.
+
 0.22
 ----
 
