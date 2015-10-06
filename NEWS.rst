@@ -1,10 +1,10 @@
 Changes
 =======
 
-0.24
+0.25
 ----
 
-0.23
+0.24
 ----
 
 * Specify BeautifulSoup backend.
