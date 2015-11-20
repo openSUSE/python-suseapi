@@ -3,5 +3,6 @@ mechanize
 python-dateutil
 suds-jurko
 beautifulsoup4
+setuptools
 pyxdg
 python-ldap
