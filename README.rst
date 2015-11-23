@@ -19,7 +19,7 @@ python-suseapi
 
 .. image:: https://api.codacy.com/project/badge/3976586fadbe46458063d432cd72a02e
     :alt: Codacy Badge
-    :target: https://www.codacy.com/public/michal_2/python-suseapi
+    :target: https://www.codacy.com/public/nijel/python-suseapi
 
 Python module to work with various SUSE services. Please note that many of them
 are internal only.
