@@ -8,3 +8,4 @@ pyflakes
 mockldap
 Django
 scrutinizer-ocular
+codacy-coverage

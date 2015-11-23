@@ -20,6 +20,8 @@ script:
 after_script:
   - coveralls
   - ocular --data-file ".coverage" --config-file ".coveragerc"
+  - coverage xml
+  - python-codacy-coverage -r coverage.xml
 # trigger Buildtime Trend Service to parse Travis CI log
 notifications:
   webhooks:
