@@ -686,16 +686,16 @@ class Bugzilla(WebScraper):
 
 class APIBugzilla(Bugzilla):
     '''
-    Wrapper class to use apibugzilla.novell.com.
+    Wrapper class to use apibugzilla.suse.com.
     '''
-    def __init__(self, user, password, base='https://apibugzilla.novell.com',
+    def __init__(self, user, password, base='https://apibugzilla.suse.com',
                  useragent=None):
         super(APIBugzilla, self).__init__(
             user, password, base, useragent
         )
         # Use normal Bugzilla for anonymous access
-        if self.anonymous and 'novell.com' in base:
-            self.base = 'https://bugzilla.novell.com'
+        if self.anonymous and 'suse.com' in base:
+            self.base = 'https://bugzilla.suse.com'
         else:
             self.browser.add_password(base + '/', user, password)
 

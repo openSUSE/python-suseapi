@@ -55,13 +55,13 @@ class BugzillaTest(TestCase):
     def httpretty_login():
         httpretty.register_uri(
             httpretty.POST,
-            'https://bugzilla.novell.com/index.cgi',
+            'https://bugzilla.suse.com/index.cgi',
             body='<html><body><a href="#">Log\xc2\xa0out</a></body></html>',
             content_type='text/html',
         )
         httpretty.register_uri(
             httpretty.POST,
-            'https://apibugzilla.novell.com/index.cgi',
+            'https://apibugzilla.suse.com/index.cgi',
             body='<html><body><a href="#">Log out</a></body></html>',
             content_type='text/html',
         )
@@ -238,7 +238,7 @@ class BugzillaTest(TestCase):
 
             httpretty.register_uri(
                 httpretty.POST,
-                'https://apibugzilla.novell.com/show_bug.cgi',
+                'https://apibugzilla.suse.com/show_bug.cgi',
                 status=502,
             )
             self.httpretty_login()

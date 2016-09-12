@@ -4,6 +4,8 @@ Changes
 0.25
 ----
 
+* Update apibugzilla endpoint to use suse.com
+
 0.24
 ----
 
