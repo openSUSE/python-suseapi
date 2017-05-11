@@ -236,10 +236,11 @@ class Bugzilla(WebScraper):
     Class for access to Novell bugzilla.
     '''
     def __init__(self, user, password, base='https://bugzilla.novell.com',
-                 useragent=None):
+                 useragent=None, force_readonly=False):
         super(Bugzilla, self).__init__(
             user, password, base, useragent
         )
+        self.force_readonly = force_readonly
         self.logger = logging.getLogger('suse.bugzilla')
 
     def possible_relogin(self, error):
@@ -652,7 +653,7 @@ class Bugzilla(WebScraper):
             )
 
         # Retrun on no changes
-        if not changes:
+        if not changes or self.force_readonly:
             return
 
         # Submit
@@ -689,10 +690,11 @@ class APIBugzilla(Bugzilla):
     Wrapper class to use apibugzilla.suse.com.
     '''
     def __init__(self, user, password, base='https://apibugzilla.suse.com',
-                 useragent=None):
+                 useragent=None, force_readonly=False):
         super(APIBugzilla, self).__init__(
             user, password, base, useragent
         )
+        self.force_readonly = force_readonly
         # Use normal Bugzilla for anonymous access
         if self.anonymous and 'suse.com' in base:
             self.base = 'https://bugzilla.suse.com'
@@ -750,10 +752,15 @@ def get_django_bugzilla():
     cache.
     '''
     from django.conf import settings
+    force_readonly = (
+        hasattr(settings, 'BUGZILLA_FORCE_READONLY') and
+        settings.BUGZILLA_FORCE_READONLY
+    )
     bugzilla = DjangoBugzilla(
         settings.BUGZILLA_USERNAME,
         settings.BUGZILLA_PASSWORD,
         useragent=settings.EMAIL_SUBJECT_PREFIX.strip('[] '),
+        force_readonly=force_readonly,
     )
 
     # Check for anonymous access
