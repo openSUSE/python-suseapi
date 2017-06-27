@@ -24,5 +24,6 @@ after_script:
   - ocular --data-file ".coverage" --config-file ".coveragerc"
   - coverage xml
   - python-codacy-coverage -r coverage.xml
+  - codecov
 cache:
   pip: true
