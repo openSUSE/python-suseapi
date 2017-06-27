@@ -49,7 +49,7 @@ class TimeoutHTTPHandler(BaseHTTPRequestHandler):
             self.wfile.write('<form method="GET" action="/bar" name="test">')
             self.wfile.write('<input type="submit" value="Submit">')
             self.wfile.write('</form>')
-        elif self.path == '/bar?':
+        elif self.path.startswith('/bar'):
             time.sleep(1)
 
 
