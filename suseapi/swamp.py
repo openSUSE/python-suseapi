@@ -271,8 +271,6 @@ class WebSWAMP(WebScraper):
     def __init__(self, user, password,
                  base='https://swamp.suse.de/webswamp/swamp',
                  useragent=None):
-        # pylint: disable=W0235
-        # We do it for default value of base
         super(WebSWAMP, self).__init__(user, password, base, useragent)
 
     def login(self):
