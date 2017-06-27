@@ -107,7 +107,7 @@ def escape_xml_text(data):
     ])
 
     substrs = sorted(replacement_map, key=len, reverse=True)
-    regexp = re.compile('|'.join(map(re.escape, substrs)))
+    regexp = re.compile('|'.join([re.escape(s) for s in substrs]))
     return regexp.sub(lambda match: replacement_map[match.group(0)], data)
 
 
