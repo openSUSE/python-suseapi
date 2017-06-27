@@ -52,6 +52,9 @@ class TimeoutHTTPHandler(BaseHTTPRequestHandler):
         elif self.path.startswith('/bar'):
             time.sleep(1)
 
+    def do_POST(self):
+        self.do_GET()
+
 
 class WebSraperTest(TestCase):
     '''
