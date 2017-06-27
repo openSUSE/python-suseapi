@@ -57,8 +57,7 @@ class BugzillaError(WebScraperError):
     def __str__(self):
         if self.bug_id is not None:
             return "%s: %s: %s" % (self.__doc__, self.error, self.bug_id)
-        else:
-            return "%s: %s" % (self.__doc__, self.error)
+        return "%s: %s" % (self.__doc__, self.error)
 
 
 class BugzillaNotPermitted(BugzillaError):
@@ -165,7 +164,7 @@ class Bug(object):
             self.delta_ts = dateutil.parser.parse(element.text)
         elif element.tag == 'flag':
             self.process_flag(element)
-        elif len(element.getchildren()) == 0:
+        elif not element.getchildren():
             setattr(self, element.tag, element.text)
         elif element.tag == 'long_desc':
             self.process_comment(element)
@@ -426,9 +425,9 @@ class Bugzilla(WebScraper):
         Returns None in case of failure.
         '''
         result = self.get_bugs([bugid], retry)
-        if len(result) == 0:
-            return None
-        return result[0]
+        if result:
+            return result[0]
+        return None
 
     def get_bugs(self, ids, retry=True, permissive=False, store_errors=False):
         '''
@@ -585,7 +584,7 @@ class Bugzilla(WebScraper):
         # Split parts (URL encoded)
         urlpart = [x for x in link.url.split('%26') if x[:7] == 'lsMSRID']
 
-        if len(urlpart) == 0:
+        if not urlpart:
             return []
 
         # Find SR ids
