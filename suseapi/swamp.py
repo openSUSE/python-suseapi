@@ -270,6 +270,8 @@ class WebSWAMP(WebScraper):
     '''
     def __init__(self, user, password,
                  base='https://swamp.suse.de/webswamp/swamp'):
+        # pylint: disable=useless-super-delegation
+        # We do it for default value of base
         super(WebSWAMP, self).__init__(user, password, base)
 
     def login(self):

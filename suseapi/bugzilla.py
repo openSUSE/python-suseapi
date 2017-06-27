@@ -384,8 +384,7 @@ class Bugzilla(WebScraper):
         '''
         if action.startswith('http'):
             return action
-        else:
-            return self.base + '/' + action + '.cgi'
+        return self.base + '/' + action + '.cgi'
 
     def _handle_parse_error(self, bugid, data):
         '''
