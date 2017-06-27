@@ -18,10 +18,9 @@ if [ "x$1" = "x--tag" ] ; then
 fi
 
 # Create tarball
-./setup.py sdist --formats bztar,gztar,zip
+./setup.py sdist
 
 # Optionally upload
 if [ "x$1" = "x--tag" ] ; then
-    ./setup.py register
-    ./setup.py sdist --formats bztar,gztar,zip upload
+    ./setup.py sdist upload
 fi
