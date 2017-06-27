@@ -100,12 +100,15 @@ def escape_xml_text(data):
     '''
     Fix some XML errors in bugzilla xml, which confuse proper XML parser.
     '''
-    data = data.replace('\x08', '^H')
-    data = data.replace('\x13', '^S')
-    data = data.replace('\x01', '^A')
-    data = data.replace('\x07', '^G')
-    data = data.replace('\x00', '')
-    return data
+    replacement_map = dict([
+        (chr(orig), '\\x%02d' % orig) for orig in range(32)
+        # skipt newline, carriage return and tabulator chars
+        if orig not in (9, 10, 13)
+    ])
+
+    substrs = sorted(replacement_map, key=len, reverse=True)
+    regexp = re.compile('|'.join(map(re.escape, substrs)))
+    return regexp.sub(lambda match: replacement_map[match.group(0)], data)
 
 
 class Bug(object):
