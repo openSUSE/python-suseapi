@@ -100,10 +100,10 @@ def escape_xml_text(data):
     '''
     Fix some XML errors in bugzilla xml, which confuse proper XML parser.
     '''
-    data = data.replace('', '^H')
-    data = data.replace('', '^S')
-    data = data.replace('', '^A')
-    data = data.replace('', '^G')
+    data = data.replace('\x08', '^H')
+    data = data.replace('\x13', '^S')
+    data = data.replace('\x01', '^A')
+    data = data.replace('\x07', '^G')
     return data
 
 
