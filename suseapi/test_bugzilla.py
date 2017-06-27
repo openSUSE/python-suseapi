@@ -37,6 +37,7 @@ from suseapi.bugzilla import (
     BugzillaNotFound,
     WebScraperError,
     get_django_bugzilla,
+    escape_xml_text,
 )
 
 TEST_DATA = os.path.join(
@@ -284,4 +285,17 @@ class BugzillaTest(TestCase):
                 789222,
                 844953
             ]
+        )
+
+    def test_escape(self):
+        self.assertEqual(
+            escape_xml_text('ahoj'),
+            'ahoj'
+        )
+        self.assertEqual(
+            escape_xml_text(''.join([chr(x) for x in range(40)])),
+            '\\x00\\x01\\x02\\x03\\x04\\x05\\x06\\x07\\x08\t\n'
+            '\\x11\\x12\r\\x14\\x15\\x16\\x17\\x18\\x19\\x20'
+            '\\x21\\x22\\x23\\x24\\x25\\x26\\x27\\x28\\x29\\x30'
+            '\\x31 !"#$%&\''
         )
