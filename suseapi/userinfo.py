@@ -59,7 +59,7 @@ class UserInfo(CacherMixin):
         for attr, val in self.searches:
             val = val.format(uid)
             result = self.search_by(attr, val, attribs)
-            if len(result) > 0:
+            if result:
                 return result
         return []
 
