@@ -269,10 +269,11 @@ class WebSWAMP(WebScraper):
     Web based access to SWAMP.
     '''
     def __init__(self, user, password,
-                 base='https://swamp.suse.de/webswamp/swamp'):
-        # pylint: disable=useless-super-delegation
+                 base='https://swamp.suse.de/webswamp/swamp',
+                 useragent=None):
+        # pylint: disable=W0235
         # We do it for default value of base
-        super(WebSWAMP, self).__init__(user, password, base)
+        super(WebSWAMP, self).__init__(user, password, base, useragent)
 
     def login(self):
         '''
