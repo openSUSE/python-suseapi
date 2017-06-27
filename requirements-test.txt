@@ -7,6 +7,6 @@ pytest
 pytest-cov
 pyflakes
 mockldap
-Django
 scrutinizer-ocular
 codacy-coverage
+-r requirements.txt

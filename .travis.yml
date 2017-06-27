@@ -11,7 +11,7 @@ install:
   # Get newer pip and whell for binary caching support
   - pip install --upgrade pip wheel
   - if [ $TRAVIS_PYTHON_VERSION = 2.6 ] ; then pip install "Django<1.7" "pylint<1.4.0" "astroid<1.3" "mechanize<=0.2.5"; fi
-  - pip install -r requirements.txt -r requirements-test.txt
+  - pip install -r requirements-test.txt
 # commands to run tests
 script: 
   - py.test --cov=suseapi
