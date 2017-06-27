@@ -38,19 +38,19 @@ class TimeoutHTTPHandler(BaseHTTPRequestHandler):
     HTTP handler to emulate server timeouts.
     """
     def do_GET(self):
+        print self.path
+
+        if self.path.startswith('/bar'):
+            time.sleep(1)
         self.send_response(200)
         self.send_header("Content-Type", 'text/html')
         self.send_header('Connection', 'close')
         self.end_headers()
 
-        print self.path
-
         if self.path == '/foo':
             self.wfile.write('<form method="GET" action="/bar" name="test">')
             self.wfile.write('<input type="submit" value="Submit">')
             self.wfile.write('</form>')
-        elif self.path.startswith('/bar'):
-            time.sleep(1)
 
     def do_POST(self):
         self.do_GET()
