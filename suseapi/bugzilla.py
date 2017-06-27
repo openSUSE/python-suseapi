@@ -104,6 +104,7 @@ def escape_xml_text(data):
     data = data.replace('\x13', '^S')
     data = data.replace('\x01', '^A')
     data = data.replace('\x07', '^G')
+    data = data.replace('\x00', '')
     return data
 
 
