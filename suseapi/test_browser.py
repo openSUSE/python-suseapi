@@ -105,12 +105,13 @@ class WebSraperTest(TestCase):
         '''
         original_timeout = suseapi.browser.DEFAULT_TIMEOUT
         suseapi.browser.DEFAULT_TIMEOUT = 0.5
-        server = HTTPServer(('localhost', 8888), TimeoutHTTPHandler)
+        server = HTTPServer(('localhost', 0), TimeoutHTTPHandler)
+        port = server.server_address[1]
         server_thread = threading.Thread(target=server.serve_forever)
         server_thread.daemon = False
         server_thread.start()
         try:
-            scraper = WebScraper(None, None, 'http://localhost:8888')
+            scraper = WebScraper(None, None, 'http://localhost:%d' % port)
             scraper.request('foo')
             # pylint: disable=E1102
             scraper.browser.select_form(nr=0)
