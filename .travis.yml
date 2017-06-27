@@ -22,7 +22,3 @@ after_script:
   - ocular --data-file ".coverage" --config-file ".coveragerc"
   - coverage xml
   - python-codacy-coverage -r coverage.xml
-# trigger Buildtime Trend Service to parse Travis CI log
-notifications:
-  webhooks:
-    - https://buildtimetrend.herokuapp.com/travis
