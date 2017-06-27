@@ -24,9 +24,11 @@ Wrapper around suds to allow easier access to SWAMP.
 Complete documentation is available in doc/source/api/swamp.rst, which can be
 processed using sphinx to get full featured documentation.
 '''
+import logging
+import re
+
 from suds.client import Client
 from suds import WebFault
-import re
 
 from suseapi.browser import WebScraper, WebScraperError
 
@@ -272,6 +274,7 @@ class WebSWAMP(WebScraper):
                  base='https://swamp.suse.de/webswamp/swamp',
                  useragent=None):
         super(WebSWAMP, self).__init__(user, password, base, useragent)
+        self.logger = logging.getLogger('suse.swamp')
 
     def login(self):
         '''
@@ -285,6 +288,7 @@ class WebSWAMP(WebScraper):
         response = self.submit()
         data = response.read()
         if 'Logout' not in data:
+            self.logger.warning('Login failed: %s', data)
             raise WebSWAMPError('Failed to login!')
 
     def create(self, main_bug, extra_bugs, packages, maintainer=None):
@@ -300,6 +304,7 @@ class WebSWAMP(WebScraper):
         )
         data = response.read()
         if 'Success' not in data:
+            self.logger.warning('Workflow creation failed: %s', data)
             raise WebSWAMPError('Failed to create workflow!')
 
         # Extract workflow ID
