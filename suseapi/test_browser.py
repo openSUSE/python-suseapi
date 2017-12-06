@@ -28,7 +28,7 @@ import time
 import threading
 import suseapi.browser
 from suseapi.browser import WebScraper, WebScraperError
-from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
+from six.moves.BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
 
 TEST_BASE = 'http://example.net'
 
@@ -38,7 +38,7 @@ class TimeoutHTTPHandler(BaseHTTPRequestHandler):
     HTTP handler to emulate server timeouts.
     """
     def do_GET(self):
-        print self.path
+        print(self.path)
 
         if self.path.startswith('/bar'):
             time.sleep(1)

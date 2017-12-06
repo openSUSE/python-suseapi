@@ -1,6 +1,6 @@
 from unittest import TestCase
 from argparse import Namespace
-from StringIO import StringIO
+from six.moves import cStringIO as StringIO
 
 import suseapi
 from suseapi.main import get_parser, main

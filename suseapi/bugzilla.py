@@ -24,7 +24,7 @@ Generic access to Novell Bugzilla.
 It uses XML to load the data (when applicable) and HTML forms to update it.
 '''
 
-import urlparse
+from six.moves.urllib.parse import urljoin
 from xml.etree import cElementTree as ElementTree
 import dateutil.parser
 import traceback
@@ -367,7 +367,7 @@ class Bugzilla(WebScraper):
                 line = line.strip()
                 if line.startswith('top.location.href='):
                     path = line.split("'")[1]
-                    newpath = urlparse.urljoin(
+                    newpath = urljoin(
                         response.geturl(),
                         path
                     )

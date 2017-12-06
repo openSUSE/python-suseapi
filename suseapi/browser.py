@@ -22,11 +22,11 @@
 Web browser wrapper for convenient scraping of web based services.
 '''
 import mechanize
-import urllib
-import urllib2
-import httplib
+from six.moves.urllib.parse import urlencode
+from six.moves.urllib.error import URLError
+from six.moves.http_client import HTTPException
 import socket
-import cookielib
+from six.moves.http_cookiejar import CookieJar
 
 DEFAULT_TIMEOUT = 5.0
 
@@ -46,13 +46,13 @@ def webscraper_safely(call, *args, **kwargs):
     '''
     try:
         return call(*args, **kwargs)
-    except urllib2.URLError as exc:
+    except URLError as exc:
         for attrname in ('reason', 'msg', 'message'):
             value = getattr(exc, attrname, '')
             if value:
                 raise WebScraperError('URL error: {0!s}'.format(value), exc)
         raise WebScraperError('Unknown URL error: {0!s}'.format(exc), exc)
-    except httplib.HTTPException as exc:
+    except HTTPException as exc:
         raise WebScraperError(
             'HTTP error {0!s}: {1!s}'.format(type(exc).__name__, exc),
             exc
@@ -89,7 +89,7 @@ class WebScraper(object):
         self.password = password
 
         # Cookie storage
-        self.cookiejar = cookielib.CookieJar()
+        self.cookiejar = CookieJar()
         self.cookie_set = False
 
         # Browser instance
@@ -131,11 +131,11 @@ class WebScraper(object):
         '''
         url = self._get_req_url(action)
         if paramlist is not None:
-            params = urllib.urlencode(paramlist)
+            params = urlencode(paramlist)
         elif kwargs == {}:
             params = None
         else:
-            params = urllib.urlencode(kwargs)
+            params = urlencode(kwargs)
         return webscraper_safely(
             self.browser.open,
             url, params, timeout=DEFAULT_TIMEOUT
