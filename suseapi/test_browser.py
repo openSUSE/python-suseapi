@@ -56,7 +56,7 @@ class TimeoutHTTPHandler(BaseHTTPRequestHandler):
         self.do_GET()
 
 
-class WebSraperTest(TestCase):
+class WebScraperTest(TestCase):
     '''
     Tests web sraping.
     '''
@@ -74,7 +74,7 @@ class WebSraperTest(TestCase):
         scraper = WebScraper(None, None, TEST_BASE)
         self.assertEquals(
             'TEST',
-            scraper.request('action').read()
+            scraper.request('action').unicode_body()
         )
 
     @httpretty.activate
@@ -84,13 +84,13 @@ class WebSraperTest(TestCase):
         '''
         httpretty.register_uri(
             httpretty.GET,
-            '{0}/{1}'.format(TEST_BASE, '404'),
-            status=404
+            '{0}/{1}'.format(TEST_BASE, '500'),
+            status=500
         )
         scraper = WebScraper(None, None, TEST_BASE)
         self.assertRaises(
             WebScraperError,
-            scraper.request, '404'
+            scraper.request, '500'
         )
 
     def test_cookies(self):
@@ -107,7 +107,7 @@ class WebSraperTest(TestCase):
         Test timeout handling for stale requests.
         '''
         original_timeout = suseapi.browser.DEFAULT_TIMEOUT
-        suseapi.browser.DEFAULT_TIMEOUT = 0.5
+        suseapi.browser.DEFAULT_TIMEOUT = 1
         server = HTTPServer(('localhost', 0), TimeoutHTTPHandler)
         port = server.server_address[1]
         server_thread = threading.Thread(target=server.serve_forever)
@@ -116,8 +116,7 @@ class WebSraperTest(TestCase):
         try:
             scraper = WebScraper(None, None, 'http://localhost:%d' % port)
             scraper.request('foo')
-            # pylint: disable=E1102
-            scraper.browser.select_form(nr=0)
+            scraper.browser.doc.choose_form(number=0)
             self.assertRaises(WebScraperError, scraper.submit)
             self.assertRaises(WebScraperError, scraper.request, 'bar?')
         finally:

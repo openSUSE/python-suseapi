@@ -299,3 +299,27 @@ class BugzillaTest(TestCase):
             '\\x21\\x22\\x23\\x24\\x25\\x26\\x27\\x28\\x29\\x30'
             '\\x31 !"#$%&\''
         )
+
+    def _load_update_form(self):
+        self.httpretty_login()
+        httpretty.register_uri(
+            httpretty.POST,
+            'https://bugzilla.novell.com/show_bug.cgi?id=872984',
+            body=open(os.path.join(TEST_DATA, 'bug-872984.html')).read(),
+            content_type="text/html",
+        )
+        bugzilla = Bugzilla('test', 'test')
+        bugzilla.load_update_form(872984)
+        return bugzilla
+
+    @httpretty.activate
+    def test_select_update_form(self):
+        bugzilla = self._load_update_form()
+        self.assertEqual('changeform', bugzilla.browser.doc.form.attrib['name'])
+        self.assertEqual(4, len(bugzilla.browser.doc.form_fields()))
+
+    @httpretty.activate
+    def test_read_field(self):
+        bugzilla = self._load_update_form()
+        self.assertEqual('2014-07-17 11:38:53',
+                         bugzilla.browser.doc.form_fields()['delta_ts'])

@@ -21,14 +21,15 @@
 '''
 Web browser wrapper for convenient scraping of web based services.
 '''
-import mechanize
+# import mechanize
+import grab
 from six.moves.urllib.parse import urlencode
 from six.moves.urllib.error import URLError
 from six.moves.http_client import HTTPException
 import socket
-from six.moves.http_cookiejar import CookieJar
 
-DEFAULT_TIMEOUT = 5.0
+# The default timeout has to be an integer.
+DEFAULT_TIMEOUT = 5
 
 
 class WebScraperError(Exception):
@@ -45,7 +46,14 @@ def webscraper_safely(call, *args, **kwargs):
     Wrapper to handle errors in HTTP requests.
     '''
     try:
-        return call(*args, **kwargs)
+        result = call(*args, **kwargs)
+        if result.code >= 400:
+            raise WebScraperError('Status code error: {0!s}'.format(
+                result.code
+            ), result)
+        return result
+    except grab.error.GrabError as exc:
+        raise WebScraperError('Grab error occurred: {0!s}'.format(exc), exc)
     except URLError as exc:
         for attrname in ('reason', 'msg', 'message'):
             value = getattr(exc, attrname, '')
@@ -63,22 +71,6 @@ def webscraper_safely(call, *args, **kwargs):
         raise WebScraperError('IO error: {0!s}'.format(exc), exc)
 
 
-class TimeoutRequest(mechanize.Request):
-    '''
-    Request class with defined timeout.
-    '''
-    def __init__(self, url, data=None, headers=None,
-                 origin_req_host=None, unverifiable=False, visit=None,
-                 timeout=DEFAULT_TIMEOUT):
-        if headers is None:
-            headers = {}
-        mechanize.Request.__init__(
-            self, url, data, headers, origin_req_host,
-            unverifiable, visit, timeout
-        )
-        self.timeout = DEFAULT_TIMEOUT
-
-
 class WebScraper(object):
     '''
     Web based scraper using mechanize.
@@ -88,36 +80,20 @@ class WebScraper(object):
         self.user = user
         self.password = password
 
-        # Cookie storage
-        self.cookiejar = CookieJar()
         self.cookie_set = False
 
         # Browser instance
-        self.browser = mechanize.Browser(
-            request_class=TimeoutRequest
+        self.browser = grab.Grab(
+            timeout=DEFAULT_TIMEOUT, transport="urllib3"
         )
-
-        # Set cookies
-        self.browser.set_cookiejar(self.cookiejar)
-
-        # Log information about HTTP redirects and Refreshes.
-        # self.browser.set_debug_redirects(True)
-
-        # Log HTTP response bodies (ie. the HTML, most of the time).
-        # self.browser.set_debug_responses(True)
-
-        # Print HTTP headers.
-        # self.browser.set_debug_http(True)
-
-        # Ignore robots.txt
-        self.browser.set_handle_robots(False)
+        # Grab automatically handles cookies.
 
         # Are we anonymous?
         self.anonymous = (user == '')
 
         # Identify ourselves
         if useragent is not None:
-            self.browser.addheaders += [('User-agent', useragent)]
+            self.browser.setup(headers={'User-agent': useragent})
 
     def _get_req_url(self, action):
         '''
@@ -137,8 +113,8 @@ class WebScraper(object):
         else:
             params = urlencode(kwargs)
         return webscraper_safely(
-            self.browser.open,
-            url, params, timeout=DEFAULT_TIMEOUT
+            self.browser.go,
+            url, post=params
         )
 
     def submit(self):
@@ -147,7 +123,6 @@ class WebScraper(object):
         '''
         return webscraper_safely(
             self.browser.submit,
-            request_class=TimeoutRequest
         )
 
     def set_cookies(self, cookies):
@@ -155,11 +130,16 @@ class WebScraper(object):
         Sets cookies needed for access.
         '''
         for cookie in cookies:
-            self.cookiejar.set_cookie(cookie)
+            self.browser.cookies.set(cookie.name, cookie.value)
         self.cookie_set = True
 
     def get_cookies(self):
         '''
         Returns cookies set in browser.
         '''
-        return [cookie for cookie in self.cookiejar]
+        return [cookie for cookie in self.browser.cookies.cookiejar]
+
+    def viewing_html(self):
+        if not self.browser.doc:
+            return False
+        return 'text/html' in self.browser.doc.headers['Content-Type']
