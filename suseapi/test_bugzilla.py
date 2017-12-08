@@ -315,7 +315,8 @@ class BugzillaTest(TestCase):
     @httpretty.activate
     def test_select_update_form(self):
         bugzilla = self._load_update_form()
-        self.assertEqual('changeform', bugzilla.browser.doc.form.attrib['name'])
+        self.assertEqual('changeform',
+                         bugzilla.browser.doc.form.attrib['name'])
         self.assertEqual(4, len(bugzilla.browser.doc.form_fields()))
 
     @httpretty.activate

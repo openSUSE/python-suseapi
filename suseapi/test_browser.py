@@ -22,12 +22,14 @@
 Testing of browser wrapper.
 '''
 
+from __future__ import print_function
 from unittest import TestCase
 import httpretty
 import time
 import threading
 import suseapi.browser
 from suseapi.browser import WebScraper, WebScraperError
+# pylint: disable=import-error
 from six.moves.BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
 
 TEST_BASE = 'http://example.net'
@@ -78,7 +80,7 @@ class WebScraperTest(TestCase):
             body='TEST'
         )
         scraper = WebScraper(None, None, TEST_BASE)
-        self.assertEquals(
+        self.assertEqual(
             'TEST',
             scraper.request('action').unicode_body()
         )
@@ -106,7 +108,7 @@ class WebScraperTest(TestCase):
         scraper = WebScraper(None, None, TEST_BASE)
         cookies = scraper.get_cookies()
         scraper.set_cookies(cookies)
-        self.assertEquals(len(cookies), 0)
+        self.assertEqual(len(cookies), 0)
 
     def test_timeout(self):
         '''

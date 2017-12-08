@@ -23,9 +23,10 @@ Testing of SR info fetcher.
 '''
 
 from unittest import TestCase
+
 import httpretty
+
 from suseapi.srinfo import SRInfo
-from .compat import *
 
 TEST_RESPONSE = '''<?xml version='1.0'?>
 
@@ -77,7 +78,7 @@ class SRInfoTest(TestCase):
             body='Closed'
         )
         srinfo = SRInfo()
-        self.assertEquals(
+        self.assertEqual(
             b'Closed',
             srinfo.get_status(1234567890)
         )
@@ -94,5 +95,5 @@ class SRInfoTest(TestCase):
         )
         srinfo = SRInfo()
         info = srinfo.get_info(1234567890)
-        self.assertEquals(info['cus_account'], 'SOFTWARE')
-        self.assertEquals(info['service_level'], '2')
+        self.assertEqual(info['cus_account'], 'SOFTWARE')
+        self.assertEqual(info['service_level'], '2')

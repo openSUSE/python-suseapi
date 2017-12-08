@@ -24,6 +24,7 @@ Generic access to Novell Bugzilla.
 It uses XML to load the data (when applicable) and HTML forms to update it.
 '''
 
+# pylint: disable=import-error
 from six.moves.urllib.parse import urljoin
 from lxml import etree as ElementTree
 import dateutil.parser
@@ -34,7 +35,7 @@ from bs4 import BeautifulSoup
 from weblib.error import DataNotFound
 
 from suseapi.browser import WebScraper, WebScraperError, webscraper_safely
-from .compat import *
+from .compat import text_type
 
 
 SR_MATCH = re.compile(r'\[(\d+)\]')
@@ -319,11 +320,12 @@ class Bugzilla(WebScraper):
         if self.browser.doc.select("//a[text()='Log out']").selector_list:
             self.logger.info('Already logged in')
             return True
-        elif self.browser.doc.select("//a[text()='Log\xc2\xa0out']").selector_list:
+        elif self.browser.doc.select(
+                "//a[text()='Log\xc2\xa0out']"
+        ).selector_list:
             self.logger.info('Already logged in')
             return True
-        else:
-            return False
+        return False
 
     # pylint: disable=W0613
     def login(self, force=False):
@@ -445,7 +447,9 @@ class Bugzilla(WebScraper):
 
         # Parse XML
         try:
+            # pylint: disable=no-member
             parser = ElementTree.XMLParser(recover=True)
+            # pylint: disable=no-member
             response_et = ElementTree.fromstring(data.encode('utf-8'), parser)
         except SyntaxError:
             self._handle_parse_error(
@@ -482,7 +486,9 @@ class Bugzilla(WebScraper):
         response = self.request('buglist', paramlist=req)
         data = escape_xml_text(response.unicode_body())
         try:
+            # pylint: disable=no-member
             parser = ElementTree.XMLParser(recover=True)
+            # pylint: disable=no-member
             response_et = ElementTree.fromstring(data.encode('utf-8'), parser)
         except SyntaxError:
             self._handle_parse_error('recent', data)
@@ -759,8 +765,8 @@ def get_django_bugzilla():
     '''
     from django.conf import settings
     force_readonly = (
-            hasattr(settings, 'BUGZILLA_FORCE_READONLY') and
-            settings.BUGZILLA_FORCE_READONLY
+        hasattr(settings, 'BUGZILLA_FORCE_READONLY') and
+        settings.BUGZILLA_FORCE_READONLY
     )
     bugzilla = DjangoBugzilla(
         settings.BUGZILLA_USERNAME,

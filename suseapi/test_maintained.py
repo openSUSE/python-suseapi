@@ -63,13 +63,13 @@ class MaintainedTest(TestCase):
         '''
         data = load_maintained_data(TEST_DATA)
         data = list(data)
-        self.assertEquals(2, len(data))
+        self.assertEqual(2, len(data))
 
     def test_revision(self):
         '''
         Test parsing revision info out of SVN.
         '''
-        self.assertEquals(
+        self.assertEqual(
             1235,
             get_revision(TEST_DATA)
         )

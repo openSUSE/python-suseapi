@@ -22,6 +22,7 @@
 SR information fetcher.
 '''
 
+# pylint: disable=import-error
 from six.moves.urllib.request import build_opener
 import xml.etree.cElementTree
 import dateutil.parser

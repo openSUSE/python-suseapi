@@ -23,8 +23,11 @@ Web browser wrapper for convenient scraping of web based services.
 '''
 # import mechanize
 import grab
+# pylint: disable=import-error
 from six.moves.urllib.parse import urlencode
+# pylint: disable=import-error
 from six.moves.urllib.error import URLError
+# pylint: disable=import-error
 from six.moves.http_client import HTTPException
 import socket
 
@@ -67,7 +70,8 @@ def webscraper_safely(call, *args, **kwargs):
         )
     except socket.error as exc:
         raise WebScraperError('Socket error: {0!s}'.format(exc), exc)
-    except IOError as exc:
+    # There doesn't seem to be an oserror that is already caught here?
+    except IOError as exc:  # pylint: disable=duplicate-except
         raise WebScraperError('IO error: {0!s}'.format(exc), exc)
 
 

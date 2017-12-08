@@ -27,6 +27,7 @@ import sys
 from xdg.BaseDirectory import load_config_paths
 from pprint import pformat
 from argparse import ArgumentParser
+# pylint: disable=import-error
 from six.moves.configparser import RawConfigParser
 
 from suseapi.userinfo import UserInfo

@@ -161,7 +161,8 @@ class Presence(CacherMixin):
 
                 self.cache_set(person, absence_list)
             except PresenceError as error:
-                self.logger.warn('could not get presence data: %s', str(error))
+                self.logger.warning('could not get presence data: %s',
+                                    str(error))
 
                 cached_absence = self.cache_get(person, True)
                 if cached_absence is not None:
