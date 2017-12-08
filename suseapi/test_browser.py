@@ -48,9 +48,15 @@ class TimeoutHTTPHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
         if self.path == '/foo':
-            self.wfile.write('<form method="GET" action="/bar" name="test">')
-            self.wfile.write('<input type="submit" value="Submit">')
-            self.wfile.write('</form>')
+            self.wfile.write(
+                '<form method="GET" action="/bar" name="test">'.encode('utf-8')
+            )
+            self.wfile.write(
+                '<input type="submit" value="Submit">'.encode('utf-8')
+            )
+            self.wfile.write(
+                '</form>'.encode('utf-8')
+            )
 
     def do_POST(self):
         self.do_GET()

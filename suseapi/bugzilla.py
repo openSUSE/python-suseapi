@@ -441,11 +441,12 @@ class Bugzilla(WebScraper):
         data = self.request('show_bug', paramlist=req)
 
         # Fixup XML errors bugzilla produces
-        data = escape_xml_text(data.body)
+        data = escape_xml_text(data.unicode_body())
 
         # Parse XML
         try:
-            response_et = ElementTree.fromstring(data)
+            parser = ElementTree.XMLParser(recover=True)
+            response_et = ElementTree.fromstring(data.encode('utf-8'), parser)
         except SyntaxError:
             self._handle_parse_error(
                 ','.join([str(bugid) for bugid in ids]),
@@ -479,9 +480,10 @@ class Bugzilla(WebScraper):
         req = [('ctype', 'atom')] + params
         self.logger.info('Doing bugzilla search: %s', req)
         response = self.request('buglist', paramlist=req)
-        data = escape_xml_text(response.body)
+        data = escape_xml_text(response.unicode_body())
         try:
-            response_et = ElementTree.fromstring(data)
+            parser = ElementTree.XMLParser(recover=True)
+            response_et = ElementTree.fromstring(data.encode('utf-8'), parser)
         except SyntaxError:
             self._handle_parse_error('recent', data)
             return []
@@ -598,7 +600,7 @@ class Bugzilla(WebScraper):
         # Load the form
         self.logger.info('Loading bug form for %d', bugid)
         response = self.request('show_bug', id=bugid)
-        data = response.body
+        data = response.unicode_body()
         if 'You are not authorized to access bug' in data:
             raise BugzillaNotPermitted(
                 'You are not authorized to access bug #%d.' % bugid

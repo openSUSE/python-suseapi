@@ -25,6 +25,7 @@ Testing of SR info fetcher.
 from unittest import TestCase
 import httpretty
 from suseapi.srinfo import SRInfo
+from .compat import *
 
 TEST_RESPONSE = '''<?xml version='1.0'?>
 
@@ -77,7 +78,7 @@ class SRInfoTest(TestCase):
         )
         srinfo = SRInfo()
         self.assertEquals(
-            'Closed',
+            b'Closed',
             srinfo.get_status(1234567890)
         )
 
