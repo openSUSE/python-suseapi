@@ -6,6 +6,7 @@ PySocks
 python-dateutil
 python-ldap
 pyxdg
+future
 setuptools
 six
 suds-jurko
