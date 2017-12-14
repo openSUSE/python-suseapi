@@ -21,18 +21,19 @@
 '''
 Web browser wrapper for convenient scraping of web based services.
 '''
+import socket
+
 # import mechanize
 import grab
 # pylint: disable=import-error
-from six.moves.urllib.parse import urlencode
+from six.moves.http_client import HTTPException
 # pylint: disable=import-error
 from six.moves.urllib.error import URLError
 # pylint: disable=import-error
-from six.moves.http_client import HTTPException
-import socket
+from six.moves.urllib.parse import urlencode
 
 # The default timeout has to be an integer.
-DEFAULT_TIMEOUT = 5
+DEFAULT_TIMEOUT = 5.0
 
 
 class WebScraperError(Exception):

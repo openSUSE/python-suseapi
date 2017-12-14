@@ -23,14 +23,17 @@ Testing of browser wrapper.
 '''
 
 from __future__ import print_function
-from unittest import TestCase
-import httpretty
-import time
+
 import threading
-import suseapi.browser
-from suseapi.browser import WebScraper, WebScraperError
+import time
+from unittest import TestCase
+
+import httpretty
 # pylint: disable=import-error
 from six.moves.BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
+
+import suseapi.browser
+from suseapi.browser import WebScraper, WebScraperError
 
 TEST_BASE = 'http://example.net'
 
@@ -115,7 +118,7 @@ class WebScraperTest(TestCase):
         Test timeout handling for stale requests.
         '''
         original_timeout = suseapi.browser.DEFAULT_TIMEOUT
-        suseapi.browser.DEFAULT_TIMEOUT = 1
+        suseapi.browser.DEFAULT_TIMEOUT = 0.1
         server = HTTPServer(('localhost', 0), TimeoutHTTPHandler)
         port = server.server_address[1]
         server_thread = threading.Thread(target=server.serve_forever)
