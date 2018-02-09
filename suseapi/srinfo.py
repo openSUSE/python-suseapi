@@ -36,7 +36,7 @@ class SRInfo(object):
     '''
     def __init__(self):
         self.opener = urllib2.build_opener()
-        self.opener.addheaders = [
+        self.opener.addheaders += [
             ('User-agent', suseapi.USER_AGENT),
         ]
 
@@ -95,6 +95,6 @@ class DjangoSRInfo(SRInfo):
     def __init__(self):
         super(DjangoSRInfo, self).__init__()
         from django.conf import settings
-        self.opener.addheaders = [
+        self.opener.addheaders += [
             ('User-agent', settings.EMAIL_SUBJECT_PREFIX.strip('[] '))
         ]

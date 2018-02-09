@@ -117,7 +117,7 @@ class WebScraper(object):
 
         # Identify ourselves
         if useragent is not None:
-            self.browser.addheaders = [('User-agent', useragent)]
+            self.browser.addheaders += [('User-agent', useragent)]
 
     def _get_req_url(self, action):
         '''
