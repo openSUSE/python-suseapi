@@ -33,7 +33,7 @@ from six.moves.urllib.error import URLError
 from six.moves.urllib.parse import urlencode
 
 # The default timeout has to be an integer.
-DEFAULT_TIMEOUT = 5.0
+DEFAULT_TIMEOUT = 50
 
 
 class WebScraperError(Exception):
@@ -89,8 +89,9 @@ class WebScraper(object):
 
         # Browser instance
         self.browser = grab.Grab(
-            timeout=DEFAULT_TIMEOUT, transport="urllib3"
+            timeout=DEFAULT_TIMEOUT
         )
+        self.browser.setup_transport('pycurl')
         # Grab automatically handles cookies.
 
         # Are we anonymous?
@@ -127,7 +128,7 @@ class WebScraper(object):
         Submits currently selected browser form.
         '''
         return webscraper_safely(
-            self.browser.submit,
+            self.browser.doc.submit,
         )
 
     def set_cookies(self, cookies):

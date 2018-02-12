@@ -321,7 +321,7 @@ class Bugzilla(WebScraper):
             self.logger.info('Already logged in')
             return True
         elif self.browser.doc.select(
-                "//a[text()='Log\xc2\xa0out']"
+                "//a[text()='Log\\xc2\\xa0out']"
         ).selector_list:
             self.logger.info('Already logged in')
             return True
@@ -339,8 +339,7 @@ class Bugzilla(WebScraper):
             # Submit fake javascript form
             # pylint: disable=E1102
             self.browser.doc.choose_form(number=0)
-            response = self.submit()
-
+            self.submit()
             # Find the login form
             # pylint: disable=E1102
             self.browser.doc.choose_form(number=0)
@@ -351,9 +350,9 @@ class Bugzilla(WebScraper):
             raise BugzillaLoginFailed('Failed to parse HTML for login!')
 
         self.logger.info('Doing login')
-        response = self.submit()
+        self.submit()
 
-        text = webscraper_safely(response.read)
+        text = self.browser.doc.unicode_body()
 
         # Check for error messages
         soup = BeautifulSoup(text, "lxml")
@@ -368,7 +367,7 @@ class Bugzilla(WebScraper):
                 if line.startswith('top.location.href='):
                     path = line.split("'")[1]
                     newpath = urljoin(
-                        response.geturl(),
+                        self.browser.doc.url,
                         path
                     )
                     response = self.request(newpath)
