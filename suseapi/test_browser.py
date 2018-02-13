@@ -30,11 +30,10 @@ from unittest import TestCase
 
 import httpretty
 
-import suseapi.browser
 # pylint: disable=import-error
 from six.moves.BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+import suseapi.browser
 from suseapi.browser import WebScraper, WebScraperError
-
 
 TEST_BASE = 'http://example.net'
 

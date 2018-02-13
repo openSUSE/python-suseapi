@@ -66,7 +66,7 @@ confidence=
 # I0011 Warning locally suppressed using disable-msg
 # I0012 Warning locally suppressed using disable-msg
 # unsubscriptable-object and unsupported-assignment-operation are wrongly detected on mechanize.Browser
-disable=C0111,W0142,I0011,I0012,wrong-import-order,unsupported-assignment-operation,unsubscriptable-object,invalid-name
+disable=C0111,W0142,I0011,I0012,wrong-import-order,unsupported-assignment-operation,unsubscriptable-object,invalid-name,c-extension-no-member
 
 
 [REPORTS]

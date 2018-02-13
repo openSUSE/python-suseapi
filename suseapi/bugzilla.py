@@ -371,7 +371,7 @@ class Bugzilla(WebScraper):
                         self.browser.doc.url,
                         path
                     )
-                    response = self.request(newpath)
+                    self.request(newpath)
 
         if not self.check_login():
             raise BugzillaLoginFailed(
