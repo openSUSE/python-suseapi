@@ -26,6 +26,8 @@ from datetime import date, timedelta
 import logging
 import socket
 import re
+from six import string_types
+
 from suseapi.cacher import CacherMixin, DjangoCacherMixin
 
 DATE_REGEXP = r'\w{3} (\d{4})-(\d{2})-(\d{2})'
@@ -126,7 +128,11 @@ class Presence(CacherMixin):
             sock.settimeout(1)
             sock.connect((host, 9874))
             if not no_send:
-                sock.send(who + "\n")
+                if isinstance(who, string_types):
+                    who_enc = who.encode("utf-8")
+                else:
+                    who_enc = who
+                sock.send(who_enc + b"\n")
             handle = sock.makefile('rb', 0)
             absences = self._process_data(handle, who)
 
@@ -155,7 +161,8 @@ class Presence(CacherMixin):
 
                 self.cache_set(person, absence_list)
             except PresenceError as error:
-                self.logger.warn('could not get presence data: %s', str(error))
+                self.logger.warning('could not get presence data: %s',
+                                    str(error))
 
                 cached_absence = self.cache_get(person, True)
                 if cached_absence is not None:

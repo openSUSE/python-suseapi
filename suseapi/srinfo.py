@@ -22,7 +22,8 @@
 SR information fetcher.
 '''
 
-import urllib2
+# pylint: disable=import-error
+from six.moves.urllib.request import build_opener
 import xml.etree.cElementTree
 import dateutil.parser
 import suseapi
@@ -35,7 +36,7 @@ class SRInfo(object):
     Class for accessing SR information.
     '''
     def __init__(self):
-        self.opener = urllib2.build_opener()
+        self.opener = build_opener()
         self.opener.addheaders += [
             ('User-agent', suseapi.USER_AGENT),
         ]

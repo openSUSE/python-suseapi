@@ -22,10 +22,10 @@
 Testing of presence module connector
 '''
 
-from unittest import TestCase
-
 import datetime
+import socketserver
 import threading
+from unittest import TestCase
 
 from suseapi.presence import trim_weekends, Presence
 
@@ -44,15 +44,8 @@ Absence    : Fri 2013-10-25 - Mon 2013-10-28
 ------------------------------------------------------------
 '''
 
-# One of those imports has to fail
-# pylint: disable=F0401
-try:
-    import SocketServer
-except ImportError:
-    import socketserver as SocketServer
 
-
-class MyTCPHandler(SocketServer.BaseRequestHandler):
+class MyTCPHandler(socketserver.BaseRequestHandler):
     '''
     Simple handler to report presence.
     '''
@@ -68,8 +61,8 @@ def start_test_server():
     """
     Starts test server.
     """
-    SocketServer.TCPServer.allow_reuse_address = True
-    server = SocketServer.TCPServer(('127.0.0.1', 9874), MyTCPHandler)
+    socketserver.TCPServer.allow_reuse_address = True
+    server = socketserver.TCPServer(('127.0.0.1', 9874), MyTCPHandler)
     server_thread = threading.Thread(target=server.serve_forever)
     server_thread.daemon = False
     server_thread.start()

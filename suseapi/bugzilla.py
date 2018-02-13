@@ -24,18 +24,20 @@ Generic access to Novell Bugzilla.
 It uses XML to load the data (when applicable) and HTML forms to update it.
 '''
 
-import urlparse
-from xml.etree import cElementTree as ElementTree
+# pylint: disable=import-error
+from six.moves.urllib.parse import urljoin
+# pylint: disable=import-error
+from lxml import etree as ElementTree
 import dateutil.parser
 import traceback
 import re
 import logging
-from mechanize import (
-    LinkNotFoundError, FormNotFoundError, ControlNotFoundError
-)
 from bs4 import BeautifulSoup
+from weblib.error import DataNotFound
 
 from suseapi.browser import WebScraper, WebScraperError, webscraper_safely
+from .compat import text_type
+
 
 SR_MATCH = re.compile(r'\[(\d+)\]')
 
@@ -49,6 +51,7 @@ IGNORABLE_FIELDS = frozenset((
 
 class BugzillaError(WebScraperError):
     '''Generic error'''
+
     def __init__(self, error, bug_id=None):
         super(BugzillaError, self).__init__(error)
         self.bug_id = bug_id
@@ -114,6 +117,7 @@ class Bug(object):
     '''
     Class holding bug information.
     '''
+
     def __init__(self, bug_et, anonymous=False):
         error = bug_et.get('error')
         self.bug_id = None
@@ -238,10 +242,11 @@ class Bugzilla(WebScraper):
     '''
     Class for access to Novell bugzilla.
     '''
+
     def __init__(self, user, password, base='https://bugzilla.novell.com',
-                 useragent=None, force_readonly=False):
+                 useragent=None, force_readonly=False, transport='pycurl'):
         super(Bugzilla, self).__init__(
-            user, password, base, useragent
+            user, password, base, useragent, transport
         )
         self.force_readonly = force_readonly
         self.logger = logging.getLogger('suse.bugzilla')
@@ -258,7 +263,7 @@ class Bugzilla(WebScraper):
                 'Got 502 (Bad Gateway), clearing cookies and loging in again'
             )
             self.cookie_set = False
-            self.cookiejar.clear()
+            self.browser.cookies.clear()
             self.login(force=True)
             return True
         return False
@@ -294,7 +299,7 @@ class Bugzilla(WebScraper):
         Checks whether the browser is in HTML viewing state.
         '''
         # pylint: disable=E1102
-        if not self.browser.viewing_html():
+        if not self.viewing_html():
             raise BugzillaLoginFailed('Failed to load bugzilla form')
 
     def check_login(self):
@@ -313,19 +318,15 @@ class Bugzilla(WebScraper):
 
         self.check_viewing_html()
 
-        try:
-            # pylint: disable=E1102
-            self.browser.find_link(text='Log out')
+        if self.browser.doc.select("//a[text()='Log out']").selector_list:
             self.logger.info('Already logged in')
             return True
-        except LinkNotFoundError:
-            try:
-                # pylint: disable=E1102
-                self.browser.find_link(text='Log\xc2\xa0out')
-                self.logger.info('Already logged in')
-                return True
-            except LinkNotFoundError:
-                return False
+        elif self.browser.doc.select(
+                "//a[text()='Log\\xc2\\xa0out']"
+        ).selector_list:
+            self.logger.info('Already logged in')
+            return True
+        return False
 
     # pylint: disable=W0613
     def login(self, force=False):
@@ -338,22 +339,21 @@ class Bugzilla(WebScraper):
         try:
             # Submit fake javascript form
             # pylint: disable=E1102
-            self.browser.select_form(nr=0)
-            response = self.submit()
-
+            self.browser.doc.choose_form(number=0)
+            self.submit()
             # Find the login form
             # pylint: disable=E1102
-            self.browser.select_form(nr=0)
+            self.browser.doc.choose_form(number=0)
 
-            self.browser['Ecom_User_ID'] = self.user
-            self.browser['Ecom_Password'] = self.password
-        except (FormNotFoundError, ControlNotFoundError):
+            self.browser.doc.set_input('Ecom_User_ID', self.user)
+            self.browser.doc.set_input('Ecom_Password', self.password)
+        except DataNotFound:
             raise BugzillaLoginFailed('Failed to parse HTML for login!')
 
         self.logger.info('Doing login')
-        response = self.submit()
+        self.submit()
 
-        text = webscraper_safely(response.read)
+        text = self.browser.doc.unicode_body()
 
         # Check for error messages
         soup = BeautifulSoup(text, "lxml")
@@ -367,11 +367,11 @@ class Bugzilla(WebScraper):
                 line = line.strip()
                 if line.startswith('top.location.href='):
                     path = line.split("'")[1]
-                    newpath = urlparse.urljoin(
-                        response.geturl(),
+                    newpath = urljoin(
+                        self.browser.doc.url,
                         path
                     )
-                    response = self.request(newpath)
+                    self.request(newpath)
 
         if not self.check_login():
             raise BugzillaLoginFailed(
@@ -440,15 +440,17 @@ class Bugzilla(WebScraper):
         req += [('ctype', 'xml'), ('excludefield', 'attachmentdata')]
 
         # Download data
-        response = self.request('show_bug', paramlist=req)
-        data = webscraper_safely(response.read)
+        data = self.request('show_bug', paramlist=req)
 
         # Fixup XML errors bugzilla produces
-        data = escape_xml_text(data)
+        data = escape_xml_text(data.unicode_body())
 
         # Parse XML
         try:
-            response_et = ElementTree.fromstring(data)
+            # pylint: disable=no-member
+            parser = ElementTree.XMLParser(recover=True)
+            # pylint: disable=no-member
+            response_et = ElementTree.fromstring(data.encode('utf-8'), parser)
         except SyntaxError:
             self._handle_parse_error(
                 ','.join([str(bugid) for bugid in ids]),
@@ -482,10 +484,12 @@ class Bugzilla(WebScraper):
         req = [('ctype', 'atom')] + params
         self.logger.info('Doing bugzilla search: %s', req)
         response = self.request('buglist', paramlist=req)
-        data = webscraper_safely(response.read)
-        data = escape_xml_text(data)
+        data = escape_xml_text(response.unicode_body())
         try:
-            response_et = ElementTree.fromstring(data)
+            # pylint: disable=no-member
+            parser = ElementTree.XMLParser(recover=True)
+            # pylint: disable=no-member
+            response_et = ElementTree.fromstring(data.encode('utf-8'), parser)
         except SyntaxError:
             self._handle_parse_error('recent', data)
             return []
@@ -574,10 +578,10 @@ class Bugzilla(WebScraper):
         self.check_viewing_html()
 
         # Find link containing SR ids
-        try:
-            # pylint: disable=E1102
-            link = self.browser.find_link(text='Report View')
-        except LinkNotFoundError:
+        link = self.browser.doc.select(
+            "//a[text()='Report View']"
+        ).selector_list
+        if not link:
             return []
 
         # Split parts (URL encoded)
@@ -602,7 +606,7 @@ class Bugzilla(WebScraper):
         # Load the form
         self.logger.info('Loading bug form for %d', bugid)
         response = self.request('show_bug', id=bugid)
-        data = webscraper_safely(response.read)
+        data = response.unicode_body()
         if 'You are not authorized to access bug' in data:
             raise BugzillaNotPermitted(
                 'You are not authorized to access bug #%d.' % bugid
@@ -613,8 +617,8 @@ class Bugzilla(WebScraper):
         # Find the form
         try:
             # pylint: disable=E1102
-            self.browser.select_form(name="changeform")
-        except FormNotFoundError:
+            self.browser.doc.choose_form(xpath="//form[@name='changeform']")
+        except DataNotFound:
             raise BugzillaUpdateError('Failed to parse HTML to update bug!')
 
     def update_bug(self, bugid, callback=None, callback_param=None,
@@ -634,11 +638,11 @@ class Bugzilla(WebScraper):
         # Set parameters
         for k in kwargs:
             val = kwargs[k]
-            if isinstance(val, unicode):
+            if isinstance(val, text_type):
                 val = val.encode('utf-8')
             try:
-                self.browser[k] = val
-            except ControlNotFoundError:
+                self.browser.doc.set_input(k, val)
+            except DataNotFound:
                 if k not in IGNORABLE_FIELDS:
                     raise
             changes = True
@@ -672,7 +676,7 @@ class Bugzilla(WebScraper):
         '''
         Callback for changing bug whiteboard.
         '''
-        whiteboard = self.browser['status_whiteboard']
+        whiteboard = self.browser.doc.form_fields()['status_whiteboard']
 
         if remove is not None and remove in whiteboard:
             whiteboard = whiteboard.replace(remove, '')
@@ -680,9 +684,10 @@ class Bugzilla(WebScraper):
         if add is not None and add not in whiteboard:
             whiteboard = '%s %s' % (whiteboard, add)
 
-        changes = (self.browser['status_whiteboard'] != whiteboard)
+        current_wb = self.browser.doc.form_fields()['status_whiteboard']
+        changes = (current_wb != whiteboard)
 
-        self.browser['status_whiteboard'] = whiteboard
+        self.browser.doc.set_input('status_whiteboard', whiteboard)
 
         return changes
 
@@ -691,17 +696,21 @@ class APIBugzilla(Bugzilla):
     '''
     Wrapper class to use apibugzilla.suse.com.
     '''
+
     def __init__(self, user, password, base='https://apibugzilla.suse.com',
-                 useragent=None, force_readonly=False):
+                 useragent=None, force_readonly=False, transport='pycurl'):
         super(APIBugzilla, self).__init__(
-            user, password, base, useragent
+            user, password, base, useragent, transport=transport
         )
         self.force_readonly = force_readonly
         # Use normal Bugzilla for anonymous access
         if self.anonymous and 'suse.com' in base:
             self.base = 'https://bugzilla.suse.com'
         else:
-            self.browser.add_password(base + '/', user, password)
+            self.browser.setup(
+                userpwd="{user}:{password}".format(user=user,
+                                                   password=password)
+            )
 
     def login(self, force=False):
         '''
@@ -718,6 +727,7 @@ class DjangoBugzilla(APIBugzilla):
     '''
     Adds Django specific things to bugzilla class.
     '''
+
     def _log_parse_error(self, bugid, data):
         '''
         Sends email to admin on error.
@@ -748,7 +758,7 @@ class DjangoBugzilla(APIBugzilla):
             self.set_cookies(cookies)
 
 
-def get_django_bugzilla():
+def get_django_bugzilla(transport='pycurl'):
     '''
     Returns logged in bugzilla object. Access cookies are stored in django
     cache.
@@ -763,6 +773,7 @@ def get_django_bugzilla():
         settings.BUGZILLA_PASSWORD,
         useragent=settings.EMAIL_SUBJECT_PREFIX.strip('[] '),
         force_readonly=force_readonly,
+        transport=transport
     )
 
     # Check for anonymous access

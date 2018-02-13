@@ -21,14 +21,19 @@
 '''
 Web browser wrapper for convenient scraping of web based services.
 '''
-import mechanize
-import urllib
-import urllib2
-import httplib
 import socket
-import cookielib
 
-DEFAULT_TIMEOUT = 5.0
+# import mechanize
+import grab
+# pylint: disable=import-error
+from six.moves.http_client import HTTPException
+# pylint: disable=import-error
+from six.moves.urllib.error import URLError
+# pylint: disable=import-error
+from six.moves.urllib.parse import urlencode
+
+# The default timeout has to be an integer.
+DEFAULT_TIMEOUT = 50
 
 
 class WebScraperError(Exception):
@@ -45,79 +50,64 @@ def webscraper_safely(call, *args, **kwargs):
     Wrapper to handle errors in HTTP requests.
     '''
     try:
-        return call(*args, **kwargs)
-    except urllib2.URLError as exc:
+        result = call(*args, **kwargs)
+        if result.code >= 400:
+            raise WebScraperError('Status code error: {0!s}'.format(
+                result.code
+            ), result)
+        return result
+    except grab.error.GrabError as exc:
+        raise WebScraperError('Grab error occurred: {0!s}'.format(exc), exc)
+    except URLError as exc:
         for attrname in ('reason', 'msg', 'message'):
             value = getattr(exc, attrname, '')
             if value:
                 raise WebScraperError('URL error: {0!s}'.format(value), exc)
         raise WebScraperError('Unknown URL error: {0!s}'.format(exc), exc)
-    except httplib.HTTPException as exc:
+    except HTTPException as exc:
         raise WebScraperError(
             'HTTP error {0!s}: {1!s}'.format(type(exc).__name__, exc),
             exc
         )
     except socket.error as exc:
         raise WebScraperError('Socket error: {0!s}'.format(exc), exc)
-    except IOError as exc:
+    # There doesn't seem to be an oserror that is already caught here?
+    except IOError as exc:  # pylint: disable=duplicate-except
         raise WebScraperError('IO error: {0!s}'.format(exc), exc)
-
-
-class TimeoutRequest(mechanize.Request):
-    '''
-    Request class with defined timeout.
-    '''
-    def __init__(self, url, data=None, headers=None,
-                 origin_req_host=None, unverifiable=False, visit=None,
-                 timeout=DEFAULT_TIMEOUT):
-        if headers is None:
-            headers = {}
-        mechanize.Request.__init__(
-            self, url, data, headers, origin_req_host,
-            unverifiable, visit, timeout
-        )
-        self.timeout = DEFAULT_TIMEOUT
 
 
 class WebScraper(object):
     '''
     Web based scraper using mechanize.
     '''
-    def __init__(self, user, password, base, useragent=None):
+    def __init__(self, user, password, base, useragent=None,
+                 transport='pycurl'):
         self.base = base
         self.user = user
         self.password = password
 
-        # Cookie storage
-        self.cookiejar = cookielib.CookieJar()
         self.cookie_set = False
 
         # Browser instance
-        self.browser = mechanize.Browser(
-            request_class=TimeoutRequest
+        self.browser = grab.Grab(
+            timeout=DEFAULT_TIMEOUT
         )
-
-        # Set cookies
-        self.browser.set_cookiejar(self.cookiejar)
-
-        # Log information about HTTP redirects and Refreshes.
-        # self.browser.set_debug_redirects(True)
-
-        # Log HTTP response bodies (ie. the HTML, most of the time).
-        # self.browser.set_debug_responses(True)
-
-        # Print HTTP headers.
-        # self.browser.set_debug_http(True)
-
-        # Ignore robots.txt
-        self.browser.set_handle_robots(False)
+        self.browser.setup_transport(transport)
+        if transport == "urllib3":
+            import urllib3
+            import certifi
+            self.browser.transport.pool = urllib3.PoolManager(
+                cert_reqs='CERT_REQUIRED',
+                ca_certs=certifi.where()
+            )
+        # Grab automatically handles cookies.
 
         # Are we anonymous?
         self.anonymous = (user == '')
 
         # Identify ourselves
         if useragent is not None:
-            self.browser.addheaders += [('User-agent', useragent)]
+            self.browser.setup(headers={'User-agent': useragent})
 
     def _get_req_url(self, action):
         '''
@@ -131,14 +121,14 @@ class WebScraper(object):
         '''
         url = self._get_req_url(action)
         if paramlist is not None:
-            params = urllib.urlencode(paramlist)
+            params = urlencode(paramlist)
         elif kwargs == {}:
             params = None
         else:
-            params = urllib.urlencode(kwargs)
+            params = urlencode(kwargs)
         return webscraper_safely(
-            self.browser.open,
-            url, params, timeout=DEFAULT_TIMEOUT
+            self.browser.go,
+            url, post=params
         )
 
     def submit(self):
@@ -146,8 +136,7 @@ class WebScraper(object):
         Submits currently selected browser form.
         '''
         return webscraper_safely(
-            self.browser.submit,
-            request_class=TimeoutRequest
+            self.browser.doc.submit,
         )
 
     def set_cookies(self, cookies):
@@ -155,11 +144,16 @@ class WebScraper(object):
         Sets cookies needed for access.
         '''
         for cookie in cookies:
-            self.cookiejar.set_cookie(cookie)
+            self.browser.cookies.set(cookie.name, cookie.value)
         self.cookie_set = True
 
     def get_cookies(self):
         '''
         Returns cookies set in browser.
         '''
-        return [cookie for cookie in self.cookiejar]
+        return [cookie for cookie in self.browser.cookies.cookiejar]
+
+    def viewing_html(self):
+        if not self.browser.doc:
+            return False
+        return 'text/html' in self.browser.doc.headers['Content-Type']

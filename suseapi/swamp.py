@@ -282,7 +282,7 @@ class WebSWAMP(WebScraper):
         '''
         self.request('')
         # pylint: disable=E1102
-        self.browser.select_form(name='loginform')
+        self.browser.choose_form(xpath='//form[@name="loginform"]')
         self.browser['username'] = self.user
         self.browser['password'] = self.password
         response = self.submit()
@@ -314,7 +314,7 @@ class WebSWAMP(WebScraper):
 
         # Set some additional attributes
         # pylint: disable=E1102
-        self.browser.select_form('dataedit')
+        self.browser.choose_form(xpath='//form[@name="dataedit"]')
         self.browser['field_%s' % FIELD_ADDITIONAL_BUGZILLA] = \
             ','.join([str(bug) for bug in extra_bugs])
         self.browser['field_%s' % FIELD_PACKAGES] = ','.join(packages)
@@ -335,7 +335,7 @@ class WebSWAMP(WebScraper):
         )
 
         # pylint: disable=E1102
-        self.browser.select_form('dataedit')
+        self.browser.choose_form('//form[@name="dataedit"]')
         if release_date is not None:
             date_str = release_date.strftime('%Y-%m-%d')
             self.browser['field_%s' % FIELD_DATE] = date_str

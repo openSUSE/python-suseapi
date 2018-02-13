@@ -1,0 +1,1023 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <title>Bug 872984 &ndash; /etc/apparmor.d/usr.lib.apache2.mpm-prefork.apache2 too broad</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+    <link rel="Top" href="http://bugzilla.opensuse.org/">
+
+
+
+
+
+    <link rel="Show" title="Dependency Tree"
+          href="showdependencytree.cgi?id=872984&amp;hide_resolved=1">
+    <link rel="Show" title="Dependency Graph"
+          href="showdependencygraph.cgi?id=872984">
+
+    <link rel="Show" title="Bug Activity"
+          href="show_activity.cgi?id=872984">
+    <link rel="Show" title="Printer-Friendly Version"
+          href="show_bug.cgi?format=multiple&amp;id=872984">
+
+
+
+
+    <link href="skins/standard/global.css?1411227340"
+          rel="alternate stylesheet"
+          title="Classic"><link href="js/yui/assets/skins/sam/autocomplete.css?1411227331" rel="stylesheet"
+                                type="text/css" ><link href="js/yui/assets/skins/sam/calendar.css?1411227331" rel="stylesheet"
+                                                       type="text/css" ><link href="skins/standard/global.css?1411227340" rel="stylesheet"
+                                                                              type="text/css" ><link href="skins/standard/show_bug.css?1416528352" rel="stylesheet"
+                                                                                                     type="text/css" ><link href="extensions/Voting/web/style.css?1411227348" rel="stylesheet"
+                                                                                                                            type="text/css" ><!--[if lte IE 7]>
+
+
+
+    <link href="skins/standard/IE-fixes.css?1411227340" rel="stylesheet"
+          type="text/css" >
+    <![endif]-->
+
+    <link href="skins/contrib/openSUSE/global.css?1411227340" rel="stylesheet"
+          type="text/css"
+          title="SUSE">
+
+
+
+
+
+
+    <script type="text/javascript" src="js/yui/yahoo-dom-event/yahoo-dom-event.js?1411227335"></script><script type="text/javascript" src="js/yui/cookie/cookie-min.js?1411227333"></script><script type="text/javascript" src="js/yui/datasource/datasource-min.js?1411227329"></script><script type="text/javascript" src="js/yui/connection/connection-min.js?1411227329"></script><script type="text/javascript" src="js/yui/json/json-min.js?1411227333"></script><script type="text/javascript" src="js/yui/autocomplete/autocomplete-min.js?1411227334"></script><script type="text/javascript" src="js/yui/calendar/calendar-min.js?1411227335"></script><script type="text/javascript" src="js/global.js?1411227336"></script>
+
+    <script type="text/javascript">
+    <!--
+        YAHOO.namespace('bugzilla');
+        YAHOO.util.Event.addListener = function (el, sType, fn, obj, overrideContext) {
+               if ( ("onpagehide" in window || YAHOO.env.ua.gecko) && sType === "unload") { sType = "pagehide"; };
+               var capture = ((sType == "focusin" || sType == "focusout") && !YAHOO.env.ua.ie) ? true : false;
+               return this._addListener(el, this._getType(sType), fn, obj, overrideContext, capture);
+         };
+        if ( "onpagehide" in window || YAHOO.env.ua.gecko) {
+            YAHOO.util.Event._simpleRemove(window, "unload",
+                                           YAHOO.util.Event._unload);
+        }
+
+        function unhide_language_selector() {
+            YAHOO.util.Dom.removeClass(
+                'lang_links_container', 'bz_default_hidden'
+            );
+        }
+        YAHOO.util.Event.onDOMReady(unhide_language_selector);
+
+
+        var BUGZILLA = {
+            param: {
+                cookiepath: '\/',
+                maxusermatches: 10
+            },
+            constant: {
+                COMMENT_COLS: 80
+            },
+            string: {
+
+
+                attach_desc_required:
+                    'You must enter a Description for this attachment.',
+                component_required:
+                    'You must select a Component for this bug.',
+                description_required:
+                    'You must enter a Description for this bug.',
+                short_desc_required:
+                    'You must enter a Summary for this bug.',
+                version_required:
+                    'You must select a Version for this bug.'
+            }
+        };
+
+    if (history && history.replaceState) {
+      if(!document.location.href.match(/show_bug\.cgi/)) {
+        history.replaceState( null,
+                             "Bug 872984 – \/etc\/apparmor.d\/usr.lib.apache2.mpm-prefork.apache2 too broad",
+                             "show_bug.cgi?id=872984" );
+        document.title = "Bug 872984 – \/etc\/apparmor.d\/usr.lib.apache2.mpm-prefork.apache2 too broad";
+      }
+      if (document.location.href.match(/show_bug\.cgi\?.*list_id=/)) {
+        var href = document.location.href;
+        href = href.replace(/[\?&]+list_id=(\d+|cookie)/, '');
+        history.replaceState(null, "Bug 872984 – \/etc\/apparmor.d\/usr.lib.apache2.mpm-prefork.apache2 too broad", href);
+      }
+    }
+    YAHOO.util.Event.onDOMReady(function() {
+      initDirtyFieldTracking();
+    });
+    // -->
+    </script>
+    <script type="text/javascript" src="js/util.js?1411227336"></script><script type="text/javascript" src="js/field.js?1414105521"></script>
+
+
+
+
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Bugzilla" href="./search_plugin.cgi">
+    <link rel="shortcut icon" href="images/favicon.ico" ><link href="extensions/Testopia/css/testopia.css" rel="stylesheet" type="text/css">
+    <link href="extensions/Testopia/extjs/examples/ux/css/RowEditor.css" rel="stylesheet" type="text/css"  />
+    <script type="text/javascript">
+        Testopia_user = {login: "", id: 0};
+        DEFAULT_CASE_STATUS = 'CONFIRMED';
+    </script>
+</head>
+
+
+
+<body onload=""
+      class="bugzilla-opensuse-org bz_bug bz_status_NEW bz_product_openSUSE_Tumbleweed bz_component_AppArmor bz_bug_872984 yui-skin-sam">
+
+
+
+<div id="header">
+    <div id="banner">
+    </div>
+
+    <table border="0" cellspacing="0" cellpadding="0" id="titles">
+        <tr>
+            <td id="title">
+                <p>Bugzilla &ndash; Bug&nbsp;872984</p>
+            </td>
+
+            <td id="subtitle">
+                <p class="subheader">/etc/apparmor.d/usr.lib.apache2.mpm-prefork.apache2 too broad</p>
+            </td>
+
+            <td id="information">
+                <p class="header_addl_info">Last modified: 2014-07-17 11:38:53 UTC</p>
+            </td>
+        </tr>
+    </table>
+
+    <table id="lang_links_container" cellpadding="0" cellspacing="0"
+           class="bz_default_hidden"><tr><td>
+    </td></tr></table>
+    <ul class="links">
+        <li><a href="./">Home</a></li>
+        <li><span class="separator">| </span><a href="enter_bug.cgi?classification=openSUSE">New</a></li>
+        <li><span class="separator">| </span><a href="describecomponents.cgi">Browse</a></li>
+        <li><span class="separator">| </span><a href="query.cgi">Search</a></li>
+
+        <li class="form">
+            <span class="separator">| </span>
+            <form action="buglist.cgi" method="get"
+                  onsubmit="if (this.quicksearch.value == '')
+                  { alert('Please enter one or more search terms first.');
+                    return false; } return true;">
+                <input type="hidden" id="no_redirect_top" name="no_redirect" value="0">
+                <script type="text/javascript">
+      if (history && history.replaceState) {
+        var no_redirect = document.getElementById("no_redirect_top");
+        no_redirect.value = 1;
+      }
+    </script>
+                <input class="txt" type="text" id="quicksearch_top" name="quicksearch"
+                       title="Quick Search" value="">
+                <input class="btn" type="submit" value="Search"
+                       id="find_top"></form>
+            <a href="page.cgi?id=quicksearch.html" title="Quicksearch Help">[?]</a></li>
+
+        <li><span class="separator">| </span><a href="report.cgi">Reports</a></li>
+
+        <li>
+            <span class="separator">| </span>
+            <a href="request.cgi">Requests</a></li>
+
+        <li>
+            <span class="separator">| </span>
+            <a href="docs/en/html/bug_page.html" target="_blank">Help</a>
+        </li>
+
+
+        <li id="mini_login_container_top">
+            <span class="separator">| </span>
+            <a id="login_link_top" href="show_bug.cgi?id=872984&amp;GoAheadAndLogIn=1">Log In</a>
+
+
+        </li>
+    </ul>
+</div>
+
+<div id="bugzilla-body">
+
+    <div class="navigation">
+        <b>Bug List:</b>
+
+        (1 of 7)
+
+        <a href="show_bug.cgi?id=872984&amp;list_id=cookie">First</a>
+        <a href="show_bug.cgi?id=1069470&amp;list_id=cookie">Last</a>
+
+        <i><font color="#777777">Prev</font></i>
+
+        <a href="show_bug.cgi?id=1058787&amp;list_id=cookie">Next</a>
+
+        &nbsp;&nbsp;<a href="buglist.cgi?regetlastlist=cookie">Show last search results</a>
+    </div>
+    <script type="text/javascript">
+<!--
+
+//-->
+</script>
+
+    <form name="changeform" id="changeform" method="post" action="process_bug.cgi">
+
+        <input type="hidden" name="delta_ts" value="2014-07-17 11:38:53">
+        <input type="hidden" name="longdesclength" value="3">
+        <input type="hidden" name="id" value="872984">
+        <input type="hidden" name="token" value="1512664830-7Sw6tCQfyW-23sG3PjDAbxjPGOrR2_DaCC7tMkl9_z4">
+        <div class="bz_alias_short_desc_container edit_form">
+            <a href="show_bug.cgi?id=872984"><b>Bug&nbsp;872984</b></a> -<span id="summary_alias_container" class="bz_default_hidden">
+      <span id="short_desc_nonedit_display">/etc/apparmor.d/usr.lib.apache2.mpm-prefork.apache2 too broad</span>
+     </span>
+
+            <div id="summary_alias_input">
+                <table id="summary">
+                    <tr>
+                        <td colspan="2">
+                        </td>
+                    </tr>
+
+                    <tr><th class="field_label "
+                            id="field_label_short_desc">
+
+                        <label for="short_desc" accesskey="s">
+
+                            <a
+                                    title="The bug summary is a short sentence which succinctly describes what the bug is about."
+                                    class="field_help_link"
+                                    href="page.cgi?id=glossary.html#short_desc"
+                            >Summary:</a>
+                        </label>
+                    </th>
+                        <td>/etc/apparmor.d/usr.lib.apache2.mpm-prefork.apache2 too broad
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <script type="text/javascript">
+    hideAliasAndSummary('\/etc\/apparmor.d\/usr.lib.apache2.mpm-prefork.apache2 too broad', '');
+  </script>
+        <table class="edit_form">
+            <tr>
+
+                <td id="bz_show_bug_column_1" class="bz_show_bug_column">
+                    <table>
+                        <tr>
+                            <th class="field_label">
+                                <a href="page.cgi?id=status_resolution_matrix.html">Status</a>:
+                            </th>
+                            <td id="bz_field_status">
+      <span id="static_bug_status">NEW
+      </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2" class="bz_section_spacer"></td>
+                        </tr>
+                        <tr><th class="field_label "
+                                id="field_label_classification">
+
+
+                            <a
+                                    title="Bugs are categorised into Classifications, Products and Components. classifications is the top-level categorisation."
+                                    class="field_help_link"
+                                    href="page.cgi?id=glossary.html#classification"
+                            >Classification:</a>
+
+                        </th>
+                            <td class="field_value "
+                                id="field_container_classification" >openSUSE</td>
+                        </tr>
+
+
+
+
+                        <tr><th class="field_label "
+                                id="field_label_product">
+
+
+                            <a
+                                    title="Bugs are categorised into Products and Components. Select a Classification to narrow down this list."
+                                    class="field_help_link"
+                                    href="describecomponents.cgi"
+                            >Product:</a>
+
+                        </th>
+                            <td class="field_value "
+                                id="field_container_product" >openSUSE Tumbleweed</td>
+                        </tr>
+
+
+                        <tr class="bz_default_hidden"><th class="field_label "
+                                                          id="field_label_classification">
+
+
+                            <a
+                                    title="Bugs are categorised into Classifications, Products and Components. classifications is the top-level categorisation."
+                                    class="field_help_link"
+                                    href="page.cgi?id=glossary.html#classification"
+                            >Classification:</a>
+
+                        </th>
+                            <td class="field_value "
+                                id="field_container_classification" >openSUSE</td>
+                        </tr>
+
+
+
+                        <tr><th class="field_label "
+                                id="field_label_component">
+
+
+                            <a
+                                    title="Components are second-level categories; each belongs to a particular Product. Select a Product to narrow down this list."
+                                    class="field_help_link"
+                                    href="describecomponents.cgi?product=openSUSE Tumbleweed"
+                            >Component:</a>
+
+                        </th>
+                            <td class="field_value "
+                                id="field_container_component" >AppArmor</td>
+                        </tr>
+                        <tr><th class="field_label "
+                                id="field_label_version">
+
+                            <label for="version">
+
+                                <a
+                                        title="The version field defines the version of the software the bug was found in."
+                                        class="field_help_link"
+                                        href="page.cgi?id=glossary.html#version"
+                                >Version:</a>
+                            </label>
+                        </th>
+                            <td>13.2 Milestone 0
+                            </td>
+                        </tr>
+
+
+
+                        <tr><th class="field_label "
+                                id="field_label_rep_platform">
+
+                            <label for="rep_platform" accesskey="h">
+
+                                <a
+                                        title="The hardware platform the bug was observed on. Note: When searching, selecting the option &quot;All&quot; only finds bugs whose value for this field is literally the word &quot;All&quot;."
+                                        class="field_help_link"
+                                        href="page.cgi?id=glossary.html#rep_platform"
+                                >Hardware:</a>
+                            </label>
+                        </th>
+                            <td class="field_value">Other
+                                Other
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="bz_section_spacer"></td>
+                        </tr>
+
+                        <tr>
+                            <th class="field_label">
+                                <label for="priority">
+                                    <a href="page.cgi?id=glossary.html#priority">Priority</a></label>:
+                            </th>
+                            <td>P5 - None
+                                <label for="severity">
+                                    <b>Severity</b></label>:
+                                Normal<span id="votes_container">
+    (<a href="page.cgi?id=voting/user.html&amp;bug_id=872984#vote_872984">vote</a>)
+  </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="field_label">
+                                <label for="target_milestone">
+                                    <a href="page.cgi?id=glossary.html#target_milestone">
+                                        Target&nbsp;Milestone</a></label>:
+                            </th><td>---
+                        </td>
+                        </tr>
+
+                        <tr>
+                            <th class="field_label">
+                                <a href="page.cgi?id=glossary.html#assigned_to">Assigned To</a>:
+                            </th>
+                            <td><span class="vcard"><span class="fn">Christian Boltz</span>
+</span>
+                            </td>
+                        </tr>
+
+                        <tr><th class="field_label "
+                                id="field_label_qa_contact">
+
+                            <label for="qa_contact" accesskey="q">
+
+                                <a
+                                        title="The person responsible for confirming this bug if it is unconfirmed, and for verifying the fix once the bug has been resolved."
+                                        class="field_help_link"
+                                        href="page.cgi?id=glossary.html#qa_contact"
+                                >QA Contact:</a>
+                            </label>
+                        </th>
+                            <td><span class="vcard"><span class="fn">E-mail List</span>
+</span>
+                            </td>
+                        </tr>
+                        <script type="text/javascript">
+      assignToDefaultOnChange(['product', 'component'],
+        'suse-beta\x40cboltz.de',
+        'qa-bugs\x40suse.de');
+    </script>
+                        <tr>
+                            <td colspan="2" class="bz_section_spacer"></td>
+                        </tr>
+                        <tr><th class="field_label "
+                                id="field_label_bug_file_loc">
+
+                            <label for="bug_file_loc" accesskey="u">
+
+                                <a
+                                        title="Bugs can have a URL associated with them - for example, a pointer to a web site where the problem is seen."
+                                        class="field_help_link"
+                                        href="page.cgi?id=glossary.html#bug_file_loc"
+                                >URL:</a>
+                            </label>
+                        </th>
+                            <td>
+      <span id="bz_url_input_area">
+      </span>
+                            </td>
+                        </tr>
+
+                        <tr><th class="field_label "
+                                id="field_label_status_whiteboard">
+
+                            <label for="status_whiteboard" accesskey="w">
+
+                                <a
+                                        title="Each bug has a free-form single line text entry box for adding tags and status information."
+                                        class="field_help_link"
+                                        href="page.cgi?id=glossary.html#status_whiteboard"
+                                >Whiteboard:</a>
+                            </label>
+                        </th><td colspan="2">
+                        </td>
+                        </tr>
+
+                        <tr>
+                            <th class="field_label">
+                                <label for="keywords" accesskey="k">
+                                    <a href="describekeywords.cgi"><u>K</u>eywords</a></label>:
+                            </th>
+                            <td class="field_value" colspan="2">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="bz_section_spacer"></td>
+                        </tr>
+
+
+                        <tr><th class="field_label "
+                                id="field_label_dependson">
+
+
+                            <a
+                                    title="The bugs listed here must be resolved before this bug can be resolved."
+                                    class="field_help_link"
+                                    href="page.cgi?id=glossary.html#dependson"
+                            >Depends on:</a>
+
+                        </th>
+
+                            <td>
+    <span id="dependson_input_area">
+    </span>
+
+                            </td>
+                        </tr>
+
+                        <tr><th class="field_label "
+                                id="field_label_blocked">
+
+
+                            <a
+                                    title="This bug must be resolved before the bugs listed in this field can be resolved."
+                                    class="field_help_link"
+                                    href="page.cgi?id=glossary.html#blocked"
+                            >Blocks:</a>
+
+                        </th>
+
+                            <td>
+    <span id="blocked_input_area">
+    </span>
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>&nbsp;</th>
+
+                            <td colspan="2" align="left" id="show_dependency_tree_or_graph">
+                                Show dependency <a href="showdependencytree.cgi?id=872984&amp;hide_resolved=1">tree</a>
+
+                                /&nbsp;<a href="showdependencygraph.cgi?id=872984">graph</a>
+                            </td>
+                        </tr>
+
+                    </table>
+                </td>
+                <td>
+                    <div class="bz_column_spacer">&nbsp;</div>
+                </td>
+
+                <td id="bz_show_bug_column_2" class="bz_show_bug_column">
+                    <table cellpadding="3" cellspacing="1">
+                        <tr>
+                            <th class="field_label">
+                                Reported:
+                            </th>
+                            <td>2014-04-10 14:02 UTC by <span class="vcard"><span class="fn">Marcus Meissner</span>
+</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="field_label">
+                                Modified:
+                            </th>
+                            <td>2014-07-17 11:38 UTC
+                                (<a href="show_activity.cgi?id=872984">History</a>)
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <th class="field_label">
+                                <label for="newcc" accesskey="a">CC List:</label>
+                            </th>
+                            <td>2
+                                users
+                                <span id="cc_edit_area_showhide_container" class="bz_default_hidden">
+            (<a href="#" id="cc_edit_area_showhide">show</a>)
+          </span>
+                                <div id="cc_edit_area">
+                                    <br>
+                                    <select id="cc" multiple="multiple" size="5">
+                                        <option value="jsegitz">jsegitz</option>
+                                        <option value="mrueckert">mrueckert</option>
+                                    </select>
+                                </div>
+                                <script type="text/javascript">
+            hideEditableField( 'cc_edit_area_showhide_container',
+                               'cc_edit_area',
+                               'cc_edit_area_showhide',
+                               '',
+                               '');
+          </script>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="bz_section_spacer"></td>
+                        </tr>
+                        <tr><th class="field_label "
+                                id="field_label_see_also">
+
+
+                            <a
+                                    title="This allows you to refer to bugs in other installations. You can enter a URL to a bug in the 'Add Bug URLs' field to note that that bug is related to this one. You can enter multiple URLs at once by separating them with a comma. You should normally use this field to refer to bugs in other installations. For bugs in this installation, it is better to use the Depends on and Blocks fields."
+                                    class="field_help_link"
+                                    href="page.cgi?id=glossary.html#see_also"
+                            >See Also:</a>
+
+                        </th>
+                            <td class="field_value "
+                                id="field_container_see_also" ></td>
+                        </tr>
+                        <tr><th class="field_label "
+                                id="field_label_cf_foundby">
+
+
+                            <a
+                                    title="A custom Drop Down field in this installation of Bugzilla."
+                                    class="field_help_link"
+                                    href="page.cgi?id=glossary.html#cf_foundby"
+                            >Found By:</a>
+
+                        </th>
+                            <td class="field_value "
+                                id="field_container_cf_foundby"  colspan="2">---</td>
+                        </tr>
+                        <tr><th class="field_label "
+                                id="field_label_cf_nts_priority">
+
+
+                            <a
+                                    title="A custom Free Text field in this installation of Bugzilla."
+                                    class="field_help_link"
+                                    href="page.cgi?id=glossary.html#cf_nts_priority"
+                            >Services Priority:</a>
+
+                        </th>
+                            <td class="field_value "
+                                id="field_container_cf_nts_priority"  colspan="2"></td>
+                        </tr>
+                        <tr><th class="field_label "
+                                id="field_label_cf_biz_priority">
+
+
+                            <a
+                                    title="A custom Free Text field in this installation of Bugzilla."
+                                    class="field_help_link"
+                                    href="page.cgi?id=glossary.html#cf_biz_priority"
+                            >Business Priority:</a>
+
+                        </th>
+                            <td class="field_value "
+                                id="field_container_cf_biz_priority"  colspan="2"></td>
+                        </tr>
+                        <tr><th class="field_label "
+                                id="field_label_cf_blocker">
+
+
+                            <a
+                                    title="A custom Drop Down field in this installation of Bugzilla."
+                                    class="field_help_link"
+                                    href="page.cgi?id=glossary.html#cf_blocker"
+                            >Blocker:</a>
+
+                        </th>
+                            <td class="field_value "
+                                id="field_container_cf_blocker"  colspan="2">---</td>
+                        </tr>
+                        <tr><th class="field_label  bz_hidden_field"
+                                id="field_label_cf_marketing_qa_status">
+
+
+                            <a
+                                    title="A custom Drop Down field in this installation of Bugzilla."
+                                    class="field_help_link"
+                                    href="page.cgi?id=glossary.html#cf_marketing_qa_status"
+                            >Marketing QA Status:</a>
+
+                        </th>
+                            <td class="field_value  bz_hidden_field"
+                                id="field_container_cf_marketing_qa_status"  colspan="2">---</td>
+                        </tr>
+                        <tr><th class="field_label  bz_hidden_field"
+                                id="field_label_cf_it_deployment">
+
+
+                            <a
+                                    title="A custom Drop Down field in this installation of Bugzilla."
+                                    class="field_help_link"
+                                    href="page.cgi?id=glossary.html#cf_it_deployment"
+                            >IT Deployment:</a>
+
+                        </th>
+                            <td class="field_value  bz_hidden_field"
+                                id="field_container_cf_it_deployment"  colspan="2">---</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="bz_section_spacer"></td>
+                        </tr>
+                        <ul>
+                            <li><a href="tr_new_case.cgi?product=openSUSE%20Tumbleweed&bug=872984">Create test case</a></li>
+                        </ul><ul>
+                        <li><a href="enter_bug.cgi?cloned_bug_id=872984">Clone This Bug</a></li>
+                    </ul>
+
+
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <hr id="bz_top_half_spacer">
+                </td>
+            </tr>
+        </table>
+
+        <table id="bz_big_form_parts" cellspacing="0" cellpadding="0"><tr>
+            <td>
+
+
+                <script type="text/javascript">
+<!--
+function toggle_display(link) {
+    var table = document.getElementById("attachment_table");
+    var view_all = document.getElementById("view_all");
+    var hide_obsolete_url_parameter = "&hide_obsolete=1";
+    // Store current height for scrolling later
+    var originalHeight = table.offsetHeight;
+    var rows = YAHOO.util.Dom.getElementsByClassName(
+        'bz_tr_obsolete', 'tr', table);
+
+    for (var i = 0; i < rows.length; i++) {
+        bz_toggleClass(rows[i], 'bz_default_hidden');
+    }
+
+    if (YAHOO.util.Dom.hasClass(rows[0], 'bz_default_hidden')) {
+        link.innerHTML = "Show Obsolete";
+        view_all.href = view_all.href + hide_obsolete_url_parameter
+    }
+    else {
+        link.innerHTML = "Hide Obsolete";
+        view_all.href = view_all.href.replace(hide_obsolete_url_parameter,"");
+    }
+
+    var newHeight = table.offsetHeight;
+    // This scrolling makes the window appear to not move at all.
+    window.scrollBy(0, newHeight - originalHeight);
+
+    return false;
+}
+//-->
+</script>
+
+                <br>
+                <table id="attachment_table" cellspacing="0" cellpadding="4">
+                    <tr id="a0">
+                        <th colspan="2" align="left">
+                            Attachments
+                        </th>
+                    </tr>
+
+
+
+                    <tr class="bz_attach_footer">
+                        <td colspan="2">
+                            <a href="attachment.cgi?bugid=872984&amp;action=enter">Add an attachment</a>
+                            (proposed patch, testcase, etc.)
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <div id="add_comment" class="bz_section_additional_comments">
+                    <table>
+                        <tr>
+                            <td>
+                                <fieldset>
+                                    <legend>Note</legend>
+                                    You need to
+                                    <a href="show_bug.cgi?id=872984&amp;GoAheadAndLogIn=1">log in</a>
+                                    before you can comment on or make changes to this bug.
+                                </fieldset>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <td>
+            </td>
+        </tr></table>
+
+
+        <div id="comments"><script src="js/comments.js?1411227336" type="text/javascript">
+        </script>
+
+            <script type="text/javascript">
+<!--
+  /* Adds the reply text to the `comment' textarea */
+  function replyToComment(id, real_id, name) {
+      var prefix = "(In reply to " + name + " from comment #" + id + ")\n";
+      var replytext = "";
+        /* pre id="comment_name_N" */
+        var text_elem = document.getElementById('comment_text_'+id);
+        var text = getText(text_elem);
+        replytext = prefix + wrapReplyText(text);
+
+
+      /* <textarea id="comment"> */
+      var textarea = document.getElementById('comment');
+      if (textarea.value != replytext) {
+          textarea.value += replytext;
+      }
+
+      textarea.focus();
+  }
+//-->
+</script>
+
+
+
+
+            <!-- This auto-sizes the comments and positions the collapse/expand links
+                 to the right. -->
+            <table class="bz_comment_table" cellpadding="0" cellspacing="0"><tr>
+                <td>
+                    <div id="c0" class="bz_comment bz_first_comment">
+
+                        <div class="bz_first_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a
+                  href="show_bug.cgi?id=872984#c0">Description</a>
+        </span>
+
+                            <span class="bz_comment_user">
+          <span class="vcard"><span class="fn">Marcus Meissner</span>
+</span>
+        </span>
+
+                            <span class="bz_comment_time">
+          2014-04-10 14:02:46 UTC
+        </span>
+                        </div>
+
+
+
+                        <pre class="bz_comment_text" >/etc/apparmor.d/usr.lib.apache2.mpm-prefork.apache2 does
+
+  / rw,
+  /** mrwlkix,
+
+
+so basically ... every process can do everything.
+
+Correct me if I am wrong, but this profile is then not necessary.</pre>
+                    </div><div id="c1" class="bz_comment">
+
+                    <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a
+                  href="show_bug.cgi?id=872984#c1">Comment 1</a>
+        </span>
+
+                        <span class="bz_comment_user">
+          <span class="vcard"><span class="fn">Marcus Meissner</span>
+</span>
+        </span>
+
+                        <span class="bz_comment_time">
+          2014-04-10 14:04:11 UTC
+        </span>
+                    </div>
+
+
+
+                    <pre class="bz_comment_text" >also the name is wrong, prefork would be in /usr/sbin/httpd2-prefork  at SUSE :/</pre>
+                </div><div id="c2" class="bz_comment">
+
+                    <div class="bz_comment_head">
+
+
+
+        <span class="bz_comment_number">
+          <a
+                  href="show_bug.cgi?id=872984#c2">Comment 2</a>
+        </span>
+
+                        <span class="bz_comment_user">
+          <span class="vcard"><span class="fn">Marcus Rückert</span>
+</span>
+        </span>
+
+                        <span class="bz_comment_time">
+          2014-04-11 19:45:13 UTC
+        </span>
+                    </div>
+
+
+
+                    <pre class="bz_comment_text" >18:23:01 &lt; jdstrand&gt; darix: that means that the profile isn't doing much with file mediation
+18:23:45 &lt; jdstrand&gt; it allows the process to rely on DAC
+18:24:25 &lt; darix&gt; jdstrand: well i thought so
+18:24:32 &lt; darix&gt; jdstrand: but having the default apache profile like this
+18:24:56 &lt; darix&gt; is that really something we should show?
+18:25:07 &lt; darix&gt; <a href="http://bazaar.launchpad.net/~apparmor-dev/apparmor/master/view/head:/profiles/apparmor.d/usr.lib.apache2.mpm-prefork.apache2#L52">http://bazaar.launchpad.net/~apparmor-dev/apparmor/master/view/head:/profiles/apparmor.d/usr.lib.apache2.mpm-prefork.apache2#L52</a>
+18:25:28 &lt; jdstrand&gt; there should be comments at the top of that profle
+18:26:21 &lt; jdstrand&gt; but in essence, that allows apache to run unfettered, but allows for change_hat to be strictly confined</pre>
+                </div>
+
+
+
+
+                </td>
+                <td>
+                </td>
+            </tr></table>
+        </div>
+
+
+    </form>
+
+    <hr>
+    <ul class="related_actions">
+        <li><a href="show_bug.cgi?format=multiple&amp;id=872984">Format For Printing</a></li>
+        <li>&nbsp;-&nbsp;<a href="show_bug.cgi?ctype=xml&amp;id=872984">XML</a></li>
+        <li>&nbsp;-&nbsp;<a href="enter_bug.cgi?cloned_bug_id=872984">Clone This Bug</a></li>
+
+        <li>&nbsp;-&nbsp;<a href="#">Top of page </a></li>
+    </ul>
+
+
+    <div class="navigation">
+        <b>Bug List:</b>
+
+        (1 of 7)
+
+        <a href="show_bug.cgi?id=872984&amp;list_id=cookie">First</a>
+        <a href="show_bug.cgi?id=1069470&amp;list_id=cookie">Last</a>
+
+        <i><font color="#777777">Prev</font></i>
+
+        <a href="show_bug.cgi?id=1058787&amp;list_id=cookie">Next</a>
+
+        &nbsp;&nbsp;<a href="buglist.cgi?regetlastlist=cookie">Show last search results</a>
+    </div>
+
+    <br>
+</div>
+
+
+
+<div id="footer">
+    <div class="intro"></div>
+
+
+
+
+    <ul id="useful-links">
+        <li id="links-actions"><ul class="links">
+            <li><a href="./">Home</a></li>
+            <li><span class="separator">| </span><a href="enter_bug.cgi?classification=openSUSE">New</a></li>
+            <li><span class="separator">| </span><a href="describecomponents.cgi">Browse</a></li>
+            <li><span class="separator">| </span><a href="query.cgi">Search</a></li>
+
+            <li class="form">
+                <span class="separator">| </span>
+                <form action="buglist.cgi" method="get"
+                      onsubmit="if (this.quicksearch.value == '')
+                  { alert('Please enter one or more search terms first.');
+                    return false; } return true;">
+                    <input type="hidden" id="no_redirect_bottom" name="no_redirect" value="0">
+                    <script type="text/javascript">
+      if (history && history.replaceState) {
+        var no_redirect = document.getElementById("no_redirect_bottom");
+        no_redirect.value = 1;
+      }
+    </script>
+                    <input class="txt" type="text" id="quicksearch_bottom" name="quicksearch"
+                           title="Quick Search" value="">
+                    <input class="btn" type="submit" value="Search"
+                           id="find_bottom"></form>
+                <a href="page.cgi?id=quicksearch.html" title="Quicksearch Help">[?]</a></li>
+
+            <li><span class="separator">| </span><a href="report.cgi">Reports</a></li>
+
+            <li>
+                <span class="separator">| </span>
+                <a href="request.cgi">Requests</a></li>
+
+            <li>
+                <span class="separator">| </span>
+                <a href="docs/en/html/bug_page.html" target="_blank">Help</a>
+            </li>
+
+
+            <li id="mini_login_container_bottom">
+                <span class="separator">| </span>
+                <a id="login_link_bottom" href="show_bug.cgi?id=872984&amp;GoAheadAndLogIn=1">Log In</a>
+
+
+            </li>
+        </ul>
+        </li>
+
+
+
+
+
+        <form id="testopia_helper_frm"></form><ul class="links">
+        <li>Legal: </li>
+        <li><a href="https://www.netiq.com/company/legal/">NetIQ</a></li>
+        <li><a href="http://www.novell.com/company/legal/">Novell</a></li>
+        <li><a href="http://en.opensuse.org/Terms_of_site">openSUSE</a></li>
+        <li><a href="https://www.suse.com/company/legal/">SUSE</a></li>
+    </ul>
+    </ul>
+
+    <div class="outro"></div>
+</div>
+
+
+</body>
+</html>

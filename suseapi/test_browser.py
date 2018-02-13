@@ -22,13 +22,18 @@
 Testing of browser wrapper.
 '''
 
-from unittest import TestCase
-import httpretty
-import time
+from __future__ import print_function
+
 import threading
+import time
+from unittest import TestCase
+
+import httpretty
+
+# pylint: disable=import-error
+from six.moves.BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import suseapi.browser
 from suseapi.browser import WebScraper, WebScraperError
-from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
 
 TEST_BASE = 'http://example.net'
 
@@ -38,7 +43,7 @@ class TimeoutHTTPHandler(BaseHTTPRequestHandler):
     HTTP handler to emulate server timeouts.
     """
     def do_GET(self):
-        print self.path
+        print(self.path)
 
         if self.path.startswith('/bar'):
             time.sleep(1)
@@ -48,15 +53,21 @@ class TimeoutHTTPHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
         if self.path == '/foo':
-            self.wfile.write('<form method="GET" action="/bar" name="test">')
-            self.wfile.write('<input type="submit" value="Submit">')
-            self.wfile.write('</form>')
+            self.wfile.write(
+                '<form method="GET" action="/bar" name="test">'.encode('utf-8')
+            )
+            self.wfile.write(
+                '<input type="submit" value="Submit">'.encode('utf-8')
+            )
+            self.wfile.write(
+                '</form>'.encode('utf-8')
+            )
 
     def do_POST(self):
         self.do_GET()
 
 
-class WebSraperTest(TestCase):
+class WebScraperTest(TestCase):
     '''
     Tests web sraping.
     '''
@@ -71,10 +82,10 @@ class WebSraperTest(TestCase):
             '{0}/{1}'.format(TEST_BASE, 'action'),
             body='TEST'
         )
-        scraper = WebScraper(None, None, TEST_BASE)
-        self.assertEquals(
+        scraper = WebScraper(None, None, TEST_BASE, transport='urllib3')
+        self.assertEqual(
             'TEST',
-            scraper.request('action').read()
+            scraper.request('action').unicode_body()
         )
 
     @httpretty.activate
@@ -84,40 +95,40 @@ class WebSraperTest(TestCase):
         '''
         httpretty.register_uri(
             httpretty.GET,
-            '{0}/{1}'.format(TEST_BASE, '404'),
-            status=404
+            '{0}/{1}'.format(TEST_BASE, '500'),
+            status=500
         )
-        scraper = WebScraper(None, None, TEST_BASE)
+        scraper = WebScraper(None, None, TEST_BASE, transport='urllib3')
         self.assertRaises(
             WebScraperError,
-            scraper.request, '404'
+            scraper.request, '500'
         )
 
     def test_cookies(self):
         '''
         Test cookie getting and setting.
         '''
-        scraper = WebScraper(None, None, TEST_BASE)
+        scraper = WebScraper(None, None, TEST_BASE, transport='urllib3')
         cookies = scraper.get_cookies()
         scraper.set_cookies(cookies)
-        self.assertEquals(len(cookies), 0)
+        self.assertEqual(len(cookies), 0)
 
     def test_timeout(self):
         '''
         Test timeout handling for stale requests.
         '''
         original_timeout = suseapi.browser.DEFAULT_TIMEOUT
-        suseapi.browser.DEFAULT_TIMEOUT = 0.5
+        suseapi.browser.DEFAULT_TIMEOUT = 0.1
         server = HTTPServer(('localhost', 0), TimeoutHTTPHandler)
         port = server.server_address[1]
         server_thread = threading.Thread(target=server.serve_forever)
         server_thread.daemon = False
         server_thread.start()
         try:
-            scraper = WebScraper(None, None, 'http://localhost:%d' % port)
+            scraper = WebScraper(None, None, 'http://localhost:%d' % port,
+                                 transport='urllib3')
             scraper.request('foo')
-            # pylint: disable=E1102
-            scraper.browser.select_form(nr=0)
+            scraper.browser.doc.choose_form(number=0)
             self.assertRaises(WebScraperError, scraper.submit)
             self.assertRaises(WebScraperError, scraper.request, 'bar?')
         finally:
