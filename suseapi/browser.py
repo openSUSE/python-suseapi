@@ -80,7 +80,8 @@ class WebScraper(object):
     '''
     Web based scraper using mechanize.
     '''
-    def __init__(self, user, password, base, useragent=None):
+    def __init__(self, user, password, base, useragent=None,
+                 transport='pycurl'):
         self.base = base
         self.user = user
         self.password = password
@@ -91,7 +92,14 @@ class WebScraper(object):
         self.browser = grab.Grab(
             timeout=DEFAULT_TIMEOUT
         )
-        self.browser.setup_transport('pycurl')
+        self.browser.setup_transport(transport)
+        if transport == "urllib3":
+            import urllib3
+            import certifi
+            self.browser.transport.pool = urllib3.PoolManager(
+                cert_reqs='CERT_REQUIRED',
+                ca_certs=certifi.where()
+            )
         # Grab automatically handles cookies.
 
         # Are we anonymous?

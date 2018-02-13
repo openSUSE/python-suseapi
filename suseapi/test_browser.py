@@ -29,11 +29,12 @@ import time
 from unittest import TestCase
 
 import httpretty
-# pylint: disable=import-error
-from six.moves.BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
 
 import suseapi.browser
+# pylint: disable=import-error
+from six.moves.BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from suseapi.browser import WebScraper, WebScraperError
+
 
 TEST_BASE = 'http://example.net'
 
@@ -82,7 +83,7 @@ class WebScraperTest(TestCase):
             '{0}/{1}'.format(TEST_BASE, 'action'),
             body='TEST'
         )
-        scraper = WebScraper(None, None, TEST_BASE)
+        scraper = WebScraper(None, None, TEST_BASE, transport='urllib3')
         self.assertEqual(
             'TEST',
             scraper.request('action').unicode_body()
@@ -98,7 +99,7 @@ class WebScraperTest(TestCase):
             '{0}/{1}'.format(TEST_BASE, '500'),
             status=500
         )
-        scraper = WebScraper(None, None, TEST_BASE)
+        scraper = WebScraper(None, None, TEST_BASE, transport='urllib3')
         self.assertRaises(
             WebScraperError,
             scraper.request, '500'
@@ -108,7 +109,7 @@ class WebScraperTest(TestCase):
         '''
         Test cookie getting and setting.
         '''
-        scraper = WebScraper(None, None, TEST_BASE)
+        scraper = WebScraper(None, None, TEST_BASE, transport='urllib3')
         cookies = scraper.get_cookies()
         scraper.set_cookies(cookies)
         self.assertEqual(len(cookies), 0)
@@ -125,7 +126,8 @@ class WebScraperTest(TestCase):
         server_thread.daemon = False
         server_thread.start()
         try:
-            scraper = WebScraper(None, None, 'http://localhost:%d' % port)
+            scraper = WebScraper(None, None, 'http://localhost:%d' % port,
+                                 transport='urllib3')
             scraper.request('foo')
             scraper.browser.doc.choose_form(number=0)
             self.assertRaises(WebScraperError, scraper.submit)

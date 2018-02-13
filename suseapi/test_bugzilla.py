@@ -22,23 +22,17 @@
 Testing of Bugzilla connector
 '''
 
-from unittest import TestCase
-
 import datetime
 import os
+from unittest import TestCase
+
 import httpretty
 
-from suseapi.bugzilla import (
-    APIBugzilla,
-    Bugzilla,
-    BugzillaNotPermitted,
-    BugzillaLoginFailed,
-    BugzillaInvalidBugId,
-    BugzillaNotFound,
-    WebScraperError,
-    get_django_bugzilla,
-    escape_xml_text,
-)
+from suseapi.bugzilla import (APIBugzilla, Bugzilla, BugzillaInvalidBugId,
+                              BugzillaLoginFailed, BugzillaNotFound,
+                              BugzillaNotPermitted, WebScraperError,
+                              escape_xml_text, get_django_bugzilla)
+
 
 TEST_DATA = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
@@ -77,7 +71,7 @@ class BugzillaTest(TestCase):
             'https://bugzilla.novell.com/show_bug.cgi?ctype=xml&id=81873',
             body=open(os.path.join(TEST_DATA, 'bug-81873.xml')).read(),
         )
-        bugzilla = Bugzilla('', '')
+        bugzilla = Bugzilla('', '', transport='urllib3')
         bug = bugzilla.get_bug(81873)
         self.assertEqual(bug.bug_id, '81873')
         self.assertTrue(bug.has_nonempty('classification'))
@@ -92,7 +86,7 @@ class BugzillaTest(TestCase):
             'https://bugzilla.novell.com/show_bug.cgi?ctype=xml&id=582198',
             body=open(os.path.join(TEST_DATA, 'bug-582198.xml')).read(),
         )
-        bugzilla = Bugzilla('', '')
+        bugzilla = Bugzilla('', '', transport='urllib3')
         self.assertRaises(BugzillaNotPermitted, bugzilla.get_bug, 582198)
 
     @httpretty.activate
@@ -105,7 +99,7 @@ class BugzillaTest(TestCase):
             'https://bugzilla.novell.com/show_bug.cgi?ctype=xml&id=20000000',
             body=open(os.path.join(TEST_DATA, 'bug-20000000.xml')).read(),
         )
-        bugzilla = Bugzilla('', '')
+        bugzilla = Bugzilla('', '', transport='urllib3')
         self.assertRaises(BugzillaNotFound, bugzilla.get_bug, 20000000)
 
     @httpretty.activate
@@ -118,7 +112,7 @@ class BugzillaTest(TestCase):
             'https://bugzilla.novell.com/show_bug.cgi?ctype=xml&id=none',
             body=open(os.path.join(TEST_DATA, 'bug-none.xml')).read(),
         )
-        bugzilla = Bugzilla('', '')
+        bugzilla = Bugzilla('', '', transport='urllib3')
         self.assertRaises(BugzillaInvalidBugId, bugzilla.get_bug, 'none')
 
     @httpretty.activate
@@ -130,7 +124,7 @@ class BugzillaTest(TestCase):
             httpretty.POST,
             'https://bugzilla.novell.com/index.cgi',
         )
-        bugzilla = Bugzilla('', '')
+        bugzilla = Bugzilla('', '', transport='urllib3')
         self.assertRaises(BugzillaLoginFailed, bugzilla.login)
 
     @httpretty.activate
@@ -143,7 +137,7 @@ class BugzillaTest(TestCase):
             'https://bugzilla.novell.com/show_bug.cgi?ctype=xml&id=',
             body=open(os.path.join(TEST_DATA, 'bug-81872.xml')).read(),
         )
-        bugzilla = Bugzilla('', '')
+        bugzilla = Bugzilla('', '', transport='urllib3')
         bug = bugzilla.get_bug(81872)
         self.assertEqual(bug.bug_id, '81872')
         self.assertTrue(bug.has_nonempty('flags'))
@@ -160,7 +154,7 @@ class BugzillaTest(TestCase):
             'https://bugzilla.novell.com/show_bug.cgi?ctype=xml&id=',
             body=open(os.path.join(TEST_DATA, 'bug-81871.xml')).read(),
         )
-        bugzilla = Bugzilla('', '')
+        bugzilla = Bugzilla('', '', transport='urllib3')
         bug = bugzilla.get_bug(81871)
         self.assertEqual(bug.bug_id, '81871')
         self.assertTrue(bug.has_nonempty('flags'))
@@ -192,7 +186,7 @@ class BugzillaTest(TestCase):
             from django.core.cache import cache
             cache.set('bugzilla-access-cookies', [])
 
-            bugzilla = get_django_bugzilla()
+            bugzilla = get_django_bugzilla(transport='urllib3')
             self.assertTrue(bugzilla.cookie_set)
         finally:
             self.restore_django_settings()
@@ -206,7 +200,7 @@ class BugzillaTest(TestCase):
             cache.delete('bugzilla-access-cookies')
 
             self.httpretty_login()
-            bugzilla = get_django_bugzilla()
+            bugzilla = get_django_bugzilla(transport='urllib3')
             self.assertFalse(bugzilla.cookie_set)
         finally:
             self.restore_django_settings()
@@ -219,7 +213,7 @@ class BugzillaTest(TestCase):
             from django.core.cache import cache
             cache.set('bugzilla-access-cookies', [])
 
-            bugzilla = get_django_bugzilla()
+            bugzilla = get_django_bugzilla(transport='urllib3')
             self.assertTrue(bugzilla.cookie_set)
             self.httpretty_login()
             bugzilla.login(force=True)
@@ -234,7 +228,7 @@ class BugzillaTest(TestCase):
             from django.core.cache import cache
             cache.set('bugzilla-access-cookies', [])
 
-            bugzilla = get_django_bugzilla()
+            bugzilla = get_django_bugzilla(transport='urllib3')
             self.assertTrue(bugzilla.cookie_set)
 
             httpretty.register_uri(
@@ -255,7 +249,7 @@ class BugzillaTest(TestCase):
         Test login to novell bugzilla.
         '''
         self.httpretty_login()
-        bugzilla = APIBugzilla('test', 'test')
+        bugzilla = APIBugzilla('test', 'test', transport='urllib3')
         bugzilla.login()
 
     @httpretty.activate
@@ -268,7 +262,7 @@ class BugzillaTest(TestCase):
             'https://bugzilla.novell.com/buglist.cgi',
             body=open(os.path.join(TEST_DATA, 'bug-list.xml')).read(),
         )
-        bugzilla = Bugzilla('', '')
+        bugzilla = Bugzilla('', '', transport='urllib3')
         recent = bugzilla.get_recent_bugs(datetime.datetime.now())
         self.assertEqual(
             recent,
@@ -308,7 +302,7 @@ class BugzillaTest(TestCase):
             body=open(os.path.join(TEST_DATA, 'bug-872984.html')).read(),
             content_type="text/html",
         )
-        bugzilla = Bugzilla('test', 'test')
+        bugzilla = Bugzilla('test', 'test', transport='urllib3')
         bugzilla.load_update_form(872984)
         return bugzilla
 

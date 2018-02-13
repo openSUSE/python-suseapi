@@ -26,6 +26,7 @@ It uses XML to load the data (when applicable) and HTML forms to update it.
 
 # pylint: disable=import-error
 from six.moves.urllib.parse import urljoin
+# pylint: disable=import-error
 from lxml import etree as ElementTree
 import dateutil.parser
 import traceback
@@ -243,9 +244,9 @@ class Bugzilla(WebScraper):
     '''
 
     def __init__(self, user, password, base='https://bugzilla.novell.com',
-                 useragent=None, force_readonly=False):
+                 useragent=None, force_readonly=False, transport='pycurl'):
         super(Bugzilla, self).__init__(
-            user, password, base, useragent
+            user, password, base, useragent, transport
         )
         self.force_readonly = force_readonly
         self.logger = logging.getLogger('suse.bugzilla')
@@ -697,9 +698,9 @@ class APIBugzilla(Bugzilla):
     '''
 
     def __init__(self, user, password, base='https://apibugzilla.suse.com',
-                 useragent=None, force_readonly=False):
+                 useragent=None, force_readonly=False, transport='pycurl'):
         super(APIBugzilla, self).__init__(
-            user, password, base, useragent
+            user, password, base, useragent, transport=transport
         )
         self.force_readonly = force_readonly
         # Use normal Bugzilla for anonymous access
@@ -757,7 +758,7 @@ class DjangoBugzilla(APIBugzilla):
             self.set_cookies(cookies)
 
 
-def get_django_bugzilla():
+def get_django_bugzilla(transport='pycurl'):
     '''
     Returns logged in bugzilla object. Access cookies are stored in django
     cache.
@@ -772,6 +773,7 @@ def get_django_bugzilla():
         settings.BUGZILLA_PASSWORD,
         useragent=settings.EMAIL_SUBJECT_PREFIX.strip('[] '),
         force_readonly=force_readonly,
+        transport=transport
     )
 
     # Check for anonymous access
