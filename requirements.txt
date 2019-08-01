@@ -1,5 +1,5 @@
 beautifulsoup4
-Django>=1.4,<2.0
+Django>=1.11.19,<2.0
 grab
 lxml
 PySocks
